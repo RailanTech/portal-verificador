@@ -1,108 +1,10 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal de Segurança Nacional - Verificador de Links</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f2f5f8;
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
-        /* Cabeçalho estilo Oficial */
-        .header {
-            background-color: #00427a; /* Azul escuro oficial */
-            color: white;
-            padding: 20px;
-            text-align: center;
-            border-bottom: 4px solid #00b050; /* Linha verde Brasil */
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        .header p {
-            margin: 5px 0 0 0;
-            font-size: 14px;
-            color: #d1e5f0;
-        }
-        /* Container Principal */
-        .container {
-            max-width: 600px;
-            margin: 40px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        h2 {
-            color: #00427a;
-            font-size: 20px;
-        }
-        .instrucao {
-            color: #666;
-            margin-bottom: 20px;
-        }
-        /* Área de Pesquisa */
-        input[type="text"] {
-            width: 90%;
-            padding: 15px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        .btn-oficial {
-            background-color: #00427a;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-            width: 100%;
-        }
-        .btn-oficial:hover {
-            background-color: #002d54;
-        }
-        /* Área do Resultado */
-        #resultado {
-            display: none;
-            margin-top: 25px;
-            padding: 20px;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 18px;
-        }
-        .seguro {
-            background-color: #e6f4ea;
-            color: #137333;
-            border: 1px solid #ceead6;
-        }
-        .perigo {
-            background-color: #fce8e6;
-            color: #c5221f;
-            border: 1px solid #fad2cf;
-        }
-        /* Rodapé */
-        .footer {
-            text-align: center;
-            margin-top: 50px;
-            font-size: 12px;
-            color: #999;
-        }
-    </style>
+    <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
 
@@ -111,62 +13,61 @@
         <p>Ambiente Seguro - Proteção contra Fraudes Digitais</p>
     </div>
 
+    <div class="nav-menu">
+        <a href="index.html">🔍 Verificador de Links</a>
+        <a href="relatos.html">📝 Central de Relatos</a>
+    </div>
+
     <div class="container">
         <h2>Verificador de Sites e Promoções</h2>
-        <p class="instrucao">Cole abaixo o link (URL) que você recebeu no WhatsApp para verificar se é um site oficial ou uma tentativa de golpe.</p>
+        <p class="instrucao">Cole abaixo o link (URL) que você recebeu para verificar se é um site oficial ou uma tentativa de golpe.</p>
 
         <input type="text" id="linkInput" placeholder="Ex: www.loja-oficial.com.br">
-        
         <button class="btn-oficial" onclick="verificarLink()">🔍 VERIFICAR SEGURANÇA</button>
 
-        <div id="resultado">
-            </div>
+        <div id="resultado"></div>
     </div>
 
-    <div class="footer">
-        Desenvolvido por RailanTech | Portal de Transparência Digital
-    </div>
+    <div class="footer">Desenvolvido por RailanTech | Portal de Transparência Digital</div>
 
     <script>
-        function verificarLink() {
-            var linkDigitado = document.getElementById('linkInput').value.toLowerCase();
-            var divResultado = document.getElementById('resultado');
+        async function verificarLink() {
+            let linkDigitado = document.getElementById('linkInput').value.toLowerCase().trim();
+            const divResultado = document.getElementById('resultado');
 
             if (linkDigitado === "") {
-                alert("Por favor, cole um link na caixa primeiro!");
-                return;
+                alert("Por favor, cole um link na caixa primeiro!"); return;
             }
 
-            // LISTA BRANCA (SITES SEGUROS OFICIAIS)
-            var sitesSeguros = [
-                "aliexpress.com",
-                "pt.aliexpress.com",
-                "shopee.com.br",
-                "amazon.com.br",
-                "mercadolivre.com.br"
-            ];
+            if (!linkDigitado.startsWith('http://') && !linkDigitado.startsWith('https://')) {
+                linkDigitado = 'https://' + linkDigitado;
+            }
 
-            // VARREDURA DO ROBÔ
-            var ehSeguro = false;
-            for (var i = 0; i < sitesSeguros.length; i++) {
-                if (linkDigitado.includes(sitesSeguros[i])) {
-                    ehSeguro = true;
-                    break;
+            try {
+                const urlObj = new URL(linkDigitado);
+                const dominioPrincipal = urlObj.hostname;
+                const resposta = await fetch('sites.json');
+                const sitesSeguros = await resposta.json();
+
+                let ehSeguro = false;
+                for (let i = 0; i < sitesSeguros.length; i++) {
+                    if (dominioPrincipal === sitesSeguros[i] || dominioPrincipal.endsWith("." + sitesSeguros[i])) {
+                        ehSeguro = true; break;
+                    }
                 }
-            }
 
-            // MOSTRA O RESULTADO COM CORES
-            divResultado.style.display = "block";
-
-            if (ehSeguro) {
-                divResultado.className = "seguro";
-                divResultado.innerHTML = "✅ SITE OFICIAL IDENTIFICADO<br><span style='font-size:14px; color:#555;'>Pode acessar com segurança. O link pertence à loja verdadeira.</span>";
-            } else {
-                divResultado.className = "perigo";
-                divResultado.innerHTML = "🚨 ALERTA DE RISCO MAXIMO!<br><span style='font-size:14px; color:#555;'>Não reconhecemos este link como oficial. Alta chance de ser um GOLPE ou site falso. Não digite seus dados!</span>";
+                divResultado.style.display = "block";
+                if (ehSeguro) {
+                    divResultado.className = "seguro";
+                    divResultado.innerHTML = "✅ SITE OFICIAL IDENTIFICADO<br><span style='font-size:14px; color:#555;'>Pode acessar com segurança. O link pertence à loja verdadeira.</span>";
+                } else {
+                    divResultado.className = "perigo";
+                    divResultado.innerHTML = "🚨 ALERTA DE RISCO MAXIMO!<br><span style='font-size:14px; color:#555;'>Não reconhecemos este link como oficial. Alta chance de ser um GOLPE ou site falso!</span>";
+                }
+            } catch (e) {
+                alert("Formato de link inválido. Verifique o que foi colado.");
             }
         }
     </script>
-
 </body>
 </html>
