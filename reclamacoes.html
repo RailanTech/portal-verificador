@@ -1,71 +1,43 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Central de Relatos e Melhorias</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; color: #333; display: flex; justify-content: center; }
-        .container { background-color: white; width: 100%; max-width: 600px; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-top: 5px solid #00427a; }
-        h2 { color: #00427a; text-align: center; margin-bottom: 5px; }
-        p.subtitle { text-align: center; color: #666; font-size: 14px; margin-bottom: 25px; }
-        label { font-weight: bold; display: block; margin-top: 15px; margin-bottom: 5px; }
-        select, textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; box-sizing: border-box; background-color: #fafafa; }
-        textarea { resize: vertical; }
-        button { width: 100%; background-color: #00427a; color: white; padding: 15px; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 25px; transition: 0.3s; }
-        button:hover { background-color: #002d54; }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <h2>Central de Escuta e Melhorias</h2>
-        <p class="subtitle">Seu relato ajuda a melhorar serviços para todos. É rápido e seguro.</p>
-
-        <label for="categoria">📌 Sobre qual área você quer falar?</label>
-        <select id="categoria" name="categoria">
-            <option value="">-- Escolha uma opção --</option>
-            <option value="bancos">🏦 Bancos, Cartões e Finanças</option>
-            <option value="compras">🛒 Compras Online e Entregas</option>
-            <option value="tecnologia">📱 Tecnologia, Internet e Celular</option>
-            <option value="outros">🏢 Outros Serviços e Reclamações</option>
-        </select>
-
-        <label for="relato">📝 Digite o que aconteceu (Fofoca/Problema):</label>
-        <textarea id="relato" name="relato" rows="6" placeholder="Escreva aqui os detalhes do que aconteceu..."></textarea>
-
-        <button type="button" id="btnEnviar">ENVIAR RELATO PARA ANÁLISE</button>
-    </div>
-
-    <script>
+<script>
         document.getElementById("btnEnviar").addEventListener("click", function() {
+            // Pega o que a pessoa escreveu
             const categoria = document.getElementById("categoria").value;
             const relato = document.getElementById("relato").value;
+            
+            // A nossa senha secreta para o Cadeado do Make! 🔒
+            const senhaSegura = "RailanSeguro100"; 
+            
+            // Pega a data e hora de agora (para a planilha)
+            const dataAtual = new Date().toLocaleString("pt-BR");
 
             if(categoria === "" || relato === "") {
                 alert("Por favor, preencha a categoria e o relato antes de enviar.");
                 return;
             }
-
-            // === "https://hook.eu1.make.com/zwsk3qjpnu4b7p7ef9yt9qd8mvn9e16p" ===
+            
+            // O endereço do seu robô no Make
             const webhookUrl = "https://hook.eu1.make.com/zwsk3qjpnu4b7p7ef9yt9qd8mvn9e16p"; 
             
             document.getElementById("btnEnviar").innerText = "Enviando...";
-
+            
+            // Enviando as informações para o Make (Categoria, Relato, Senha e Data)
             fetch(webhookUrl, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ categoria: categoria, relato: relato })
+                body: JSON.stringify({ 
+                    senha: senhaSegura, 
+                    categoria: categoria, 
+                    relato: relato,
+                    data_envio: dataAtual // Vai para a coluna A do Excel
+                })
             }).then(response => {
-                alert("Sucesso! O robô recebeu sua mensagem.");
+                alert("Sucesso! O robô recebeu sua mensagem e a planilha foi atualizada.");
                 document.getElementById("categoria").value = "";
                 document.getElementById("relato").value = "";
                 document.getElementById("btnEnviar").innerText = "ENVIAR RELATO PARA ANÁLISE";
             }).catch(error => {
-                alert("Erro de conexão.");
+                alert("Erro de conexão com o robô.");
                 document.getElementById("btnEnviar").innerText = "ENVIAR RELATO PARA ANÁLISE";
             });
         });
     </script>
-</body>
-</html>
