@@ -1,78 +1,13 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Central de Relatos e Melhorias</title>
-    <link rel="stylesheet" href="estilo.css">
-</head>
-<body>
+# 🛡️ Portal de Segurança - RailanTech
 
-    <div class="header">
-        <h1>🛡️ Sistema Nacional de Verificação</h1>
-        <p>Ambiente Seguro - Proteção contra Fraudes Digitais</p>
-    </div>
+Este é um projeto com **Qualidade Máxima e Custo-Benefício** para proteger pessoas contra golpes.
 
-    <div class="nav-menu">
-        <a href="index.html">🔍 Verificador de Links</a>
-        <a href="relatos.html">📝 Central de Relatos</a>
-    </div>
+## Como funciona:
+1. **Verificador de Links:** Compara sites com o banco de dados `sites.json`.
+2. **Central de Relatos:** Envia histórias direto para a Inteligência Artificial através de um Webhook do Make.
 
-    <div class="container">
-        <h2>Central de Escuta Integrada com IA</h2>
-        <p class="instrucao">Seu relato é analisado por inteligência artificial instantaneamente.</p>
+## Como atualizar:
+* Para adicionar mais lojas seguras, basta digitar o link dentro do arquivo `sites.json`.
+* Para trocar a ligação com o robô, edite o link `webhookUrl` dentro do arquivo `reclamacoes.html`.
 
-        <label for="categoria">📌 Sobre qual área você quer falar?</label>
-        <select id="categoria">
-            <option value="">-- Escolha uma opção --</option>
-            <option value="bancos">🏦 Bancos, Cartões e Finanças</option>
-            <option value="compras">🛒 Compras Online e Entregas</option>
-            <option value="tecnologia">📱 Tecnologia, Internet e Celular</option>
-            <option value="outros">🏢 Outros Serviços e Reclamações</option>
-        </select>
-
-        <label for="relato">📝 Digite os detalhes do problema:</label>
-        <textarea id="relato" rows="5" placeholder="Escreva aqui o que aconteceu..."></textarea>
-
-        <button type="button" class="btn-oficial" id="btnEnviar">ENVIAR PARA O ROBÔ</button>
-    </div>
-
-    <div class="footer">Desenvolvido por RailanTech | Portal de Transparência Digital</div>
-
-    <script>
-        document.getElementById("btnEnviar").addEventListener("click", function() {
-            const categoria = document.getElementById("categoria").value;
-            const relato = document.getElementById("relato").value;
-
-            if(categoria === "" || relato === "") {
-                alert("Preencha a categoria e o relato antes de enviar."); return;
-            }
-
-            const webhookUrl = "https://hook.eu1.make.com/irhdicga3r3hwykfjwws22savquzlem1"; 
-            const botao = document.getElementById("btnEnviar");
-            
-            botao.innerText = "⏳ Robô analisando... Aguarde!";
-            botao.style.backgroundColor = "#555";
-
-            fetch(webhookUrl, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ categoria: categoria, relato: relato, senha: "RailanSeguro100" })
-            })
-            .then(response => response.text()) 
-            .then(respostaDaIA => {
-                alert("Análise Concluída:\n\n" + respostaDaIA);
-                document.getElementById("categoria").value = "";
-                document.getElementById("relato").value = "";
-                botao.innerText = "ENVIAR PARA O ROBÔ";
-                botao.style.backgroundColor = "#00427a";
-            })
-            .catch(error => {
-                alert("Erro: O robô demorou para responder ou está offline.");
-                botao.innerText = "ENVIAR PARA O ROBÔ";
-                botao.style.backgroundColor = "#00427a";
-            });
-        });
-    </script>
-</body>
-</html>
+Desenvolvido com estratégia e lógica por RailanTech. ♟️
