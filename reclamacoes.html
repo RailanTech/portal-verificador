@@ -3,23 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Central de Relatos e Melhorias</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; color: #333; display: flex; justify-content: center; }
-        .container { background-color: white; width: 100%; max-width: 600px; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-top: 5px solid #00427a; }
-        h2 { color: #00427a; text-align: center; margin-bottom: 5px; }
-        p.subtitle { text-align: center; color: #666; font-size: 14px; margin-bottom: 25px; }
-        label { font-weight: bold; display: block; margin-top: 15px; margin-bottom: 5px; }
-        select, textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; box-sizing: border-box; background-color: #fafafa; }
-        textarea { resize: vertical; }
-        button { width: 100%; background-color: #00427a; color: white; padding: 15px; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 25px; transition: 0.3s; }
-        button:hover { background-color: #002d54; }
-    </style>
+    <title>Central de Relatos</title>
+    <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
+    <div class="header">
+        <h1>🛡️ Sistema Nacional de Verificação</h1>
+        <p>Ambiente Seguro - Proteção contra Fraudes Digitais</p>
+    </div>
+    
+    <div class="nav-menu">
+        <a href="index.html">🔍 Verificador de Links</a>
+        <a href="reclamacoes.html">📝 Central de Relatos</a>
+    </div>
+
     <div class="container">
         <h2>Central de Escuta e Melhorias</h2>
-        <p class="subtitle">Seu relato ajuda a melhorar serviços para todos. É rápido e seguro.</p>
+        <p class="instrucao">Seu relato é enviado com segurança para análise automática do nosso sistema.</p>
+        
         <label for="categoria">📌 Sobre qual área você quer falar?</label>
         <select id="categoria" name="categoria">
             <option value="">-- Escolha uma opção --</option>
@@ -28,28 +29,33 @@
             <option value="tecnologia">📱 Tecnologia, Internet e Celular</option>
             <option value="outros">🏢 Outros Serviços e Reclamações</option>
         </select>
+        
         <label for="relato">📝 Digite o que aconteceu (Fofoca/Problema):</label>
         <textarea id="relato" name="relato" rows="6" placeholder="Escreva aqui os detalhes do que aconteceu..."></textarea>
-        <button type="button" id="btnEnviar">ENVIAR RELATO PARA ANÁLISE</button>
+        
+        <button type="button" class="btn-oficial" id="btnEnviar">ENVIAR RELATO PARA ANÁLISE</button>
     </div>
     
+    <div class="footer">Desenvolvido por RailanTech | Portal de Transparência Digital</div>
+
     <script>
         document.getElementById("btnEnviar").addEventListener("click", function() {
             const categoria = document.getElementById("categoria").value;
             const relato = document.getElementById("relato").value;
-            
-            // SENHA E DATA AQUI!
             const senhaSegura = "RailanSeguro100"; 
             const dataAtual = new Date().toLocaleString("pt-BR");
-
+            
             if(categoria === "" || relato === "") {
                 alert("Por favor, preencha a categoria e o relato antes de enviar.");
                 return;
             }
             
+            // COLOQUE SEU LINK DO MAKE AQUI (COPIE DA BOLINHA VERMELHA)
             const webhookUrl = "https://hook.eu1.make.com/zwsk3qjpnu4b7p7ef9yt9qd8mvn9e16p"; 
             
-            document.getElementById("btnEnviar").innerText = "Enviando...";
+            const botao = document.getElementById("btnEnviar");
+            botao.innerText = "⏳ Enviando dados seguros...";
+            botao.style.backgroundColor = "#555";
             
             fetch(webhookUrl, {
                 method: "POST",
@@ -61,13 +67,15 @@
                     data_envio: dataAtual 
                 })
             }).then(response => {
-                alert("Sucesso! O robô recebeu sua mensagem.");
+                alert("✅ Sucesso! O sistema recebeu sua mensagem com segurança.");
                 document.getElementById("categoria").value = "";
                 document.getElementById("relato").value = "";
-                document.getElementById("btnEnviar").innerText = "ENVIAR RELATO PARA ANÁLISE";
+                botao.innerText = "ENVIAR RELATO PARA ANÁLISE";
+                botao.style.backgroundColor = "#00427a";
             }).catch(error => {
-                alert("Erro de conexão.");
-                document.getElementById("btnEnviar").innerText = "ENVIAR RELATO PARA ANÁLISE";
+                alert("❌ Erro de conexão. Verifique sua internet.");
+                botao.innerText = "ENVIAR RELATO PARA ANÁLISE";
+                botao.style.backgroundColor = "#00427a";
             });
         });
     </script>
