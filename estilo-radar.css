@@ -1,0 +1,93 @@
+/* Modo Escuro (Hacker do Bem) - Arquivo Exclusivo do Radar e Defesa */
+body {
+    background-color: #121212;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.cabecalho-radar {
+    background-color: #000000;
+    border-bottom: 4px solid #00ff88;
+    padding: 25px;
+    text-align: center;
+}
+
+.cabecalho-radar h1 { margin: 0; color: #00ff88; font-size: 28px; }
+.cabecalho-radar p { color: #aaaaaa; font-size: 16px; font-weight: bold; }
+
+/* Menu de Navegação para juntar todo o seu sistema depois */
+.nav-menu-radar {
+    background-color: #1a1a1a;
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #333;
+}
+.nav-menu-radar a {
+    color: #00ff88;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+    font-size: 14px;
+    transition: 0.3s;
+}
+.nav-menu-radar a:hover { color: #ffffff; }
+
+.container-radar {
+    max-width: 600px;
+    margin: 40px auto;
+    background: #1e1e1e;
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.8);
+    text-align: center;
+}
+
+h2 { color: #ffffff; font-size: 22px; margin-top: 0; }
+p.instrucao { color: #cccccc; margin-bottom: 20px; font-size: 15px; }
+
+input[type="text"], select, textarea {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid #444;
+    background-color: #2a2a2a;
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+label { font-weight: bold; display: block; text-align: left; margin-top: 15px; margin-bottom: 5px; color: #00ff88; }
+
+.btn-radar {
+    background-color: #008f4c;
+    color: white;
+    border: 1px solid #00ff88;
+    padding: 15px 30px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 100%;
+    margin-top: 10px;
+}
+.btn-radar:hover { background-color: #00ff88; color: black; }
+
+.btn-defesa {
+    background-color: #b30000;
+    color: white;
+    border: 1px solid #ff4d4d;
+    padding: 15px 30px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 100%;
+    margin-top: 10px;
+}
+.btn-defesa:hover { background-color: #ff4d4d; color: black; }
