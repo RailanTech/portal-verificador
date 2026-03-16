@@ -1,88 +1,193 @@
+/* estilo.css - DESIGN PREMIUM IPHONE */
+
+/* --- Configuração Geral --- */
+:root {
+    --cor-principal: #007bff; /* Azul moderno */
+    --cor-fundo-claro: #f5f5f7; /* Cinza bem claro, estilo Apple */
+    --cor-texto: #1d1d1f; /* Quase preto, mais suave */
+    --cor-sucesso: #28a745;
+    --cor-perigo: #dc3545;
+    --sombra-suave: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --sombra-forte: 0 10px 20px rgba(0, 0, 0, 0.15);
+    --transicao-suave: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Movimento suave e natural */
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f2f5f8;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; /* Fonte Premium */
     margin: 0;
-    padding: 0;
-    color: #333;
+    background-color: var(--cor-fundo-claro);
+    color: var(--cor-texto);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased; /* Letras mais limpas */
 }
+
+/* --- Cabeçalho (Header) --- */
 .header {
-    background-color: #00427a;
-    color: white;
-    padding: 20px;
+    background: rgba(255, 255, 255, 0.8); /* Vidro embaçado (Glassmorphism) */
+    backdrop-filter: blur(10px); /* Efeito de borrão atrás */
+    color: var(--cor-texto);
+    padding: 30px 20px;
     text-align: center;
-    border-bottom: 4px solid #00b050;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    position: sticky; /* Fica fixo no topo ao rolar */
+    top: 0;
+    z-index: 100;
 }
-.header h1 { margin: 0; font-size: 24px; }
-.header p { margin: 5px 0 0 0; font-size: 14px; color: #d1e5f0; }
 
+.header h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.header p {
+    margin: 5px 0 0;
+    opacity: 0.7;
+    font-size: 15px;
+}
+
+/* --- Menu de Navegação --- */
 .nav-menu {
-    background-color: #002d54;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* Ajusta no celular */
+    background-color: #ffffff;
     padding: 10px;
-    text-align: center;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
 }
-.nav-menu a {
-    color: white;
-    text-decoration: none;
-    margin: 0 15px;
-    font-weight: bold;
-    font-size: 14px;
-    transition: 0.3s;
-}
-.nav-menu a:hover { color: #00b050; }
 
+.nav-menu a {
+    color: var(--cor-texto);
+    text-decoration: none;
+    padding: 10px 18px;
+    font-weight: 500;
+    font-size: 14px;
+    border-radius: 20px; /* Bordas arredondadas nos botões */
+    transition: var(--transicao-suave); /* Movimento suave no hover */
+}
+
+.nav-menu a:hover {
+    background-color: rgba(0, 123, 255, 0.1); /* Fundo azul bem clarinho no hover */
+    color: var(--cor-principal);
+}
+
+/* --- Container Principal --- */
 .container {
     max-width: 600px;
     margin: 40px auto;
-    background: white;
     padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    background-color: #ffffff;
+    border-radius: 25px; /* Bordas super arredondadas, estilo iPhone */
+    box-shadow: var(--sombra-suave); /* Sombra leve para profundidade 3D */
     text-align: center;
+    transition: var(--transicao-suave);
 }
-h2 { color: #00427a; font-size: 20px; }
-p.instrucao { color: #666; margin-bottom: 20px; font-size: 14px; }
 
+/* Efeito 3D sutil ao passar o mouse */
+.container:hover {
+    box-shadow: var(--sombra-forte);
+    transform: translateY(-5px); /* Sobe um pouquinho */
+}
+
+.container h2 {
+    color: var(--cor-principal);
+    margin-top: 0;
+    font-size: 22px;
+}
+
+.container p {
+    font-size: 16px;
+    color: #515154;
+    margin-bottom: 25px;
+}
+
+/* --- Inputs e Botões (Visual Premium) --- */
 input[type="text"], select, textarea {
     width: 100%;
     padding: 15px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 12px; /* Bordas arredondadas */
+    background-color: #f5f5f7;
     font-size: 16px;
-    box-sizing: border-box;
+    box-sizing: border-box; /* Essencial para não quebrar */
+    transition: var(--transicao-suave);
 }
-label { font-weight: bold; display: block; text-align: left; margin-top: 15px; margin-bottom: 5px; }
 
-.btn-oficial {
-    background-color: #00427a;
+/* Efeito ao clicar no campo */
+input[type="text"]:focus, select:focus, textarea:focus {
+    border-color: var(--cor-principal);
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2);
+    background-color: #ffffff;
+    outline: none;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--cor-principal);
     color: white;
     border: none;
-    padding: 15px 30px;
+    border-radius: 12px;
     font-size: 16px;
-    font-weight: bold;
-    border-radius: 5px;
+    font-weight: 600;
     cursor: pointer;
-    transition: 0.3s;
-    width: 100%;
-    margin-top: 10px;
+    transition: var(--transicao-suave);
+    box-shadow: 0 4px 6px rgba(0, 123, 255, 0.3);
 }
-.btn-oficial:hover { background-color: #002d54; }
 
-#resultado {
-    display: none;
+button:hover {
+    background-color: #0069d9;
+    box-shadow: 0 6px 12px rgba(0, 123, 255, 0.4);
+    transform: scale(1.02); /* Aumenta sutilmente */
+}
+
+button:active {
+    transform: scale(0.98); /* Diminui sutilmente ao clicar */
+}
+
+/* --- Resultados --- */
+.resultado {
     margin-top: 25px;
     padding: 20px;
-    border-radius: 5px;
-    font-weight: bold;
-    font-size: 18px;
+    border-radius: 12px;
+    font-size: 16px;
+    text-align: left;
+    transition: var(--transicao-suave);
+    animation: slideIn 0.5s ease; /* Animação ao aparecer */
 }
-.seguro { background-color: #e6f4ea; color: #137333; border: 1px solid #ceead6; }
-.perigo { background-color: #fce8e6; color: #c5221f; border: 1px solid #fad2cf; }
 
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.seguro {
+    background-color: #d4edda;
+    color: #155724;
+    border-left: 5px solid var(--cor-sucesso);
+}
+
+.perigo {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-left: 5px solid var(--cor-perigo);
+}
+
+/* --- Rodapé (Footer) --- */
 .footer {
     text-align: center;
+    padding: 30px 20px;
+    color: #86868b;
+    font-size: 13px;
+    background-color: #ffffff;
+    border-top: 1px solid rgba(0,0,0,0.1);
     margin-top: 50px;
-    padding-bottom: 20px;
-    font-size: 12px;
-    color: #999;
+}
+
+/* --- Ajustes para Celular (Responsividade) --- */
+@media (max-width: 600px) {
+    .header h1 { font-size: 22px; }
+    .container { margin: 20px 10px; padding: 20px; border-radius: 20px; }
+    .nav-menu a { padding: 8px 12px; font-size: 13px; }
 }
