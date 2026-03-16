@@ -3,64 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de Defesa Oficial</title>
+    <title>Radar de Acessibilidade Real</title>
     <link rel="stylesheet" href="estilo-radar.css">
 </head>
 <body>
     <div class="cabecalho-radar">
-        <h1>⚔️ Espada da Lei</h1>
-        <p>Gere o seu texto oficial para brigar pelos seus direitos</p>
+        <h1>👁️ Radar de Acessibilidade</h1>
+        <p>A Verdade sobre Lojas, Hospitais e Bancos</p>
     </div>
     
     <div class="nav-menu-radar">
         <a href="index.html">🔍 Verificador (Início)</a>
         <a href="reclamacoes.html">📝 Central de Relatos</a>
-        <a href="radar.html">♿ Radar Acessibilidade</a>
-        <a href="defesa.html" style="color: #ffffff;">⚔️ Espada da Lei</a>
+        <a href="radar.html" style="color: #ffffff;">♿ Radar Acessibilidade</a>
+        <a href="defesa.html">⚔️ Espada da Lei</a>
         <a href="direitos.html">📘 Direitos</a>
         <a href="golpes.html">🛡️ Golpes</a>
     </div>
 
     <div class="container-radar">
-        <h2>Gerador de Texto de Defesa</h2>
-        <p class="instrucao">Selecione o problema e o sistema vai criar um texto forte com a lei correta para você copiar e mandar para o banco ou loja.</p>
+        <h2>Consultar ou Denunciar Local</h2>
+        <p class="instrucao">A empresa faz propaganda falsa ou tem acessibilidade real (Libras, visual, rampas)?</p>
         
-        <label for="problema">⚠️ Qual foi o problema?</label>
-        <select id="problema">
-            <option value="">-- Escolha o seu problema --</option>
-            <option value="taxa_banco">Banco cobrando taxa mensal escondida (Conta Confusão)</option>
-            <option value="acessibilidade">Falta de Acessibilidade (Lei Brasileira de Inclusão)</option>
-            <option value="golpe_loja">Comprei e a loja sumiu / Não entregou</option>
+        <label for="nomeLocal">🏢 Nome da Empresa/Local:</label>
+        <input type="text" id="nomeLocal" placeholder="Ex: Banco Itaú - Centro">
+        
+        <label for="tipoAcessibilidade">♿ Qual o tipo de acessibilidade?</label>
+        <select id="tipoAcessibilidade">
+            <option value="">-- Escolha --</option>
+            <option value="libras">Língua de Sinais (Libras) / Atendimento Surdos</option>
+            <option value="fisica">Rampas e Elevadores (Cadeirantes)</option>
+            <option value="visual">Piso Tátil e Áudio (Cegos)</option>
+            <option value="falsa">🚨 PROPAGANDA FALSA (Não tem nada)</option>
         </select>
-        
-        <button class="btn-defesa" onclick="gerarTexto()">⚖️ GERAR TEXTO OFICIAL</button>
 
-        <div id="resultadoDefesa" style="display: none; margin-top: 20px; padding: 15px; background-color: #2a2a2a; border-left: 4px solid #00ff88; border-radius: 5px; text-align: left; font-size: 15px; white-space: pre-wrap; color: #ffffff;"></div>
+        <button class="btn-radar">ENVIAR PARA O RADAR</button>
     </div>
-
-    <script>
-        function gerarTexto() {
-            const problema = document.getElementById("problema").value;
-            const caixa = document.getElementById("resultadoDefesa");
-
-            if (problema === "") {
-                alert("Por favor, escolha um problema na lista primeiro.");
-                return;
-            }
-
-            let texto = "";
-
-            if (problema === "taxa_banco") {
-                texto = "À Instituição Financeira,\n\nVenho por meio deste canal solicitar o IMEDIATO CANCELAMENTO das cobranças de 'Cesta de Serviços' / 'Tarifa Bancária' em minha conta, bem como o estorno dos valores cobrados indevidamente.\n\nBase legal: Resolução nº 3.919/2010 do Banco Central do Brasil, que garante o direito aos Serviços Essenciais gratuitos.\n\nAguardo a regularização em até 5 dias úteis, sob pena de reclamação no BACEN e no Procon.";
-            } else if (problema === "acessibilidade") {
-                texto = "À Direção do Estabelecimento,\n\nVenho formalizar uma denúncia sobre a falta de acessibilidade adequada nas dependências/serviços desta empresa.\n\nBase legal: Lei Brasileira de Inclusão (Lei nº 13.146/2015). A recusa ou omissão em fornecer adaptações razoáveis constitui crime e fere os direitos fundamentais.\n\nSolicito providências imediatas para adequação, sob pena de acionamento do Ministério Público.";
-            } else if (problema === "golpe_loja") {
-                texto = "À Empresa e Plataforma de Pagamento,\n\nComuniquei o não recebimento da mercadoria / suspeita de fraude na compra realizada.\n\nBase legal: Art. 35 e Art. 49 do Código de Defesa do Consumidor. Exijo o cancelamento imediato da transação e o estorno total do valor pago.\n\nCaso não seja resolvido amigavelmente, registrarei Boletim de Ocorrência por estelionato e acionarei o Juizado Especial Cível.";
-            }
-
-            caixa.style.display = "block";
-            caixa.innerText = texto;
-        }
-    </script>
 </body>
 </html>
