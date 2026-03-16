@@ -1,8 +1,43 @@
-<div class="nav-menu-radar">
-    <a href="index.html">🔍 Verificador (Início)</a>
-    <a href="reclamacoes.html">📝 Central de Relatos</a>
-    <a href="radar.html">♿ Radar Acessibilidade</a>
-    <a href="defesa.html">⚔️ Espada da Lei</a>
-    <a href="direitos.html">📘 Direitos</a>
-    <a href="golpes.html">🛡️ Golpes</a>
-</div>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radar de Acessibilidade Real</title>
+    <link rel="stylesheet" href="estilo-radar.css">
+</head>
+<body>
+    <div class="cabecalho-radar">
+        <h1>👁️ Radar de Acessibilidade</h1>
+        <p>A Verdade sobre Lojas, Hospitais e Bancos</p>
+    </div>
+    
+    <div class="nav-menu-radar">
+        <a href="index.html">🔍 Verificador (Início)</a>
+        <a href="reclamacoes.html">📝 Central de Relatos</a>
+        <a href="radar.html" style="color: #ffffff;">♿ Radar Acessibilidade</a>
+        <a href="defesa.html">⚔️ Espada da Lei</a>
+        <a href="direitos.html">📘 Direitos</a>
+        <a href="golpes.html">🛡️ Golpes</a>
+    </div>
+
+    <div class="container-radar">
+        <h2>Consultar ou Denunciar Local</h2>
+        <p class="instrucao">A empresa faz propaganda falsa ou tem acessibilidade real (Libras, visual, rampas)?</p>
+        
+        <label for="nomeLocal">🏢 Nome da Empresa/Local:</label>
+        <input type="text" id="nomeLocal" placeholder="Ex: Banco Itaú - Centro">
+        
+        <label for="tipoAcessibilidade">♿ Qual o tipo de acessibilidade?</label>
+        <select id="tipoAcessibilidade">
+            <option value="">-- Escolha --</option>
+            <option value="libras">Língua de Sinais (Libras) / Atendimento Surdos</option>
+            <option value="fisica">Rampas e Elevadores (Cadeirantes)</option>
+            <option value="visual">Piso Tátil e Áudio (Cegos)</option>
+            <option value="falsa">🚨 PROPAGANDA FALSA (Não tem nada)</option>
+        </select>
+
+        <button class="btn-radar">ENVIAR PARA O RADAR</button>
+    </div>
+</body>
+</html>
