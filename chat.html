@@ -6,7 +6,7 @@
     <title>Assistente Automático 🤖</title>
     <link rel="stylesheet" href="estilo.css">
     <style>
-        /* Estilos visuais do Bate-Papo Real */
+        /* Estilos visuais do Bate-Papo Real - AGORA BLINDADOS 🛡️ */
         .caixa-chat {
             background-color: #f5f5f7;
             border-radius: 12px;
@@ -48,26 +48,38 @@
         }
         .area-digitacao {
             display: flex;
+            flex-direction: row;
             gap: 10px;
+            width: 100%;
         }
+        
+        /* 🚨 A ARMADURA DA CAIXA DE TEXTO (Forçando tamanho gigante) 🚨 */
         .area-digitacao input {
             flex: 1;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 15px;
+            width: 100% !important;
+            min-height: 48px !important;
+            padding: 10px 15px !important;
+            border: 1px solid #ccc !important;
+            border-radius: 8px !important;
+            font-size: 16px !important;
+            box-sizing: border-box !important;
+            background-color: #ffffff !important;
+            color: #000000 !important;
         }
+        
         .area-digitacao button {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 0 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
+            background-color: #28a745 !important;
+            color: white !important;
+            border: none !important;
+            padding: 0 25px !important;
+            border-radius: 8px !important;
+            cursor: pointer !important;
+            font-weight: bold !important;
+            font-size: 16px !important;
+            min-height: 48px !important;
         }
         .area-digitacao button:hover {
-            background-color: #218838;
+            background-color: #218838 !important;
         }
     </style>
 </head>
@@ -108,17 +120,15 @@
     <script>
         function enviarPergunta() {
             const input = document.getElementById('perguntaUsuario');
-            const pergunta = input.value.toLowerCase(); // Transforma tudo em minúsculo
+            const pergunta = input.value.toLowerCase();
             const tela = document.getElementById('tela-conversa');
             
             if(pergunta.trim() === '') {
-                return; // Se estiver vazio, não faz nada
+                return; 
             }
 
-            // 1. Mostra a mensagem da pessoa na tela
             tela.innerHTML += `<div class="mensagem-humano"><strong>👤 Você:</strong><br>${input.value}</div>`;
             
-            // 2. O Robô caça as palavras-chave para responder
             let respostaRobo = "";
 
             if(pergunta.includes('golpe') || pergunta.includes('roubo') || pergunta.includes('falso') || pergunta.includes('pix')) {
@@ -131,22 +141,17 @@
                 respostaRobo = "Para saber se um site é seguro, vá na nossa página inicial (🔍 Verificador) e cole o link da loja lá. Eu vou analisar se é oficial ou falso para você!";
             }
             else {
-                // Se o robô não entender a palavra
                 respostaRobo = "Desculpe, meu sistema ainda está aprendendo! 🐢 Tente usar palavras mais simples, como: 'golpe', 'direitos' ou 'loja'. Ou visite nossa Biblioteca no menu acima.";
             }
 
-            // 3. Mostra a resposta do robô na tela depois de 1 segundo (pra parecer que está pensando)
             setTimeout(() => {
                 tela.innerHTML += `<div class="mensagem-robo"><strong>🤖 RailanTech:</strong><br>${respostaRobo}</div>`;
-                // Faz a barra de rolagem descer automaticamente
                 tela.scrollTop = tela.scrollHeight;
             }, 800);
 
-            // Limpa a caixa de texto
             input.value = "";
         }
 
-        // Fazer o botão "Enter" do teclado funcionar também
         document.getElementById("perguntaUsuario").addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
                 event.preventDefault();
