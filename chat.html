@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assistente Automático 🤖</title>
+    <link rel="stylesheet" href="estilo.css">
+    <style>
+        /* Estilos visuais exclusivos para a tela do Bate-Papo */
+        .caixa-chat {
+            background-color: #f5f5f7;
+            border-radius: 12px;
+            padding: 20px;
+            max-width: 600px;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .mensagem-robo {
+            background-color: #ffffff;
+            border-left: 5px solid #007bff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            font-size: 16px;
+            text-align: left;
+        }
+        .botoes-chat {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .botoes-chat button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 15px;
+            transition: 0.3s;
+            text-align: left;
+        }
+        .botoes-chat button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 style="color: #d39e00; text-shadow: 0px 2px 2px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <img src="escudo-sem-fundo.png" alt="Escudo Oficial" style="height: 55px;">
+            Sistema Nacional de Verificação
+        </h1>
+    </div>
+
+    <div class="nav-menu">
+        <a href="index.html">🔍 Verificador</a>
+        <a href="chat.html" class="ativo">🤖 Assistente Automático</a>
+        <a href="biblioteca.html">📚 Biblioteca</a>
+    </div>
+
+    <div class="container-radar">
+        <h2>Atendimento Imediato</h2>
+        <p class="instrucao">Sem enrolação. Escolha uma opção abaixo e o sistema responde na hora.</p>
+
+        <div class="caixa-chat">
+            
+            <div class="mensagem-robo" id="tela-conversa">
+                <strong>🤖 Assistente RailanTech diz:</strong><br><br>
+                Olá! Eu sou o seu escudo digital automático. Qual é a sua dúvida de hoje? Clique em um dos botões abaixo:
+            </div>
+
+            <div class="botoes-chat">
+                <button onclick="responder('golpe')">🚨 Ajuda! Fui vítima de um golpe do Pix</button>
+                <button onclick="responder('direitos')">📗 Dúvida: Quais são os meus direitos (PCD/Surdo)?</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function responder(assunto) {
+            const tela = document.getElementById('tela-conversa');
+            
+            if(assunto === 'golpe') {
+                tela.innerHTML = "<strong>🤖 Assistente RailanTech diz:</strong><br><br>Calma, respire fundo! A primeira regra é: <strong>Bloqueie o contato do golpista imediatamente.</strong> Não mande mais dinheiro.<br><br>👉 Vá na nossa <a href='golpes.html' style='color: #dc3545; font-weight: bold;'>Sala de Alerta de Golpes</a> para ver como denunciar no banco.";
+            } 
+            else if(assunto === 'direitos') {
+                tela.innerHTML = "<strong>🤖 Assistente RailanTech diz:</strong><br><br>Excelente! O conhecimento é a sua maior arma. Você sabia que pessoas com deficiência têm direito a Passe Livre, Intérprete de Libras e isenção de impostos em carros?<br><br>👉 Leia tudo mastigado na nossa <a href='direitos.html' style='color: #28a745; font-weight: bold;'>Sala de Direitos</a>.";
+            }
+        }
+    </script>
+</body>
+</html>
