@@ -43,10 +43,12 @@
     <script>
         function enviarPergunta() {
             const input = document.getElementById('perguntaUsuario');
-            const pergunta = input.value.toLowerCase();
+            
+            // 🚨 A MÁGICA DO 1%: .trim() corta espaços invisíveis!
+            const pergunta = input.value.toLowerCase().trim();
             const tela = document.getElementById('tela-conversa');
             
-            if(pergunta.trim() === '') {
+            if(pergunta === '') {
                 return; 
             }
 
@@ -54,8 +56,8 @@
             
             let respostaRobo = "";
 
-            // 🧠 CÉREBRO DO ROBÔ (Regras de 1%)
-            if(pergunta === 'oi' || pergunta.includes('olá') || pergunta.includes('ola') || pergunta.includes('e ai') || pergunta.includes('bom dia') || pergunta.includes('boa tarde') || pergunta.includes('boa noite') || pergunta.includes('tudo bem')) {
+            // 🧠 CÉREBRO DO ROBÔ
+            if(pergunta === 'oi' || pergunta === 'oie' || pergunta.includes('olá') || pergunta.includes('ola') || pergunta.includes('e ai') || pergunta.includes('e aí') || pergunta.includes('bom dia') || pergunta.includes('boa tarde') || pergunta.includes('boa noite') || pergunta.includes('tudo bem')) {
                 respostaRobo = "Olá! Tudo bem? Como posso te ajudar hoje? (Você pode pedir ajuda sobre: 'golpe', 'leis', 'biblioteca' ou 'radar').";
             }
             else if(pergunta.includes('golpe') || pergunta.includes('roubo') || pergunta.includes('falso') || pergunta.includes('pix')) {
