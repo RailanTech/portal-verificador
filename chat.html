@@ -54,18 +54,27 @@
             
             let respostaRobo = "";
 
-            if(pergunta.includes('golpe') || pergunta.includes('roubo') || pergunta.includes('falso') || pergunta.includes('pix')) {
-                // AQUI ESTÁ A MÁGICA: O Robô entrega o link da sala escondida!
+            // 🧠 CÉREBRO DO ROBÔ (Regras de 1%)
+            if(pergunta === 'oi' || pergunta.includes('olá') || pergunta.includes('ola') || pergunta.includes('e ai') || pergunta.includes('bom dia') || pergunta.includes('boa tarde') || pergunta.includes('boa noite') || pergunta.includes('tudo bem')) {
+                respostaRobo = "Olá! Tudo bem? Como posso te ajudar hoje? (Você pode pedir ajuda sobre: 'golpe', 'leis', 'biblioteca' ou 'radar').";
+            }
+            else if(pergunta.includes('golpe') || pergunta.includes('roubo') || pergunta.includes('falso') || pergunta.includes('pix')) {
                 respostaRobo = "Calma! A primeira regra é: Bloqueie o contato imediatamente. Não mande mais dinheiro. <a href='reclamacoes.html' style='color: #007bff; font-weight: bold;'>👉 Clique aqui para ver os 3 passos para recuperar seu dinheiro</a>.";
             } 
             else if(pergunta.includes('direito') || pergunta.includes('lei') || pergunta.includes('surdo') || pergunta.includes('pcd') || pergunta.includes('imposto')) {
                 respostaRobo = "Pessoas com deficiência (PCD) têm direitos garantidos por lei. <a href='defesa.html' style='color: #007bff; font-weight: bold;'>👉 Clique aqui para ler a Espada da Lei</a>.";
             }
+            else if(pergunta.includes('biblioteca') || pergunta.includes('cartilha') || pergunta.includes('aprender') || pergunta.includes('senha') || pergunta.includes('estudar')) {
+                respostaRobo = "A informação é o seu melhor escudo! <a href='biblioteca.html' style='color: #007bff; font-weight: bold;'>👉 Clique aqui para abrir a nossa Biblioteca de Conhecimento</a>.";
+            }
+            else if(pergunta.includes('radar') || pergunta.includes('acessibilidade') || pergunta.includes('libras') || pergunta.includes('cego') || pergunta.includes('visual')) {
+                respostaRobo = "Nós verificamos se os sites respeitam a inclusão. <a href='radar.html' style='color: #007bff; font-weight: bold;'>👉 Clique aqui para conhecer o nosso Radar de Acessibilidade</a>.";
+            }
             else if(pergunta.includes('loja') || pergunta.includes('comprar') || pergunta.includes('site') || pergunta.includes('seguro')) {
                 respostaRobo = "Para saber se um site é seguro, vá na nossa página inicial (Verificador) e cole o link da loja lá. Eu vou analisar se é oficial ou falso para você!";
             }
             else {
-                respostaRobo = "Desculpe, meu sistema ainda está aprendendo! 🐢 Tente usar palavras mais simples, como: 'golpe', 'direitos' ou 'loja'.";
+                respostaRobo = "Desculpe, meu sistema ainda está aprendendo! 🐢 Tente usar palavras mais simples, como: 'golpe', 'leis', 'biblioteca' ou 'loja'.";
             }
 
             setTimeout(() => {
