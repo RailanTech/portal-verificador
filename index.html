@@ -19,11 +19,51 @@
         <h3 style="color: white; margin-bottom: 15px;">🔎 Cole o link ou texto suspeito aqui:</h3>
         <input type="text" id="caixaTexto" placeholder="Ex: www.site-falso.com.br" style="width: 80%; padding: 12px; border-radius: 5px; border: none; font-size: 16px; margin-bottom: 15px;">
         <br>
-        <button style="background-color: #00BFFF; color: black; padding: 12px 25px; border: none; border-radius: 5px; font-size: 18px; font-weight: bold; cursor: pointer;">⚡ VERIFICAR COM IA</button>
+        <button onclick="analisarComIA()" style="background-color: #00BFFF; color: black; padding: 12px 25px; border: none; border-radius: 5px; font-size: 18px; font-weight: bold; cursor: pointer;">⚡ VERIFICAR COM IA</button>
+
+        <div id="resultadoIA" style="display: none; margin-top: 20px; padding: 15px; background-color: #222; color: white; border: 1px solid #444; border-radius: 5px; text-align: left; font-size: 16px;"></div>
     </div>
 
     <br>
-    
     <a href="mailto:railantech.contato@gmail.com" style="background-color: #28a745; color: white; padding: 15px 30px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 8px; border: 2px solid white; display: inline-block;">🚨 ENVIAR PARA ANÁLISE HUMANA 🚨</a>
+
+    <script>
+        async function analisarComIA() {
+            const texto = document.getElementById("caixaTexto").value;
+            const resultadoDiv = document.getElementById("resultadoIA");
+
+            if (!texto) {
+                alert("Gigante, por favor, cole um link ou texto primeiro!");
+                return;
+            }
+
+            // Mostra que está carregando
+            resultadoDiv.style.display = "block";
+            resultadoDiv.innerHTML = "⏳ <b>O Detetive está analisando a Lógica... Aguarde!</b>";
+
+            // 🚨 ATENÇÃO: COLOQUE A SUA CHAVE DE OURO DENTRO DAS ASPAS ABAIXO 🚨
+            const API_KEY = "COLE_SUA_CHAVE_AQUI"; 
+            
+            // Ligação com o cérebro do Google
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+            const prompt = `Você é o Investigador Oficial da empresa Railan Tech. Analise este texto ou link suspeito e descubra se é GOLPE, FRAUDE ou SEGURO. Use a lógica. Seja curto, direto e dê um veredito final claro com uma destas palavras: 🟢 SEGURO, 🟡 SUSPEITO ou 🔴 GOLPE. Texto do cliente: ${texto}`;
+
+            try {
+                const resposta = await fetch(url, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                });
+
+                const dados = await resposta.json();
+                const analise = dados.candidates[0].content.parts[0].text;
+
+                // Mostra a resposta pronta no site
+                resultadoDiv.innerHTML = `<b>🤖 Relatório Oficial Railan Tech:</b><br><br>${analise.replace(/\n/g, '<br>')}`;
+            } catch (erro) {
+                resultadoDiv.innerHTML = "❌ <b>Erro na conexão. O rato grande cortou os fios! Tente novamente.</b>";
+            }
+        }
+    </script>
 </body>
 </html>
