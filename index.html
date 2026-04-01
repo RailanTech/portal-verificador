@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Railan Tech - Sistema de Verificação</title>
 </head>
 <body style="background-color: black; color: gold; text-align: center; font-family: Arial; padding-top: 50px;">
@@ -21,7 +23,7 @@
         <br>
         <button onclick="analisarComIA()" style="background-color: #00BFFF; color: black; padding: 12px 25px; border: none; border-radius: 5px; font-size: 18px; font-weight: bold; cursor: pointer;">⚡ VERIFICAR COM IA</button>
 
-        <div id="resultadoIA" style="display: none; margin-top: 20px; padding: 15px; background-color: #222; color: white; border: 1px solid #444; border-radius: 5px; text-align: left; font-size: 16px;"></div>
+        <div id="resultadoIA" style="display: none; margin-top: 20px; padding: 15px; background-color: #222; color: white; border: 1px solid #444; border-radius: 5px; text-align: left; font-size: 16px; word-wrap: break-word;"></div>
     </div>
 
     <br>
@@ -37,14 +39,12 @@
                 return;
             }
 
-            // Mostra que está carregando
             resultadoDiv.style.display = "block";
             resultadoDiv.innerHTML = "⏳ <b>O Detetive está analisando a Lógica... Aguarde!</b>";
 
-            // 🚨 ATENÇÃO: COLOQUE A SUA CHAVE DE OURO DENTRO DAS ASPAS ABAIXO 🚨
-            const API_KEY = "AIzaSyAb8LKzPdNurW7ijOKiB0GY-dm7HhdSQoA"; 
+            // 🚨 COLOQUE SUA CHAVE AQUI DENTRO DAS ASPAS 🚨
+            const API_KEY = "COLE_SUA_CHAVE_AQUI"; 
             
-            // Ligação com o cérebro do Google
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
             const prompt = `Você é o Investigador Oficial da empresa Railan Tech. Analise este texto ou link suspeito e descubra se é GOLPE, FRAUDE ou SEGURO. Use a lógica. Seja curto, direto e dê um veredito final claro com uma destas palavras: 🟢 SEGURO, 🟡 SUSPEITO ou 🔴 GOLPE. Texto do cliente: ${texto}`;
 
@@ -54,14 +54,18 @@
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
                 });
-
+                
                 const dados = await resposta.json();
-                const analise = dados.candidates[0].content.parts[0].text;
 
-                // Mostra a resposta pronta no site
+                if (!resposta.ok) {
+                    resultadoDiv.innerHTML = `❌ <b>ERRO DO SISTEMA:</b> ${dados.error.message}`;
+                    return;
+                }
+
+                const analise = dados.candidates[0].content.parts[0].text;
                 resultadoDiv.innerHTML = `<b>🤖 Relatório Oficial Railan Tech:</b><br><br>${analise.replace(/\n/g, '<br>')}`;
             } catch (erro) {
-                resultadoDiv.innerHTML = "❌ <b>Erro na conexão. O rato grande cortou os fios! Tente novamente.</b>";
+                resultadoDiv.innerHTML = `❌ <b>ERRO DO SISTEMA:</b> ${erro.message}`;
             }
         }
     </script>
