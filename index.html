@@ -40,13 +40,13 @@
             }
 
             resultadoDiv.style.display = "block";
-            resultadoDiv.innerHTML = "⏳ <b>O Detetive está a analisar a Lógica... Aguarde!</b>";
+            resultadoDiv.innerHTML = "⏳ <b>O Detetive está analisando a Lógica... Aguarde!</b>";
 
-            // 🚨 A SUA CHAVE DE OURO JÁ ESTÁ AQUI DENTRO (100% BLINDADA) 🚨
+            // 🚨 A SUA CHAVE DE OURO BLINDADA 🚨
             const API_KEY = "AIzaSyAb8LKzPdNurW7ijOKiB0GY-dm7HhdSQoA"; 
             
-            // Ligação direta com o motor exato
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+            // 🚨 AGORA SIM: LIGAÇÃO DIRETA COM O MOTOR DO FUTURO (GEMINI 3 FLASH PREVIEW) 🚨
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${API_KEY}`;
             const prompt = `Você é o Investigador Oficial da empresa Railan Tech. Analise este texto ou link suspeito e descubra se é GOLPE, FRAUDE ou SEGURO. Use a lógica. Seja curto, direto e dê um veredito final claro com uma destas palavras: 🟢 SEGURO, 🟡 SUSPEITO ou 🔴 GOLPE. Texto do cliente: ${texto}`;
 
             try {
