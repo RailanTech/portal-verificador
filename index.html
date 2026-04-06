@@ -1,2 +1,74 @@
-// 🛡️ TÚNEL INVISÍVEL (BACKEND SEGURO) - CHAVE BLINDADA NO CLOUDFLARE 🛡️
-const url = "https://tiny-lab-bc9b.analise-seguranca.workers.dev";
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radar de Segurança - Railan Tech</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; max-width: 400px; width: 100%; }
+        h1 { color: #333; font-size: 24px; margin-bottom: 20px; }
+        input[type="text"] { width: 90%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; }
+        button { background-color: #007BFF; color: white; border: none; padding: 12px 20px; border-radius: 5px; font-size: 16px; cursor: pointer; font-weight: bold; width: 100%; }
+        button:hover { background-color: #0056b3; }
+        #resultado { margin-top: 20px; padding: 15px; border-radius: 5px; text-align: left; font-size: 14px; background-color: #e9ecef; color: #333; min-height: 50px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🛡️ Radar Anti-Golpe</h1>
+        <p>Cole o link suspeito abaixo:</p>
+        <input type="text" id="linkInput" placeholder="Ex: https://loja-falsa.com">
+        <button onclick="verificarLink()">⚡ VERIFICAR COM IA</button>
+        <div id="resultado">Aguardando link...</div>
+    </div>
+
+    <script>
+        async function verificarLink() {
+            const link = document.getElementById('linkInput').value;
+            const divResultado = document.getElementById('resultado');
+
+            if (!link) {
+                divResultado.innerHTML = "❌ Por favor, cole um link primeiro!";
+                return;
+            }
+
+            divResultado.innerHTML = "⏳ Analisando... aguarde!";
+
+            // 🛡️ TÚNEL INVISÍVEL (BACKEND SEGURO) - CHAVE BLINDADA NO CLOUDFLARE 🛡️
+            const url_do_cofre = "https://tiny-lab-bc9b.analise-seguranca.workers.dev";
+
+            // A MENSAGEM PARA O MOTOR DO GOOGLE
+            const comando_ia = `Analise este link e diga se é seguro ou golpe (Responda em português de forma clara): ${link}`;
+            
+            const payload = {
+                contents: [{ parts: [{ text: comando_ia }] }]
+            };
+
+            try {
+                // O GITHUB BATE NA PORTA DO CLOUDFLARE
+                const resposta_do_cofre = await fetch(url_do_cofre, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!resposta_do_cofre.ok) {
+                    throw new Error(`Erro na conexão com o Cofre: ${resposta_do_cofre.status}`);
+                }
+
+                const dados_do_google = await resposta_do_cofre.json();
+                
+                // PEGA A RESPOSTA INTELIGENTE E MOSTRA NA TELA
+                const texto_final = dados_do_google.candidates[0].content.parts[0].text;
+                divResultado.innerHTML = "✅ <b>Análise da IA:</b><br><br>" + texto_final;
+
+            } catch (erro) {
+                console.error("Erro Técnico:", erro);
+                divResultado.innerHTML = "❌ Erro no Radar. Verifique se o link do Cloudflare está correto.";
+            }
+        }
+    </script>
+</body>
+</html>
