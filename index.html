@@ -3,41 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radar de Segurança - Railan Tech</title>
+    <title>Radar Anti-Golpe - Railan Tech</title>
     <style>
-        body { font-family: sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .container { background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; max-width: 400px; width: 100%; }
-        h1 { color: #333; font-size: 24px; margin-bottom: 20px; }
-        input[type="text"] { width: 90%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; }
-        button { background-color: #007BFF; color: white; border: none; padding: 12px 20px; border-radius: 5px; font-size: 16px; cursor: pointer; font-weight: bold; width: 100%; }
-        button:hover { background-color: #0056b3; }
-        #resultado { margin-top: 20px; padding: 15px; border-radius: 5px; text-align: left; font-size: 14px; background-color: #e9ecef; color: #333; min-height: 50px; overflow-wrap: break-word;}
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { background-color: white; padding: 40px 30px; border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); text-align: center; max-width: 450px; width: 90%; margin: 20px; }
+        h1 { color: #1a73e8; font-size: 26px; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .subtitle { color: #5f6368; margin-bottom: 25px; font-size: 15px; }
+        input[type="text"] { width: 90%; padding: 12px 15px; margin-bottom: 20px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px; transition: border-color 0.3s; box-sizing: border-box; }
+        input[type="text"]:focus { border-color: #1a73e8; outline: none; }
+        button { background-color: #1a73e8; color: white; border: none; padding: 14px 20px; border-radius: 8px; font-size: 16px; cursor: pointer; font-weight: bold; width: 100%; transition: background-color 0.3s; text-transform: uppercase; letter-spacing: 0.5px; }
+        button:hover { background-color: #1557b0; }
+        #resultado { margin-top: 25px; padding: 20px; border-radius: 8px; text-align: left; font-size: 15px; background-color: #f8f9fa; color: #333; overflow-wrap: break-word; border-left: 5px solid transparent; line-height: 1.6; display: none; }
+        #resultado strong { color: #202124; }
+        #resultado h3 { margin: 15px 0 5px 0; color: #1a73e8; font-size: 18px; }
     </style>
 </head>
 <body>
 
     <div class="container">
         <h1>🛡️ Radar Anti-Golpe</h1>
-        <p>Cole o link suspeito abaixo:</p>
-        <input type="text" id="linkInput" placeholder="Ex: https://loja-falsa.com">
+        <div class="subtitle">Verifique se um link é seguro ou golpe.</div>
+        <input type="text" id="linkInput" placeholder="Ex: shopee.com.br">
         <button onclick="verificarLink()">⚡ VERIFICAR COM IA</button>
-        <div id="resultado">Aguardando link...</div>
+        <div id="resultado"></div>
     </div>
 
     <script>
+        // O TRADUTOR VISUAL DE LUXO
+        function formatarTexto(texto) {
+            return texto
+                .replace(/### (.*?)\n/g, '<h3>$1</h3>') // Transforma ### em títulos azuis
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Transforma ** em Negrito
+                .replace(/\*(.*?)\*/g, '<em>$1</em>') // Transforma * em Itálico
+                .replace(/\n/g, '<br>'); // Transforma quebras invisíveis em quebras reais
+        }
+
         async function verificarLink() {
             const link = document.getElementById('linkInput').value;
             const divResultado = document.getElementById('resultado');
 
+            // SE NÃO TIVER LINK
             if (!link) {
-                divResultado.innerHTML = "❌ Por favor, cole um link primeiro!";
+                divResultado.style.display = "block";
+                divResultado.style.borderLeftColor = "#ea4335"; // Faixa Vermelha
+                divResultado.innerHTML = "❌ <b>Por favor, cole um link primeiro!</b>";
                 return;
             }
 
-            divResultado.innerHTML = "⏳ Analisando com Raio-X... aguarde!";
+            // CARREGANDO...
+            divResultado.style.display = "block";
+            divResultado.style.borderLeftColor = "#fbbc04"; // Faixa Amarela
+            divResultado.innerHTML = "⏳ <b>Analisando cada detalhe do site... aguarde!</b>";
 
             const url_do_cofre = "https://tiny-lab-bc9b.analise-seguranca.workers.dev";
-            const comando_ia = `Analise este link e diga se é seguro ou golpe (Responda em português de forma clara): ${link}`;
+            const comando_ia = `Analise este link e diga se é seguro ou golpe (Responda em português de forma clara, dividindo em tópicos e dando dicas finais de segurança): ${link}`;
             
             const payload = {
                 contents: [{ parts: [{ text: comando_ia }] }]
@@ -50,34 +69,34 @@
                     body: JSON.stringify(payload)
                 });
 
-                // LENDO A RESPOSTA BRUTA E LIGANDO O RAIO-X
                 const texto_bruto = await resposta_do_cofre.text();
                 
                 try {
                     const dados = JSON.parse(texto_bruto);
                     
-                    // SE O GOOGLE MANDOU UM ERRO (EX: Chave inválida)
                     if (dados.error) {
+                        divResultado.style.borderLeftColor = "#ea4335";
                         divResultado.innerHTML = "🚨 <b>Bloqueio do Google:</b> " + dados.error.message;
                         return;
                     }
 
-                    // SE DEU TUDO CERTO
                     if (dados.candidates && dados.candidates[0]) {
-                        const texto_final = dados.candidates[0].content.parts[0].text;
-                        divResultado.innerHTML = "✅ <b>Análise da IA:</b><br><br>" + texto_final;
+                        const texto_ia = dados.candidates[0].content.parts[0].text;
+                        divResultado.style.borderLeftColor = "#34a853"; // Faixa Verde de Sucesso
+                        divResultado.innerHTML = "✅ <b>Análise Concluída:</b><br><br>" + formatarTexto(texto_ia);
                     } else {
-                        divResultado.innerHTML = "⚠️ <b>Resposta Estranha:</b> " + texto_bruto;
+                        divResultado.style.borderLeftColor = "#ea4335";
+                        divResultado.innerHTML = "⚠️ <b>Erro de Resposta:</b> " + texto_bruto;
                     }
 
                 } catch (e) {
-                    // SE O CLOUDFLARE TRAVOU E MANDOU TEXTO
-                    divResultado.innerHTML = "🚨 <b>Bloqueio do Cloudflare:</b> " + texto_bruto;
+                    divResultado.style.borderLeftColor = "#ea4335";
+                    divResultado.innerHTML = "🚨 <b>Erro no Cofre (Cloudflare):</b> " + texto_bruto;
                 }
 
             } catch (erro) {
-                // SE A INTERNET FALHOU OU DEU BLOQUEIO DE CORS
-                divResultado.innerHTML = "❌ <b>Erro de Conexão:</b> " + erro.message;
+                divResultado.style.borderLeftColor = "#ea4335";
+                divResultado.innerHTML = "❌ <b>Erro de Conexão:</b> O sistema está offline no momento.";
             }
         }
     </script>
