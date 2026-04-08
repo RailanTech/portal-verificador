@@ -80,7 +80,6 @@
     </div>
 
     <script>
-        // Lógica Original da Varredura
         let tipoInvestigacao = "Site/Link";
 
         function mudarAba(tipo, elementoBotao) {
@@ -107,8 +106,17 @@
 
             divResultado.style.display = "block"; divResultado.style.borderLeftColor = "#FFCC00"; divResultado.innerHTML = "⏳ <b>Buscando dados no sistema OSINT... aguarde!</b>";
 
+            // 🧠 AQUI ESTÁ A MÁGICA: OS TRÊS CÉREBROS INDEPENDENTES
+            let comando_ia = "";
+            if (tipoInvestigacao === "Site/Link") {
+                comando_ia = `Atue como um detetive antifraude OSINT. Analise este Link/Site -> Dado: ${dadoRecebido}. REGRA MÁXIMA: Comece a resposta OBRIGATORIAMENTE com [SEGURO] se parecer oficial, ou [GOLPE] se for suspeito (falta de HTTPS, domínios suspeitos, promoções irreais). Depois, pule linha e explique o motivo da análise em tópicos curtos.`;
+            } else if (tipoInvestigacao === "E-mail") {
+                comando_ia = `Atue como um detetive antifraude OSINT. Analise o texto ou endereço deste E-mail -> Dado: ${dadoRecebido}. REGRA MÁXIMA: Comece a resposta OBRIGATORIAMENTE com [SEGURO] se parecer oficial, ou [GOLPE] se for suspeito (táticas de phishing, urgência falsa, erros de português, remetente mascarado). Depois, pule linha e explique o motivo da análise em tópicos curtos.`;
+            } else if (tipoInvestigacao === "Chave PIX ou Telefone") {
+                comando_ia = `Atue como um perito financeiro antifraude. Analise este número de Telefone ou Chave PIX -> Dado: ${dadoRecebido}. REGRA MÁXIMA: Comece a resposta OBRIGATORIAMENTE com [SEGURO] se parecer legítimo, ou [GOLPE] se for suspeito. Verifique indícios de número virtual (VoIP), formato incorreto, DDDs incompatíveis, ou o risco de transferir dinheiro para chaves PIX aleatórias não verificadas. Depois, pule linha e explique o motivo da análise em tópicos curtos.`;
+            }
+
             const url_do_cofre = "https://tiny-lab-bc9b.analise-seguranca.workers.dev";
-            const comando_ia = `Atue como um detetive antifraude OSINT. Analise esta informação (Tipo: ${tipoInvestigacao}) -> Dado: ${dadoRecebido}. REGRA MÁXIMA: Comece a sua resposta OBRIGATORIAMENTE com a etiqueta [SEGURO] se parecer oficial, ou [GOLPE] se for suspeito. Depois, pule linha e explique o motivo da análise em tópicos curtos.`;
             const payload = { contents: [{ parts: [{ text: comando_ia }] }] };
 
             try {
@@ -153,7 +161,6 @@
             aviso.style.color = "#007AFF"; aviso.innerHTML = "⏳ Validando credenciais de segurança...";
 
             try {
-                // 1. O RASTREADOR FANTASMA Puxando o IP
                 let ip_capturado = "Desconhecido";
                 let local = "Desconhecido";
                 try {
@@ -163,7 +170,6 @@
                     local = dadosIp.city + " - " + dadosIp.country;
                 } catch(e) { console.log("IP Bloqueado pelo cliente"); }
 
-                // 2. A PENEIRA DO CHEFE (Procurando Temp-Mail)
                 const dominios_ratos = ['temp', '10min', 'disposable', 'mailinator', 'yopmail', 'fake'];
                 let eh_rato = false;
                 for(let rato of dominios_ratos) {
@@ -172,7 +178,6 @@
 
                 const etiqueta = eh_rato ? "🚨 ALERTA VERMELHO (E-mail Suspeito)" : "✅ CLIENTE POTENCIAL";
 
-                // 3. O PACOTE DE DADOS
                 const dossie_cliente = {
                     alerta: etiqueta,
                     nome: nome,
@@ -182,10 +187,8 @@
                     mensagem: duvida
                 };
 
-                // 🚀 O CABO DO CARTEIRO (CONECTANDO COM O GOOGLE)
                 const url_do_carteiro = "https://script.google.com/macros/s/AKfycbwK1w7UyKbHBEDjG5794_j4rXsTd4M0WmHZdRzUouvseNFhBoyfu0tmlOlHlGQqlFUI/exec";
                 
-                // Dispara o alerta em silêncio
                 fetch(url_do_carteiro, {
                     method: 'POST',
                     mode: 'no-cors',
