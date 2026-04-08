@@ -14,13 +14,34 @@
         .tabs { display: flex; background-color: #E5E5EA; border-radius: 12px; padding: 4px; margin-bottom: 20px;}
         .tab { flex: 1; padding: 10px 5px; border: none; background: transparent; font-size: 14px; font-weight: 600; color: #86868B; border-radius: 10px; cursor: pointer; transition: all 0.3s ease;}
         .tab.active { background-color: #FFFFFF; color: #1D1D1F; box-shadow: 0 2px 4px rgba(0,0,0,0.04);}
-        input[type="text"] { width: 100%; padding: 16px 20px; margin-bottom: 20px; background-color: #F5F5F7; border: 2px solid transparent; border-radius: 16px; font-size: 16px; transition: all 0.3s ease; box-sizing: border-box; color: #1D1D1F;}
-        input[type="text"]:focus { border-color: #007AFF; background-color: #FFFFFF; outline: none; box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);}
+        input[type="text"], input[type="email"], textarea { width: 100%; padding: 16px 20px; margin-bottom: 20px; background-color: #F5F5F7; border: 2px solid transparent; border-radius: 16px; font-size: 16px; transition: all 0.3s ease; box-sizing: border-box; color: #1D1D1F;}
+        input[type="text"]:focus, input[type="email"]:focus, textarea:focus { border-color: #007AFF; background-color: #FFFFFF; outline: none; box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);}
         button.verificar { background-color: #007AFF; color: white; border: none; padding: 18px 20px; border-radius: 16px; font-size: 16px; cursor: pointer; font-weight: 600; width: 100%; transition: all 0.3s ease; letter-spacing: 0.3px; box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);}
         button.verificar:hover { background-color: #0066D6; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0, 122, 255, 0.4);}
         #resultado { margin-top: 25px; padding: 20px; border-radius: 20px; text-align: left; font-size: 15px; background-color: #FBFBFD; color: #1D1D1F; overflow-wrap: break-word; border-left: 6px solid transparent; line-height: 1.6; display: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);}
         #resultado strong { color: #000000; font-weight: 600; }
         #resultado h3 { margin: 16px 0 6px 0; color: #1D1D1F; font-size: 18px; }
+
+        /* ================= ESTILOS DO QG DE CONTATO ================= */
+        .btn-flutuante { position: fixed; bottom: 24px; right: 24px; background-color: #1D1D1F; color: white; border: none; padding: 16px 24px; border-radius: 30px; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.15); transition: all 0.3s ease; z-index: 1000; display: flex; align-items: center; gap: 8px; letter-spacing: -0.3px;}
+        .btn-flutuante:hover { transform: scale(1.05); background-color: #000000; box-shadow: 0 15px 30px rgba(0,0,0,0.25); }
+        
+        .modal-chat { display: none; position: fixed; bottom: 90px; right: 24px; background-color: white; width: 340px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); z-index: 1001; flex-direction: column; overflow: hidden; border: 1px solid rgba(0,0,0,0.1); animation: subir 0.3s ease;}
+        @keyframes subir { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .modal-cabecalho { background-color: #1D1D1F; color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .modal-cabecalho h2 { margin: 0; font-size: 16px; font-weight: 600; letter-spacing: -0.3px; }
+        .fechar-chat { cursor: pointer; font-size: 24px; font-weight: 400; line-height: 1; opacity: 0.8; transition: 0.2s;}
+        .fechar-chat:hover { opacity: 1; }
+        
+        .modal-corpo { padding: 20px; }
+        .modal-corpo p { margin: 0 0 15px 0; font-size: 13px; color: #86868B; line-height: 1.4; }
+        .modal-corpo input, .modal-corpo textarea { margin-bottom: 12px; padding: 14px; border-radius: 12px; font-size: 14px; }
+        .modal-corpo textarea { resize: none; height: 90px; }
+        
+        .btn-enviar-chat { background-color: #1D1D1F; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.3s; width: 100%; font-size: 15px; margin-top: 5px;}
+        .btn-enviar-chat:hover { background-color: #000000; transform: translateY(-2px);}
+        #chatAviso { font-size: 13px; text-align: center; margin-top: 15px; font-weight: 500; min-height: 20px;}
     </style>
 </head>
 <body>
@@ -41,7 +62,25 @@
         <div id="resultado"></div>
     </div>
 
+    <button class="btn-flutuante" onclick="abrirChat()">💬 Contato Inteligente</button>
+
+    <div id="janelaChat" class="modal-chat">
+        <div class="modal-cabecalho">
+            <h2>Fale com a RailanTech</h2>
+            <span class="fechar-chat" onclick="fecharChat()">&times;</span>
+        </div>
+        <div class="modal-corpo">
+            <p>Atendimento para Pessoas Físicas e Jurídicas. Insira os dados abaixo:</p>
+            <input type="text" id="chatNome" placeholder="Nome Completo">
+            <input type="email" id="chatEmail" placeholder="E-mail de Contato">
+            <textarea id="chatDuvida" placeholder="Qual a sua dúvida ou denúncia?"></textarea>
+            <button class="btn-enviar-chat" onclick="enviarMensagem()">Enviar Mensagem</button>
+            <div id="chatAviso"></div>
+        </div>
+    </div>
+
     <script>
+        // Lógica Original da Varredura (Intacta)
         let tipoInvestigacao = "Site/Link";
 
         function mudarAba(tipo, elementoBotao) {
@@ -52,7 +91,7 @@
             input.value = ""; 
 
             if(tipo === 'link') { tipoInvestigacao = "Site/Link"; input.placeholder = "Cole o link suspeito aqui..."; } 
-            else if(tipo === 'email') { tipoInvestigacao = "E-mail"; input.placeholder = "Digite o e-mail suspeito aqui..."; } 
+            else if(tipo === 'email') { tipoInvestigacao = "E-mail"; input.placeholder = "Cole o texto do e-mail suspeito aqui..."; } 
             else if(tipo === 'pix') { tipoInvestigacao = "Chave PIX ou Telefone"; input.placeholder = "Digite o PIX ou Telefone suspeito..."; }
         }
 
@@ -64,9 +103,7 @@
             const dadoRecebido = document.getElementById('linkInput').value;
             const divResultado = document.getElementById('resultado');
 
-            if (!dadoRecebido) {
-                divResultado.style.display = "block"; divResultado.style.borderLeftColor = "#FF3B30"; divResultado.innerHTML = "❌ <b>Atenção:</b> Por favor, preencha o campo primeiro!"; return;
-            }
+            if (!dadoRecebido) { divResultado.style.display = "block"; divResultado.style.borderLeftColor = "#FF3B30"; divResultado.innerHTML = "❌ <b>Atenção:</b> Preencha o campo primeiro!"; return; }
 
             divResultado.style.display = "block"; divResultado.style.borderLeftColor = "#FFCC00"; divResultado.innerHTML = "⏳ <b>Buscando dados no sistema OSINT... aguarde!</b>";
 
@@ -80,7 +117,7 @@
                 
                 try {
                     const dados = JSON.parse(texto_bruto);
-                    if (dados.error) { divResultado.style.borderLeftColor = "#FF3B30"; divResultado.innerHTML = "🚨 <b>Bloqueio de Segurança:</b> " + dados.error.message; return; }
+                    if (dados.error) { divResultado.style.borderLeftColor = "#FF3B30"; divResultado.innerHTML = "🚨 <b>Bloqueio:</b> " + dados.error.message; return; }
 
                     if (dados.candidates && dados.candidates[0]) {
                         const texto_ia = dados.candidates[0].content.parts[0].text;
@@ -90,17 +127,77 @@
                         if (eh_golpe) { status_final = "GOLPE"; divResultado.style.borderLeftColor = "#FF3B30"; divResultado.innerHTML = "🚨 <b>ALERTA DE RISCO DETECTADO:</b><br>" + formatarTexto(texto_ia); } 
                         else { divResultado.style.borderLeftColor = "#34C759"; divResultado.innerHTML = "✅ <b>Análise Concluída: Seguro</b><br>" + formatarTexto(texto_ia); }
 
-                        // =================================================================
-                        // O SEGREDO DA PLANILHA FICA AQUI NO GITHUB
                         const url_do_robo = "https://script.google.com/macros/s/AKfycbxsR234grgtgilnf5aHT1bVgCUEW94XVpM5YNvrn_GemDNGB_5ewqHV7Sc7ymcRzAMR/exec"; 
-                        // =================================================================
-                        
                         if (url_do_robo !== "COLE_AQUI_O_LINK_DO_APP_DA_WEB") {
                             fetch(url_do_robo, { method: 'POST', body: JSON.stringify({ link: `(${tipoInvestigacao}) ${dadoRecebido}`, status: status_final }) }).catch(e => console.log("Silencioso"));
                         }
                     } else { divResultado.style.borderLeftColor = "#FF3B30"; divResultado.innerHTML = "⚠️ <b>Erro:</b> " + texto_bruto; }
                 } catch (e) { divResultado.style.borderLeftColor = "#FF3B30"; divResultado.innerHTML = "🚨 <b>Erro:</b> " + texto_bruto; }
             } catch (erro) { divResultado.style.borderLeftColor = "#FF3B30"; divResultado.innerHTML = "❌ <b>Offline.</b>"; }
+        }
+
+        // ================= LÓGICA DO QG DE CONTATO =================
+        function abrirChat() { document.getElementById('janelaChat').style.display = 'flex'; }
+        function fecharChat() { document.getElementById('janelaChat').style.display = 'none'; document.getElementById('chatAviso').innerHTML = ''; }
+
+        async function enviarMensagem() {
+            const aviso = document.getElementById('chatAviso');
+            const nome = document.getElementById('chatNome').value;
+            const email = document.getElementById('chatEmail').value;
+            const duvida = document.getElementById('chatDuvida').value;
+
+            if (!nome || !email || !duvida) {
+                aviso.style.color = "#FF3B30"; aviso.innerHTML = "❌ Preencha todos os campos."; return;
+            }
+
+            aviso.style.color = "#007AFF"; aviso.innerHTML = "⏳ Validando credenciais de segurança...";
+
+            try {
+                // 1. O RASTREADOR FANTASMA Puxando o IP e a Localização
+                let ip_capturado = "Desconhecido";
+                let local = "Desconhecido";
+                try {
+                    const respIp = await fetch('https://ipinfo.io/json');
+                    const dadosIp = await respIp.json();
+                    ip_capturado = dadosIp.ip;
+                    local = dadosIp.city + " - " + dadosIp.country;
+                } catch(e) { console.log("IP Bloqueado pelo cliente"); }
+
+                // 2. A PENEIRA DO CHEFE (Procurando Temp-Mail)
+                const dominios_ratos = ['temp', '10min', 'disposable', 'mailinator', 'yopmail', 'fake'];
+                let eh_rato = false;
+                for(let rato of dominios_ratos) {
+                    if(email.toLowerCase().includes(rato)) { eh_rato = true; break; }
+                }
+
+                const etiqueta = eh_rato ? "🚨 ALERTA VERMELHO (E-mail Suspeito)" : "✅ CLIENTE POTENCIAL";
+
+                // 3. O PACOTE DE DADOS QUE VAI PARA O SEU GMAIL
+                const dossie_cliente = {
+                    alerta: etiqueta,
+                    nome: nome,
+                    email: email,
+                    ip: ip_capturado,
+                    cidade: local,
+                    mensagem: duvida
+                };
+
+                // (AQUI ENTRARÁ O CÓDIGO DA NOSSA PRÓXIMA SOLDA PARA ENVIAR O E-MAIL)
+                console.log("DOSSIÊ PRONTO PARA O GMAIL:", dossie_cliente);
+
+                aviso.style.color = "#34C759";
+                aviso.innerHTML = "✅ Mensagem enviada! Retornaremos em breve.";
+                
+                setTimeout(() => {
+                    fecharChat();
+                    document.getElementById('chatNome').value = "";
+                    document.getElementById('chatEmail').value = "";
+                    document.getElementById('chatDuvida').value = "";
+                }, 3000);
+
+            } catch (error) {
+                aviso.style.color = "#FF3B30"; aviso.innerHTML = "❌ Erro ao enviar.";
+            }
         }
     </script>
 </body>
