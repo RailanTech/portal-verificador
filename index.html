@@ -106,14 +106,13 @@
 
             divResultado.style.display = "block"; divResultado.style.borderLeftColor = "#FFCC00"; divResultado.innerHTML = "⏳ <b>Buscando dados no sistema OSINT... aguarde!</b>";
 
-            // 🧠 AQUI ESTÁ A MÁGICA: OS TRÊS CÉREBROS INDEPENDENTES
             let comando_ia = "";
             if (tipoInvestigacao === "Site/Link") {
-                comando_ia = `Atue como um detetive antifraude OSINT. Analise este Link/Site -> Dado: ${dadoRecebido}. REGRA MÁXIMA: Comece a resposta OBRIGATORIAMENTE com [SEGURO] se parecer oficial, ou [GOLPE] se for suspeito (falta de HTTPS, domínios suspeitos, promoções irreais). Depois, pule linha e explique o motivo da análise em tópicos curtos.`;
+                comando_ia = `Atue como um detetive antifraude OSINT. Analise este Link/Site -> Dado: ${dadoRecebido}. REGRA MÁXIMA: Comece a resposta OBRIGATORIAMENTE com [SEGURO] se parecer oficial, ou [GOLPE] se for suspeito. Depois, pule linha e explique o motivo da análise em tópicos curtos.`;
             } else if (tipoInvestigacao === "E-mail") {
-                comando_ia = `Atue como um detetive antifraude OSINT. Analise o texto ou endereço deste E-mail -> Dado: ${dadoRecebido}. REGRA MÁXIMA: Comece a resposta OBRIGATORIAMENTE com [SEGURO] se parecer oficial, ou [GOLPE] se for suspeito (táticas de phishing, urgência falsa, erros de português, remetente mascarado). Depois, pule linha e explique o motivo da análise em tópicos curtos.`;
+                comando_ia = `Atue como um detetive antifraude OSINT. Analise o texto ou endereço deste E-mail -> Dado: ${dadoRecebido}. REGRA MÁXIMA: Comece a resposta OBRIGATORIAMENTE com [SEGURO] se parecer oficial, ou [GOLPE] se for suspeito. Depois, pule linha e explique o motivo da análise em tópicos curtos.`;
             } else if (tipoInvestigacao === "Chave PIX ou Telefone") {
-                comando_ia = `Atue como um perito financeiro antifraude. Analise este número de Telefone ou Chave PIX -> Dado: ${dadoRecebido}. REGRA MÁXIMA: Comece a resposta OBRIGATORIAMENTE com [SEGURO] se parecer legítimo, ou [GOLPE] se for suspeito. Verifique indícios de número virtual (VoIP), formato incorreto, DDDs incompatíveis, ou o risco de transferir dinheiro para chaves PIX aleatórias não verificadas. Depois, pule linha e explique o motivo da análise em tópicos curtos.`;
+                comando_ia = `Atue como um perito financeiro antifraude. Analise este número de Telefone ou Chave PIX -> Dado: ${dadoRecebido}. REGRA MÁXIMA: Comece a resposta OBRIGATORIAMENTE com [SEGURO] se parecer legítimo, ou [GOLPE] se for suspeito. Verifique indícios de VoIP, formato ou risco de chave aleatória. Depois, pule linha e explique o motivo da análise em tópicos curtos.`;
             }
 
             const url_do_cofre = "https://tiny-lab-bc9b.analise-seguranca.workers.dev";
@@ -144,7 +143,7 @@
             } catch (erro) { divResultado.style.borderLeftColor = "#FF3B30"; divResultado.innerHTML = "❌ <b>Offline.</b>"; }
         }
 
-        // ================= LÓGICA DO QG DE CONTATO =================
+        // ================= LÓGICA DO QG COM RAIO-X (VPN/TOR) =================
         function abrirChat() { document.getElementById('janelaChat').style.display = 'flex'; }
         function fecharChat() { document.getElementById('janelaChat').style.display = 'none'; document.getElementById('chatAviso').innerHTML = ''; }
 
@@ -161,29 +160,50 @@
             aviso.style.color = "#007AFF"; aviso.innerHTML = "⏳ Validando credenciais de segurança...";
 
             try {
+                // 1. O RASTREADOR COM LEITURA DE PROVEDOR (ISP/ORG)
                 let ip_capturado = "Desconhecido";
                 let local = "Desconhecido";
+                let provedor = "Desconhecido";
                 try {
                     const respIp = await fetch('https://ipinfo.io/json');
                     const dadosIp = await respIp.json();
                     ip_capturado = dadosIp.ip;
                     local = dadosIp.city + " - " + dadosIp.country;
+                    provedor = dadosIp.org || "Desconhecido";
                 } catch(e) { console.log("IP Bloqueado pelo cliente"); }
 
+                // 2. A PENEIRA DO CHEFE (Temp-Mail)
                 const dominios_ratos = ['temp', '10min', 'disposable', 'mailinator', 'yopmail', 'fake'];
                 let eh_rato = false;
                 for(let rato of dominios_ratos) {
                     if(email.toLowerCase().includes(rato)) { eh_rato = true; break; }
                 }
 
-                const etiqueta = eh_rato ? "🚨 ALERTA VERMELHO (E-mail Suspeito)" : "✅ CLIENTE POTENCIAL";
+                // 3. O DETECTOR DE MÁSCARA (VPN / TOR / Cloud)
+                const mascaras = ['tor ', 'vpn', 'digitalocean', 'amazon', 'aws', 'ovh', 'linode', 'hetzner', 'm247', 'cloud', 'hosting', 'datacenter', 'google cloud'];
+                let usa_mascara = false;
+                let provedor_lower = provedor.toLowerCase();
+                for(let mascara of mascaras) {
+                    if(provedor_lower.includes(mascara)) { usa_mascara = true; break; }
+                }
 
+                // 4. O JULGAMENTO (1% DE MONSTRO)
+                let etiqueta = "✅ CLIENTE POTENCIAL";
+                if (eh_rato && usa_mascara) {
+                    etiqueta = "🔥🤯🔥 GOLPISTA PROFISSIONAL (E-mail Falso + VPN/Tor/Cloud)";
+                } else if (eh_rato) {
+                    etiqueta = "🚨 ALERTA VERMELHO (E-mail Suspeito)";
+                } else if (usa_mascara) {
+                    etiqueta = "⚠️ ALERTA AMARELO (Usa Máscara/VPN - Atenção Redobrada)";
+                }
+
+                // 5. O PACOTE DE DADOS INCLUINDO O PROVEDOR
                 const dossie_cliente = {
                     alerta: etiqueta,
                     nome: nome,
                     email: email,
                     ip: ip_capturado,
-                    cidade: local,
+                    cidade: local + " | Provedor ISP: " + provedor, // <--- A MÁGICA AQUI
                     mensagem: duvida
                 };
 
