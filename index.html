@@ -91,12 +91,12 @@
             else if(tipo === 'cnpj') { tipoInvestigacao = "CNPJ/CPF"; input.placeholder = "Digite o CNPJ da loja ou CPF..."; }
         }
 
-        // 🧠 A MATEMÁTICA BRASILEIRA (1% DE MONSTRO PARA PEGAR LOJA FALSA)
+        // 🧠 A MATEMÁTICA BRASILEIRA
         function validarMatematicaBR(valor) {
             let numeros = valor.replace(/[^0-9]/g, '');
             if (numeros.length !== 11 && numeros.length !== 14) return false;
-            if (/^(\d)\1+$/.test(numeros)) return false; // Rejeita 11111111111
-            return true; // (Simplificado para o Radar rodar rápido antes de mandar para a IA)
+            if (/^(\d)\1+$/.test(numeros)) return false; 
+            return true; 
         }
 
         function formatarTexto(texto) {
@@ -111,12 +111,12 @@
 
             divResultado.style.display = "block"; divResultado.style.borderLeftColor = "#FFCC00"; divResultado.innerHTML = "⏳ <b>Buscando dados no sistema OSINT... aguarde!</b>";
 
-            // 🛑 BARREIRA RÁPIDA: Se for CNPJ/CPF falso na matemática, bloqueia na hora!
+            // 🛑 BARREIRA RÁPIDA DE CNPJ
             if (tipoInvestigacao === "CNPJ/CPF") {
                 if (!validarMatematicaBR(dadoRecebido)) {
                     divResultado.style.borderLeftColor = "#FF3B30"; 
                     divResultado.innerHTML = "🚨 <b>ALERTA DE RISCO DETECTADO:</b><br><br><strong>Matemática Falsa:</strong> Este CNPJ/CPF não existe. É um número inventado por um golpista (Rato Grande). Não compre nada desta loja!";
-                    return; // Para aqui, nem gasta o robô do Google!
+                    return; 
                 }
             }
 
@@ -128,7 +128,7 @@
             } else if (tipoInvestigacao === "Chave PIX ou Telefone") {
                 comando_ia = `Atue como um perito financeiro antifraude no Brasil. Analise este número ou PIX -> Dado: ${dadoRecebido}. REGRA MÁXIMA: Comece com [SEGURO] ou [GOLPE]. Verifique formato e risco de golpe. Explique em tópicos.`;
             } else if (tipoInvestigacao === "CNPJ/CPF") {
-                comando_ia = `Atue como um perito antifraude de lojas online no Brasil. Analise este documento -> Dado: ${dadoRecebido}. REGRA MÁXIMA: Comece com [SEGURO] ou [GOLPE]. Explique os riscos de abrir empresas fantasmas (Rato Grande) usando dados de laranjas para roubar o povo brasileiro.`;
+                comando_ia = `Atue como um perito antifraude de lojas online no Brasil. Analise este documento -> Dado: ${dadoRecebido}. REGRA MÁXIMA: Comece com [SEGURO] ou [GOLPE]. Explique os riscos de abrir empresas fantasmas usando dados de laranjas para roubar o povo brasileiro.`;
             }
 
             const url_do_cofre = "https://tiny-lab-bc9b.analise-seguranca.workers.dev";
@@ -153,16 +153,64 @@
             } catch (erro) { divResultado.style.borderLeftColor = "#FF3B30"; divResultado.innerHTML = "❌ <b>Offline.</b>"; }
         }
 
-        // ================= LÓGICA DO QG COM RAIO-X (Mantida a sua perfeição) =================
+        // ================= LÓGICA DO QG =================
         function abrirChat() { document.getElementById('janelaChat').style.display = 'flex'; }
         function fecharChat() { document.getElementById('janelaChat').style.display = 'none'; document.getElementById('chatAviso').innerHTML = ''; }
-        
+
         async function enviarMensagem() {
-            // ... (O código do carteiro fantasma continua funcionando igual e silencioso)
             const aviso = document.getElementById('chatAviso');
-            aviso.style.color = "#34C759";
-            aviso.innerHTML = "✅ Mensagem enviada para a Central!";
-            setTimeout(() => { fecharChat(); }, 3000);
+            const nome = document.getElementById('chatNome').value;
+            const email = document.getElementById('chatEmail').value;
+            const duvida = document.getElementById('chatDuvida').value;
+
+            if (!nome || !email || !duvida) {
+                aviso.style.color = "#FF3B30"; aviso.innerHTML = "❌ Preencha todos os campos."; return;
+            }
+
+            aviso.style.color = "#007AFF"; aviso.innerHTML = "⏳ Enviando dossiê para a Central...";
+
+            try {
+                // Captura IP e Local do alvo silenciosamente
+                let ip_capturado = "Desconhecido";
+                let local = "Desconhecido";
+                try {
+                    const respIp = await fetch('https://ipinfo.io/json');
+                    const dadosIp = await respIp.json();
+                    ip_capturado = dadosIp.ip;
+                    local = dadosIp.city + " - " + dadosIp.country;
+                } catch(e) { console.log("IP Bloqueado"); }
+
+                const dossie_cliente = {
+                    alerta: "🚨 ALERTA DO RADAR",
+                    nome: nome,
+                    email: email,
+                    ip: ip_capturado,
+                    cidade: local,
+                    mensagem: duvida
+                };
+
+                // 🔥 AQUI ESTÁ A SUA CHAVE DO COFRE INSERIDA COM SUCESSO! 🔥
+                const url_do_carteiro = "https://script.google.com/macros/s/AKfycbygIpdYMDxfROXI6DJG1e4_H1YVtZzLHVeQTxiqLEvrAEpQS7mIZ50ZXu7OPB43FLC0/exec";
+                
+                fetch(url_do_carteiro, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify(dossie_cliente)
+                }).catch(e => console.log("Silencioso"));
+
+                aviso.style.color = "#34C759";
+                aviso.innerHTML = "✅ Mensagem salva no Banco de Dados!";
+                
+                setTimeout(() => {
+                    fecharChat();
+                    document.getElementById('chatNome').value = "";
+                    document.getElementById('chatEmail').value = "";
+                    document.getElementById('chatDuvida').value = "";
+                }, 3000);
+
+            } catch (error) {
+                aviso.style.color = "#FF3B30"; aviso.innerHTML = "❌ Erro na conexão.";
+            }
         }
     </script>
 </body>
