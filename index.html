@@ -9,7 +9,6 @@
         /* ================= MODO TÁTICO NOTURNO (CYBER) ================= */
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #0B0F19; color: #E2E8F0; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px 0;}
         .container { background-color: #111827; padding: 40px 30px; border-radius: 20px; box-shadow: 0 0 40px rgba(0, 122, 255, 0.08); border: 1px solid #1F2937; text-align: center; max-width: 420px; width: 90%; margin: 20px; position: relative; overflow: hidden;}
-        /* Luz de scanner no topo do container */
         .container::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, transparent, #00F0FF, transparent); }
         
         .brasao { max-width: 90px; height: auto; margin: 0 auto 20px auto; display: block; filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.2));}
@@ -20,6 +19,10 @@
         .tab { flex: 1 1 45%; padding: 10px 5px; border: none; background: transparent; font-size: 13px; font-weight: 600; color: #9CA3AF; border-radius: 8px; cursor: pointer; transition: all 0.3s ease;}
         .tab.active { background-color: #374151; color: #00F0FF; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);}
         
+        /* Botão Destaque do Mural */
+        .tab-risco { flex: 1 1 100%; color: #FF3366; border: 1px solid transparent; margin-top: 4px; }
+        .tab-risco.active { background-color: rgba(255, 51, 102, 0.1); border-color: #FF3366; color: #FF3366; }
+
         input[type="text"], input[type="email"], textarea { width: 100%; padding: 16px 20px; margin-bottom: 20px; background-color: #1F2937; border: 1px solid #374151; border-radius: 12px; font-size: 15px; transition: all 0.3s ease; box-sizing: border-box; color: #FFFFFF;}
         input[type="text"]:focus, input[type="email"]:focus, textarea:focus { border-color: #00F0FF; background-color: #111827; outline: none; box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.15);}
         input::placeholder, textarea::placeholder { color: #6B7280; }
@@ -31,6 +34,12 @@
         #resultado strong { color: #FFFFFF; font-weight: 700; }
         #resultado h3 { margin: 16px 0 8px 0; color: #00F0FF; font-size: 16px; text-transform: uppercase; font-weight: 700;}
 
+        /* ================= ESTILOS DO MURAL DE PRINTS ================= */
+        .alerta-card { background: #111827; border: 1px solid #374151; border-radius: 12px; padding: 15px; margin-bottom: 15px; border-left: 4px solid #FF3366; text-align: left; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);}
+        .alerta-tag { background: #FF3366; color: #fff; font-size: 11px; font-weight: 800; padding: 4px 8px; border-radius: 6px; display: inline-block; letter-spacing: 1px; margin-bottom: 10px;}
+        .alerta-img { width: 100%; border-radius: 8px; border: 1px solid #374151; margin-bottom: 10px;}
+        .alerta-texto { font-size: 13px; color: #9CA3AF; margin: 0; line-height: 1.5;}
+
         /* ================= CHAT SECRETO DO QG ================= */
         .btn-flutuante { position: fixed; bottom: 24px; right: 24px; background: #1F2937; color: #00F0FF; border: 1px solid #374151; padding: 14px 22px; border-radius: 30px; font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.5); transition: all 0.3s ease; z-index: 1000;}
         .btn-flutuante:hover { border-color: #00F0FF; background: #111827; box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);}
@@ -41,7 +50,7 @@
         .fechar-chat { cursor: pointer; font-size: 24px; font-weight: 400; color: #9CA3AF; transition: color 0.3s;}
         .fechar-chat:hover { color: #FF3366; }
         .modal-corpo { padding: 20px; }
-        .modal-corpo input, .modal-corpo textarea { margin-bottom: 12px; padding: 14px; border-radius: 10px; font-size: 14px; background: #0B0F19;}
+        .modal-corpo input, .modal-corpo textarea { margin-bottom: 12px; padding: 14px; border-radius: 10px; font-size: 14px; background: #0B0F19; color: #FFF; border: 1px solid #374151;}
         .modal-corpo textarea { resize: none; height: 90px; }
         .btn-enviar-chat { background: #00F0FF; color: #0B0F19; border: none; padding: 14px; border-radius: 10px; font-weight: 700; cursor: pointer; width: 100%; font-size: 14px; text-transform: uppercase;}
         .btn-enviar-chat:hover { background: #FFFFFF; }
@@ -57,14 +66,33 @@
         
         <div class="tabs">
             <button class="tab active" onclick="mudarAba('link', this)">🔎 Raio-X Site</button>
-            <button class="tab" onclick="mudarAba('email', this)">📧 E-mail</button>
-            <button class="tab" onclick="mudarAba('pix', this)">📱 Chave/Tel</button>
+            <button class="tab" onclick="mudarAba('email', this)">📧 E-mail / PIX</button>
             <button class="tab" onclick="mudarAba('cnpj', this)">🏢 CNPJ/CPF</button>
+            <button class="tab tab-risco" onclick="mudarAba('alertas', this)">🚨 Notícia Riscos (Prints)</button>
         </div>
 
-        <input type="text" id="linkInput" placeholder="Cole o link suspeito para o Raio-X...">
-        <button class="verificar" onclick="verificarLink()">⚡ INICIAR VARREDURA</button>
-        <div id="resultado"></div>
+        <div id="grupoPesquisa">
+            <input type="text" id="linkInput" placeholder="Cole o link suspeito para o Raio-X...">
+            <button class="verificar" onclick="verificarLink()">⚡ INICIAR VARREDURA</button>
+            <div id="resultado"></div>
+        </div>
+
+        <div id="grupoAlertas" style="display: none;">
+            
+            <div class="alerta-card">
+                <span class="alerta-tag">GOLPE COMPROVADO</span>
+                <img src="https://via.placeholder.com/400x200/1F2937/FF3366?text=PRINT+DO+WHATSAPP+FALSO" alt="Print de Golpe" class="alerta-img">
+                <p class="alerta-texto"><b>Tática do Rato:</b> Envia SMS dizendo que a conta do banco foi bloqueada para roubar a senha da vítima.</p>
+            </div>
+
+            <div class="alerta-card">
+                <span class="alerta-tag">FRAUDE IDENTIFICADA</span>
+                <img src="https://via.placeholder.com/400x200/1F2937/FF3366?text=PRINT+PROMO%C3%87%C3%83O+FALSA" alt="Print de Golpe" class="alerta-img">
+                <p class="alerta-texto"><b>Tática do Rato:</b> Anúncio de geladeira muito barata no Instagram. Quando você paga o PIX, o site some.</p>
+            </div>
+
+        </div>
+
     </div>
 
     <button class="btn-flutuante" onclick="abrirChat()">💬 Denúncia OSINT</button>
@@ -90,17 +118,33 @@
 
         let tipoInvestigacao = "Site/Link";
 
+        // MÁQUINA DE TROCAR ABAS 1% DE MONSTRO
         function mudarAba(tipo, elementoBotao) {
             const abas = document.querySelectorAll('.tab');
             abas.forEach(aba => aba.classList.remove('active'));
             elementoBotao.classList.add('active');
+            
+            const grupoPesquisa = document.getElementById('grupoPesquisa');
+            const grupoAlertas = document.getElementById('grupoAlertas');
+            const divResultado = document.getElementById('resultado');
             const input = document.getElementById('linkInput');
+            
+            // Limpa a tela
             input.value = ""; 
+            divResultado.style.display = "none";
 
-            if(tipo === 'link') { tipoInvestigacao = "Site/Link"; input.placeholder = "Cole o link suspeito para o Raio-X..."; } 
-            else if(tipo === 'email') { tipoInvestigacao = "E-mail"; input.placeholder = "Cole o texto do e-mail suspeito aqui..."; } 
-            else if(tipo === 'pix') { tipoInvestigacao = "Chave PIX ou Telefone"; input.placeholder = "Digite o PIX ou Telefone suspeito..."; }
-            else if(tipo === 'cnpj') { tipoInvestigacao = "CNPJ/CPF"; input.placeholder = "Digite o CNPJ ou CPF para varredura..."; }
+            // Se for o Mural, esconde a pesquisa. Se não, mostra a pesquisa.
+            if (tipo === 'alertas') {
+                grupoPesquisa.style.display = 'none';
+                grupoAlertas.style.display = 'block';
+            } else {
+                grupoPesquisa.style.display = 'block';
+                grupoAlertas.style.display = 'none';
+
+                if(tipo === 'link') { tipoInvestigacao = "Site/Link"; input.placeholder = "Cole o link suspeito para o Raio-X..."; } 
+                else if(tipo === 'email') { tipoInvestigacao = "E-mail"; input.placeholder = "Cole o E-mail ou Chave PIX aqui..."; } 
+                else if(tipo === 'cnpj') { tipoInvestigacao = "CNPJ/CPF"; input.placeholder = "Digite o CNPJ ou CPF para varredura..."; }
+            }
         }
 
         function validarMatematicaBR(valor) {
@@ -130,7 +174,6 @@
                 }
             }
 
-            // O seu cérebro no Cloudflare
             const url_do_cofre_cloudflare = "https://motor-osint-privado.analise-seguranca.workers.dev";
             const pacote_para_o_cofre = { tipo: tipoInvestigacao, dado: dadoRecebido };
 
@@ -157,10 +200,6 @@
             }
         }
 
-        // ================= O CHAT DA LISTA NEGRA =================
-        function abrirChat() { document.getElementById('janelaChat').style.display = 'flex'; }
-        function fecharChat() { document.getElementById('janelaChat').style.display = 'none'; document.getElementById('chatAviso').innerHTML = ''; }
-
         async function enviarMensagem() {
             const aviso = document.getElementById('chatAviso');
             const nome = document.getElementById('chatNome').value;
@@ -182,7 +221,6 @@
 
                 const dossie_cliente = { alerta: "🚨 ALERTA TÁTICO", nome: nome, email: email, ip: ip_capturado, cidade: local, mensagem: duvida };
 
-                // A sua gaveta no Google Script
                 const url_do_carteiro = "https://script.google.com/macros/s/AKfycbygIpdYMDxfROXI6DJG1e4_H1YVtZzLHVeQTxiqLEvrAEpQS7mIZ50ZXu7OPB43FLC0/exec";
                 fetch(url_do_carteiro, { method: 'POST', mode: 'no-cors', body: JSON.stringify(dossie_cliente) }).catch(e => console.log("Silencioso"));
 
