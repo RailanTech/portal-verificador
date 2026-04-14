@@ -15,13 +15,10 @@
         h1 { color: #FFFFFF; font-size: 24px; font-weight: 700; margin-top: 0; margin-bottom: 8px; letter-spacing: 0.5px; text-transform: uppercase;}
         .subtitle { color: #9CA3AF; margin-bottom: 30px; font-size: 14px; font-weight: 400; line-height: 1.5;}
         
+        /* O GRID PERFEITO 2x2 */
         .tabs { display: flex; background-color: #1F2937; border-radius: 12px; padding: 6px; margin-bottom: 25px; flex-wrap: wrap; gap: 4px; border: 1px solid #374151;}
         .tab { flex: 1 1 45%; padding: 10px 5px; border: none; background: transparent; font-size: 13px; font-weight: 600; color: #9CA3AF; border-radius: 8px; cursor: pointer; transition: all 0.3s ease;}
         .tab.active { background-color: #374151; color: #00F0FF; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);}
-        
-        /* Botão Destaque do Mural (Agora com visual 100% Integrado e Azul Neon) */
-        .tab-risco { flex: 1 1 100%; color: #9CA3AF; border: 1px solid transparent; margin-top: 4px; } /* Cor cinza padrão */
-        .tab-risco.active { background-color: #374151; border-color: transparent; color: #00F0FF; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); } /* Fundo escuro, cor azul neon, sombra */
 
         input[type="text"], input[type="email"], textarea { width: 100%; padding: 16px 20px; margin-bottom: 20px; background-color: #1F2937; border: 1px solid #374151; border-radius: 12px; font-size: 15px; transition: all 0.3s ease; box-sizing: border-box; color: #FFFFFF;}
         input[type="text"]:focus, input[type="email"]:focus, textarea:focus { border-color: #00F0FF; background-color: #111827; outline: none; box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.15);}
@@ -68,7 +65,7 @@
             <button class="tab active" onclick="mudarAba('link', this)">🔎 Raio-X Site</button>
             <button class="tab" onclick="mudarAba('email', this)">📧 E-mail / PIX</button>
             <button class="tab" onclick="mudarAba('cnpj', this)">🏢 CNPJ/CPF</button>
-            <button class="tab tab-risco" onclick="mudarAba('alertas', this)">🚨 Notícia Riscos (Prints)</button>
+            <button class="tab" onclick="mudarAba('alertas', this)">🚨 Notícia Riscos</button>
         </div>
 
         <div id="grupoPesquisa">
