@@ -19,9 +19,9 @@
         .tab { flex: 1 1 45%; padding: 10px 5px; border: none; background: transparent; font-size: 13px; font-weight: 600; color: #9CA3AF; border-radius: 8px; cursor: pointer; transition: all 0.3s ease;}
         .tab.active { background-color: #374151; color: #00F0FF; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);}
         
-        /* Botão Destaque do Mural */
-        .tab-risco { flex: 1 1 100%; color: #FF3366; border: 1px solid transparent; margin-top: 4px; }
-        .tab-risco.active { background-color: rgba(255, 51, 102, 0.1); border-color: #FF3366; color: #FF3366; }
+        /* Botão Destaque do Mural (Agora com visual 100% Integrado e Azul Neon) */
+        .tab-risco { flex: 1 1 100%; color: #9CA3AF; border: 1px solid transparent; margin-top: 4px; } /* Cor cinza padrão */
+        .tab-risco.active { background-color: #374151; border-color: transparent; color: #00F0FF; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); } /* Fundo escuro, cor azul neon, sombra */
 
         input[type="text"], input[type="email"], textarea { width: 100%; padding: 16px 20px; margin-bottom: 20px; background-color: #1F2937; border: 1px solid #374151; border-radius: 12px; font-size: 15px; transition: all 0.3s ease; box-sizing: border-box; color: #FFFFFF;}
         input[type="text"]:focus, input[type="email"]:focus, textarea:focus { border-color: #00F0FF; background-color: #111827; outline: none; box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.15);}
@@ -118,7 +118,6 @@
 
         let tipoInvestigacao = "Site/Link";
 
-        // MÁQUINA DE TROCAR ABAS 1% DE MONSTRO
         function mudarAba(tipo, elementoBotao) {
             const abas = document.querySelectorAll('.tab');
             abas.forEach(aba => aba.classList.remove('active'));
@@ -129,11 +128,9 @@
             const divResultado = document.getElementById('resultado');
             const input = document.getElementById('linkInput');
             
-            // Limpa a tela
             input.value = ""; 
             divResultado.style.display = "none";
 
-            // Se for o Mural, esconde a pesquisa. Se não, mostra a pesquisa.
             if (tipo === 'alertas') {
                 grupoPesquisa.style.display = 'none';
                 grupoAlertas.style.display = 'block';
