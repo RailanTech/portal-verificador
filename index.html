@@ -9,7 +9,6 @@
         /* ================= MODO IPHONE PREMIUM (OURO PURO) ================= */
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            /* Fundo escuro profundo com iluminação sutil */
             background: radial-gradient(circle at 50% -20%, #1a233a 0%, #0B0F19 80%);
             color: #E2E8F0; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px 0;
         }
@@ -33,7 +32,7 @@
             opacity: 0.8;
         }
         
-        /* ================= ANIMAÇÃO 3D DO ESCUDO (A MÁGICA 1% MONSTRO) ================= */
+        /* ================= ANIMAÇÃO 3D DO ESCUDO ================= */
         @keyframes flutuar3D {
             0% { transform: translateY(0px) scale(1); filter: drop-shadow(0 5px 15px rgba(255, 215, 0, 0.2)); }
             50% { transform: translateY(-12px) scale(1.02); filter: drop-shadow(0 25px 20px rgba(255, 215, 0, 0.4)); }
@@ -41,16 +40,16 @@
         }
         .brasao { 
             max-width: 95px; height: auto; margin: 0 auto 25px auto; display: block; 
-            animation: flutuar3D 4s ease-in-out infinite; /* Movimento contínuo e suave */
+            animation: flutuar3D 4s ease-in-out infinite; 
             transition: all 0.3s ease;
         }
         
         h1 { color: #FFFFFF; font-size: 26px; font-weight: 800; margin-top: 0; margin-bottom: 8px; letter-spacing: 0.5px; text-shadow: 0 2px 10px rgba(0,0,0,0.5);}
         .subtitle { color: #9CA3AF; margin-bottom: 30px; font-size: 14px; font-weight: 400; line-height: 1.6;}
         
-        /* O GRID PERFEITO 2x2 com Efeito Translúcido */
+        /* O GRID PERFEITO 2x2 */
         .tabs { display: flex; background: rgba(31, 41, 55, 0.5); border-radius: 16px; padding: 6px; margin-bottom: 25px; flex-wrap: wrap; gap: 6px; border: 1px solid rgba(255, 255, 255, 0.05);}
-        .tab { flex: 1 1 45%; padding: 12px 5px; border: none; background: transparent; font-size: 13px; font-weight: 600; color: #9CA3AF; border-radius: 12px; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);} /* Curva de animação magnética */
+        .tab { flex: 1 1 45%; padding: 12px 5px; border: none; background: transparent; font-size: 13px; font-weight: 600; color: #9CA3AF; border-radius: 12px; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);} 
         .tab:hover { color: #FFFFFF; background: rgba(255, 255, 255, 0.05);}
         .tab.active { background: rgba(55, 65, 81, 0.8); color: #00F0FF; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);}
 
@@ -67,11 +66,12 @@
         #resultado strong { color: #FFFFFF; font-weight: 700; }
         #resultado h3 { margin: 16px 0 8px 0; color: #00F0FF; font-size: 16px; text-transform: uppercase; font-weight: 800;}
 
-        /* ================= ESTILOS DO MURAL DE PRINTS ================= */
+        /* ================= ESTILOS DO MURAL DE PRINTS (ATUALIZADO) ================= */
         .alerta-card { background: rgba(17, 24, 39, 0.8); border: 1px solid rgba(55, 65, 81, 0.8); border-radius: 14px; padding: 18px; margin-bottom: 18px; border-left: 4px solid #FF3366; text-align: left; box-shadow: 0 8px 20px rgba(0,0,0,0.3); transition: transform 0.3s ease;}
-        .alerta-card:hover { transform: translateY(-2px); }
+        .alerta-card:hover { transform: translateY(-2px); border-color: #FF3366; }
         .alerta-tag { background: linear-gradient(90deg, #FF3366, #ff0040); color: #fff; font-size: 11px; font-weight: 800; padding: 6px 10px; border-radius: 8px; display: inline-block; letter-spacing: 1px; margin-bottom: 12px; box-shadow: 0 4px 10px rgba(255, 51, 102, 0.3);}
-        .alerta-img { width: 100%; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 12px;}
+        .alerta-img { width: 100%; height: 160px; object-fit: cover; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 12px; opacity: 0.9; transition: opacity 0.3s;}
+        .alerta-card:hover .alerta-img { opacity: 1; }
         .alerta-texto { font-size: 14px; color: #D1D5DB; margin: 0; line-height: 1.6;}
 
         /* ================= CHAT SECRETO DO QG ================= */
@@ -113,14 +113,15 @@
 
         <div id="grupoAlertas" style="display: none;">
             <div class="alerta-card">
-                <span class="alerta-tag">GOLPE COMPROVADO</span>
-                <img src="https://via.placeholder.com/400x200/1F2937/FF3366?text=PRINT+DO+WHATSAPP+FALSO" alt="Print de Golpe" class="alerta-img">
-                <p class="alerta-texto"><b>Tática do Rato:</b> Envia SMS dizendo que a conta do banco foi bloqueada para roubar a senha da vítima.</p>
+                <span class="alerta-tag">ALERTA WHATSAPP</span>
+                <img src="https://images.unsplash.com/photo-1528747045269-390fe33c19f2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Print de Golpe WhatsApp" class="alerta-img">
+                <p class="alerta-texto"><b>Tática do Rato:</b> O criminoso envia SMS dizendo que a sua conta do banco foi bloqueada para roubar a sua senha através de um link falso.</p>
             </div>
+            
             <div class="alerta-card">
-                <span class="alerta-tag">FRAUDE IDENTIFICADA</span>
-                <img src="https://via.placeholder.com/400x200/1F2937/FF3366?text=PRINT+PROMO%C3%87%C3%83O+FALSA" alt="Print de Golpe" class="alerta-img">
-                <p class="alerta-texto"><b>Tática do Rato:</b> Anúncio de geladeira muito barata no Instagram. Quando você paga o PIX, o site some.</p>
+                <span class="alerta-tag">PERIGO PIX</span>
+                <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Print de Golpe PIX" class="alerta-img">
+                <p class="alerta-texto"><b>Tática do Rato:</b> Anúncio de eletrônicos ou passagens muito baratas no Instagram. O site imita uma loja real, mas o seu dinheiro vai direto para a conta do golpista.</p>
             </div>
         </div>
     </div>
