@@ -11,19 +11,19 @@
         :root {
             --ouro: #d4af37;
             --ouro-escuro: #aa8c2c;
-            --fundo-profundo: #050505;
-            --vidro: rgba(25, 25, 25, 0.6);
-            --borda-vidro: rgba(212, 175, 55, 0.3);
+            --ouro-brilho: rgba(212, 175, 55, 0.4);
+            --fundo-profundo: #030303;
+            --vidro: rgba(15, 15, 15, 0.75);
             --vermelho-alerta: #ff3333;
             --verde-seguro: #00cc66;
-            --texto-claro: #e0e0e0;
+            --texto-claro: #f0f0f0;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
 
         body {
             background-color: var(--fundo-profundo);
-            background-image: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #050505 80%);
+            background-image: radial-gradient(circle at 50% 0%, #151515 0%, #030303 100%);
             color: var(--texto-claro);
             min-height: 100vh;
             display: flex;
@@ -32,93 +32,100 @@
             padding: 20px;
         }
 
-        /* O CABEÇALHO (AUTORIDADE) */
-        .header { text-align: center; margin-bottom: 30px; margin-top: 20px; animation: fadeIn 1s ease-in-out; }
-        .brasao { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--ouro); box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); margin-bottom: 15px; display: inline-flex; align-items: center; justify-content: center; font-size: 30px; background: #000; }
-        .header h1 { font-size: 22px; color: #fff; text-transform: uppercase; letter-spacing: 3px; font-weight: 800; }
-        .header p { color: var(--ouro); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin-top: 5px; }
+        /* O CABEÇALHO (AUTORIDADE COM ESCUDO DE OURO SVG) */
+        .header { text-align: center; margin-bottom: 35px; margin-top: 25px; animation: fadeIn 1s ease-in-out; }
+        .brasao { 
+            width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--ouro); 
+            box-shadow: 0 0 25px var(--ouro-brilho), inset 0 0 15px rgba(212, 175, 55, 0.2); 
+            margin-bottom: 15px; display: inline-flex; align-items: center; justify-content: center; background: #000; 
+        }
+        .header h1 { font-size: 22px; color: #fff; text-transform: uppercase; letter-spacing: 4px; font-weight: 800; }
+        .header p { color: var(--ouro); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin-top: 8px; font-weight: 600; }
 
-        /* O PAINEL DE VIDRO (GLASSMORPHISM) */
+        /* O PAINEL DE VIDRO (IPHONE PREMIUM GLASS) */
         .painel {
             background: var(--vidro);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid var(--borda-vidro);
-            border-radius: 20px;
-            padding: 30px 20px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 16px;
+            padding: 30px 25px;
             width: 100%;
             max-width: 450px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.9), inset 0 0 10px rgba(255,255,255,0.02);
             margin-bottom: 25px;
             animation: slideUp 0.8s ease-out;
         }
 
-        .titulo-painel { font-size: 14px; color: var(--ouro); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .titulo-painel { font-size: 13px; font-weight: 700; color: var(--ouro); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; border-bottom: 1px solid rgba(212, 175, 55, 0.2); padding-bottom: 12px; display: flex; align-items: center; gap: 8px; }
 
         /* CAMPOS DE TEXTO E BOTÕES (LUXO) */
         input, textarea {
-            width: 100%; padding: 15px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1);
-            color: #fff; border-radius: 10px; font-size: 14px; margin-bottom: 15px; outline: none; transition: 0.3s;
+            width: 100%; padding: 16px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.08);
+            color: #fff; border-radius: 12px; font-size: 14px; margin-bottom: 15px; outline: none; transition: 0.3s;
         }
-        input:focus, textarea:focus { border-color: var(--ouro); box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
+        input:focus, textarea:focus { border-color: var(--ouro); box-shadow: 0 0 15px var(--ouro-brilho); background: rgba(0,0,0,0.8); }
         
         button {
-            width: 100%; padding: 16px; background: linear-gradient(135deg, var(--ouro), var(--ouro-escuro));
-            color: #000; border: none; border-radius: 10px; font-size: 15px; font-weight: bold; text-transform: uppercase;
-            letter-spacing: 1px; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+            width: 100%; padding: 18px; background: linear-gradient(135deg, var(--ouro), var(--ouro-escuro));
+            color: #000; border: none; border-radius: 12px; font-size: 14px; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 2px; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 20px var(--ouro-brilho);
         }
-        button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(212, 175, 55, 0.5); }
+        button:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(212, 175, 55, 0.6); }
         button:active { transform: translateY(1px); }
         
         /* BOTÃO DE DENÚNCIA SECUNDÁRIO */
-        .btn-secundario { background: transparent; border: 1px solid var(--ouro); color: var(--ouro); box-shadow: none; margin-top: 10px; }
-        .btn-secundario:hover { background: rgba(212, 175, 55, 0.1); }
+        .btn-secundario { background: rgba(0,0,0,0.5); border: 1px solid var(--ouro); color: var(--ouro); box-shadow: none; margin-top: 5px; max-width: 450px; backdrop-filter: blur(10px); }
+        .btn-secundario:hover { background: rgba(212, 175, 55, 0.15); }
 
         /* TELA DE RESULTADO DO MOTOR (VISUAL DE TERMINAL) */
         .resultado {
-            margin-top: 20px; padding: 15px; border-radius: 10px; background: #000;
-            font-family: 'Courier New', Courier, monospace; font-size: 13px; line-height: 1.5;
-            display: none; border-left: 4px solid var(--ouro);
+            margin-top: 20px; padding: 18px; border-radius: 8px; background: #050505;
+            font-family: 'Courier New', Courier, monospace; font-size: 13px; line-height: 1.6; font-weight: 600;
+            display: none; border-left: 4px solid var(--ouro); letter-spacing: 0.5px;
         }
-        .resultado.alerta { border-left-color: var(--vermelho-alerta); color: var(--vermelho-alerta); text-shadow: 0 0 5px rgba(255,51,51,0.5); }
-        .resultado.seguro { border-left-color: var(--verde-seguro); color: var(--verde-seguro); text-shadow: 0 0 5px rgba(0,204,102,0.5); }
+        .resultado.alerta { border-left-color: var(--vermelho-alerta); color: var(--vermelho-alerta); text-shadow: 0 0 8px rgba(255,51,51,0.4); }
+        .resultado.seguro { border-left-color: var(--verde-seguro); color: var(--verde-seguro); text-shadow: 0 0 8px rgba(0,204,102,0.4); }
         .resultado.neutro { border-left-color: var(--ouro); color: var(--ouro); }
 
-        .loading { display: none; text-align: center; color: var(--ouro); font-size: 12px; margin-top: 10px; letter-spacing: 1px; animation: pulse 1s infinite; }
+        .loading { display: none; text-align: center; color: var(--ouro); font-size: 12px; font-weight: bold; margin-top: 15px; letter-spacing: 2px; animation: pulse 1s infinite; }
 
         /* ANIMAÇÕES */
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
 
-        /* ÁREA DE DENÚNCIA ESCONDIDA */
         #area-denuncia { display: none; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div class="brasao">🛡️</div>
+        <div class="brasao">
+            <svg viewBox="0 0 24 24" width="36" height="36" fill="var(--ouro)">
+                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 2.18l7 3.12v4.7c0 4.67-3.13 8.97-7 10.08-3.87-1.11-7-5.41-7-10.08V6.3l7-3.12z"/>
+            </svg>
+        </div>
         <h1>Central RailanTech</h1>
         <p>Terminal OSINT Nível 1</p>
     </div>
 
     <div class="painel">
         <div class="titulo-painel">⚡ Varredura Anti-Fraude</div>
-        <p style="font-size: 12px; color: #888; margin-bottom: 15px;">Insira o link suspeito de SMS, WhatsApp ou e-mail para análise em tempo real.</p>
+        <p style="font-size: 12px; color: #999; margin-bottom: 18px; line-height: 1.4;">Insira o link suspeito de SMS, WhatsApp ou e-mail para análise em tempo real.</p>
         
         <input type="text" id="input-link" placeholder="Ex: http://site-suspeito.com">
         <button onclick="iniciarVarredura()">Iniciar Raio-X</button>
         
-        <div id="loading-varredura" class="loading">PROCESSANDO ASSINATURAS DE REDE...</div>
+        <div id="loading-varredura" class="loading">PROCESSANDO ASSINATURAS...</div>
         <div id="resultado-varredura" class="resultado"></div>
     </div>
 
-    <button class="btn-secundario" style="max-width: 450px;" onclick="mostrarDenuncia()">+ Reportar Ameaça à Central</button>
+    <button class="btn-secundario" onclick="mostrarDenuncia()">+ Reportar Ameaça à Central</button>
 
     <div class="painel" id="area-denuncia" style="margin-top: 25px;">
         <div class="titulo-painel">🕵️ Dossiê de Agente (OSINT)</div>
-        <p style="font-size: 12px; color: #888; margin-bottom: 15px;">Os dados serão criptografados e enviados diretamente ao Cofre Federal RailanTech.</p>
+        <p style="font-size: 12px; color: #999; margin-bottom: 18px; line-height: 1.4;">Os dados serão criptografados e enviados diretamente ao Cofre Federal RailanTech.</p>
 
         <input type="text" id="agente-nome" placeholder="Seu Nome/Codinome">
         <input type="text" id="agente-contato" placeholder="Seu E-mail ou WhatsApp">
@@ -126,15 +133,13 @@
         
         <button onclick="enviarDossie()">Transmitir Dossiê</button>
         
-        <div id="loading-denuncia" class="loading">CRIPTOGRAFANDO E TRANSMITINDO...</div>
+        <div id="loading-denuncia" class="loading">CRIPTOGRAFANDO...</div>
         <div id="resultado-denuncia" class="resultado neutro" style="text-align: center;"></div>
     </div>
 
     <script>
-        // O LINK DO SEU MOTOR BLINDADO (CLOUDFLARE)
         const URL_CLOUDFLARE = "https://motor-osint-privado.analise-seguranca.workers.dev";
 
-        // FUNÇÃO DA VARREDURA
         async function iniciarVarredura() {
             const link = document.getElementById('input-link').value;
             const resDiv = document.getElementById('resultado-varredura');
@@ -156,11 +161,9 @@
                 loadDiv.style.display = "none";
                 resDiv.style.display = "block";
                 
-                // Formata a resposta da Inteligência
                 let textoResposta = data.analise.replace(/\n/g, '<br>');
                 resDiv.innerHTML = textoResposta;
 
-                // Aplica a cor FBI/CIA baseada na resposta
                 resDiv.className = "resultado"; 
                 if (textoResposta.includes("GOLPE") || textoResposta.includes("CRÍTICA")) {
                     resDiv.classList.add("alerta");
@@ -178,14 +181,12 @@
             }
         }
 
-        // FUNÇÃO DE MOSTRAR O PAINEL DE DENÚNCIA
         function mostrarDenuncia() {
             const painel = document.getElementById('area-denuncia');
             painel.style.display = (painel.style.display === 'block') ? 'none' : 'block';
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         }
 
-        // FUNÇÃO DE TRANSMISSÃO DE DOSSIÊ (TÚNEL SECRETO)
         async function enviarDossie() {
             const nome = document.getElementById('agente-nome').value;
             const contato = document.getElementById('agente-contato').value;
@@ -215,7 +216,6 @@
                 resDiv.style.display = "block";
                 resDiv.innerHTML = data.status;
 
-                // Limpa o formulário
                 document.getElementById('agente-nome').value = '';
                 document.getElementById('agente-contato').value = '';
                 document.getElementById('agente-mensagem').value = '';
@@ -223,7 +223,7 @@
             } catch (e) {
                 loadDiv.style.display = "none";
                 resDiv.style.display = "block";
-                resDiv.innerHTML = "🔴 FALHA NA TRANSMISSÃO. Rota de e-mail bloqueada.";
+                resDiv.innerHTML = "🔴 FALHA NA TRANSMISSÃO. Rota de dados bloqueada.";
             }
         }
     </script>
