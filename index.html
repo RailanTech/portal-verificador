@@ -2,164 +2,229 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="dark"> 
-    <title>Radar Anti-Golpe - Central de Inteligência OSINT</title>
-    
-    <link rel="stylesheet" href="estilo.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Radar OSINT | Central RailanTech</title>
+    <style>
+        /* =========================================
+           ARQUITETURA DE DESIGN: OURO PURO / IPHONE GLASS
+           ========================================= */
+        :root {
+            --ouro: #d4af37;
+            --ouro-escuro: #aa8c2c;
+            --fundo-profundo: #050505;
+            --vidro: rgba(25, 25, 25, 0.6);
+            --borda-vidro: rgba(212, 175, 55, 0.3);
+            --vermelho-alerta: #ff3333;
+            --verde-seguro: #00cc66;
+            --texto-claro: #e0e0e0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+
+        body {
+            background-color: var(--fundo-profundo);
+            background-image: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #050505 80%);
+            color: var(--texto-claro);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* O CABEÇALHO (AUTORIDADE) */
+        .header { text-align: center; margin-bottom: 30px; margin-top: 20px; animation: fadeIn 1s ease-in-out; }
+        .brasao { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--ouro); box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); margin-bottom: 15px; display: inline-flex; align-items: center; justify-content: center; font-size: 30px; background: #000; }
+        .header h1 { font-size: 22px; color: #fff; text-transform: uppercase; letter-spacing: 3px; font-weight: 800; }
+        .header p { color: var(--ouro); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin-top: 5px; }
+
+        /* O PAINEL DE VIDRO (GLASSMORPHISM) */
+        .painel {
+            background: var(--vidro);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--borda-vidro);
+            border-radius: 20px;
+            padding: 30px 20px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+            margin-bottom: 25px;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .titulo-painel { font-size: 14px; color: var(--ouro); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+
+        /* CAMPOS DE TEXTO E BOTÕES (LUXO) */
+        input, textarea {
+            width: 100%; padding: 15px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1);
+            color: #fff; border-radius: 10px; font-size: 14px; margin-bottom: 15px; outline: none; transition: 0.3s;
+        }
+        input:focus, textarea:focus { border-color: var(--ouro); box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
+        
+        button {
+            width: 100%; padding: 16px; background: linear-gradient(135deg, var(--ouro), var(--ouro-escuro));
+            color: #000; border: none; border-radius: 10px; font-size: 15px; font-weight: bold; text-transform: uppercase;
+            letter-spacing: 1px; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+        button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(212, 175, 55, 0.5); }
+        button:active { transform: translateY(1px); }
+        
+        /* BOTÃO DE DENÚNCIA SECUNDÁRIO */
+        .btn-secundario { background: transparent; border: 1px solid var(--ouro); color: var(--ouro); box-shadow: none; margin-top: 10px; }
+        .btn-secundario:hover { background: rgba(212, 175, 55, 0.1); }
+
+        /* TELA DE RESULTADO DO MOTOR (VISUAL DE TERMINAL) */
+        .resultado {
+            margin-top: 20px; padding: 15px; border-radius: 10px; background: #000;
+            font-family: 'Courier New', Courier, monospace; font-size: 13px; line-height: 1.5;
+            display: none; border-left: 4px solid var(--ouro);
+        }
+        .resultado.alerta { border-left-color: var(--vermelho-alerta); color: var(--vermelho-alerta); text-shadow: 0 0 5px rgba(255,51,51,0.5); }
+        .resultado.seguro { border-left-color: var(--verde-seguro); color: var(--verde-seguro); text-shadow: 0 0 5px rgba(0,204,102,0.5); }
+        .resultado.neutro { border-left-color: var(--ouro); color: var(--ouro); }
+
+        .loading { display: none; text-align: center; color: var(--ouro); font-size: 12px; margin-top: 10px; letter-spacing: 1px; animation: pulse 1s infinite; }
+
+        /* ANIMAÇÕES */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+
+        /* ÁREA DE DENÚNCIA ESCONDIDA */
+        #area-denuncia { display: none; }
+    </style>
 </head>
 <body>
 
-    <div class="container">
-        <img src="escudo-sem-fundo.png" alt="Selo Oficial Railan Tech" class="brasao">
-        <h1>Central de Inteligência</h1>
-        <div class="subtitle">Módulo de Verificação Tática contra Fraudes no Brasil.</div>
-        
-        <div class="tabs">
-            <button class="tab active" onclick="mudarAba('link', this)">🔎 Raio-X Site</button>
-            <button class="tab" onclick="mudarAba('email', this)">📧 E-mail / PIX</button>
-            <button class="tab" onclick="mudarAba('cnpj', this)">🏢 CNPJ/CPF</button>
-            <button class="tab" onclick="mudarAba('alertas', this)">🚨 Notícia Riscos</button>
-        </div>
-
-        <div id="grupoPesquisa">
-            <input type="text" id="linkInput" placeholder="Cole o link suspeito para o Raio-X...">
-            <button class="verificar" onclick="verificarLink()">⚡ INICIAR VARREDURA</button>
-            <div id="resultado"></div>
-        </div>
-
-        <div id="grupoAlertas" style="display: none;">
-            <div class="alerta-card">
-                <span class="alerta-tag">ALERTA WHATSAPP</span>
-                <img src="https://images.unsplash.com/photo-1528747045269-390fe33c19f2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Print de Golpe WhatsApp" class="alerta-img">
-                <p class="alerta-texto"><b>Tática do Rato:</b> O criminoso envia SMS dizendo que a sua conta do banco foi bloqueada para roubar a sua senha através de um link falso.</p>
-            </div>
-            
-            <div class="alerta-card">
-                <span class="alerta-tag">PERIGO PIX</span>
-                <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Print de Golpe PIX" class="alerta-img">
-                <p class="alerta-texto"><b>Tática do Rato:</b> Anúncio de eletrônicos ou passagens muito baratas no Instagram. O site imita uma loja real, mas o seu dinheiro vai direto para a conta do golpista.</p>
-            </div>
-        </div>
+    <div class="header">
+        <div class="brasao">🛡️</div>
+        <h1>Central RailanTech</h1>
+        <p>Terminal OSINT Nível 1</p>
     </div>
 
-    <button class="btn-flutuante" onclick="abrirChat()">💬 Denúncia OSINT</button>
-    <div id="janelaChat" class="modal-chat">
-        <div class="modal-cabecalho"><h2>📡 Terminal de Denúncia</h2><span class="fechar-chat" onclick="fecharChat()">&times;</span></div>
-        <div class="modal-corpo">
-            <input type="text" id="chatNome" placeholder="Nome / Codinome">
-            <input type="email" id="chatEmail" placeholder="E-mail de Contato">
-            <textarea id="chatDuvida" placeholder="Descreva a tentativa de fraude..."></textarea>
-            <button class="btn-enviar-chat" onclick="enviarMensagem()">Transmitir Dossiê</button>
-            <div id="chatAviso"></div>
-        </div>
+    <div class="painel">
+        <div class="titulo-painel">⚡ Varredura Anti-Fraude</div>
+        <p style="font-size: 12px; color: #888; margin-bottom: 15px;">Insira o link suspeito de SMS, WhatsApp ou e-mail para análise em tempo real.</p>
+        
+        <input type="text" id="input-link" placeholder="Ex: http://site-suspeito.com">
+        <button onclick="iniciarVarredura()">Iniciar Raio-X</button>
+        
+        <div id="loading-varredura" class="loading">PROCESSANDO ASSINATURAS DE REDE...</div>
+        <div id="resultado-varredura" class="resultado"></div>
+    </div>
+
+    <button class="btn-secundario" style="max-width: 450px;" onclick="mostrarDenuncia()">+ Reportar Ameaça à Central</button>
+
+    <div class="painel" id="area-denuncia" style="margin-top: 25px;">
+        <div class="titulo-painel">🕵️ Dossiê de Agente (OSINT)</div>
+        <p style="font-size: 12px; color: #888; margin-bottom: 15px;">Os dados serão criptografados e enviados diretamente ao Cofre Federal RailanTech.</p>
+
+        <input type="text" id="agente-nome" placeholder="Seu Nome/Codinome">
+        <input type="text" id="agente-contato" placeholder="Seu E-mail ou WhatsApp">
+        <textarea id="agente-mensagem" rows="3" placeholder="Descreva a ameaça ou cole o golpe aqui..."></textarea>
+        
+        <button onclick="enviarDossie()">Transmitir Dossiê</button>
+        
+        <div id="loading-denuncia" class="loading">CRIPTOGRAFANDO E TRANSMITINDO...</div>
+        <div id="resultado-denuncia" class="resultado neutro" style="text-align: center;"></div>
     </div>
 
     <script>
-        document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
-        document.onkeydown = function(e) {
-            if(e.keyCode == 123) { return false; }
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; }
-            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; }
-        };
+        // O LINK DO SEU MOTOR BLINDADO (CLOUDFLARE)
+        const URL_CLOUDFLARE = "https://motor-osint-privado.analise-seguranca.workers.dev";
 
-        let tipoInvestigacao = "Site/Link";
+        // FUNÇÃO DA VARREDURA
+        async function iniciarVarredura() {
+            const link = document.getElementById('input-link').value;
+            const resDiv = document.getElementById('resultado-varredura');
+            const loadDiv = document.getElementById('loading-varredura');
 
-        function mudarAba(tipo, elementoBotao) {
-            const abas = document.querySelectorAll('.tab');
-            abas.forEach(aba => aba.classList.remove('active'));
-            elementoBotao.classList.add('active');
-            
-            const grupoPesquisa = document.getElementById('grupoPesquisa');
-            const grupoAlertas = document.getElementById('grupoAlertas');
-            const divResultado = document.getElementById('resultado');
-            const input = document.getElementById('linkInput');
-            
-            input.value = ""; 
-            divResultado.style.display = "none";
+            if(!link) { alert("Operação negada: Insira um link para análise."); return; }
 
-            if (tipo === 'alertas') {
-                grupoPesquisa.style.display = 'none';
-                grupoAlertas.style.display = 'block';
-            } else {
-                grupoPesquisa.style.display = 'block';
-                grupoAlertas.style.display = 'none';
+            resDiv.style.display = "none";
+            loadDiv.style.display = "block";
 
-                if(tipo === 'link') { tipoInvestigacao = "Site/Link"; input.placeholder = "Cole o link suspeito para o Raio-X..."; } 
-                else if(tipo === 'email') { tipoInvestigacao = "E-mail"; input.placeholder = "Cole o E-mail ou Chave PIX aqui..."; } 
-                else if(tipo === 'cnpj') { tipoInvestigacao = "CNPJ/CPF"; input.placeholder = "Digite o CNPJ ou CPF para varredura..."; }
-            }
-        }
+            try {
+                const response = await fetch(URL_CLOUDFLARE, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ tipo: "link", dado: link })
+                });
 
-        function validarMatematicaBR(valor) {
-            let numeros = valor.replace(/[^0-9]/g, '');
-            if (numeros.length !== 11 && numeros.length !== 14) return false;
-            if (/^(\d)\1+$/.test(numeros)) return false; 
-            return true; 
-        }
+                const data = await response.json();
+                loadDiv.style.display = "none";
+                resDiv.style.display = "block";
+                
+                // Formata a resposta da Inteligência
+                let textoResposta = data.analise.replace(/\n/g, '<br>');
+                resDiv.innerHTML = textoResposta;
 
-        function formatarTexto(texto) {
-            return texto.replace(/### (.*?)\n/g, '<h3>$1</h3>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/\[SEGURO\]/gi, '').replace(/\[GOLPE\]/gi, '').replace(/\n/g, '<br>'); 
-        }
-
-        async function verificarLink() {
-            const dadoRecebido = document.getElementById('linkInput').value;
-            const divResultado = document.getElementById('resultado');
-
-            if (!dadoRecebido) { divResultado.style.display = "block"; divResultado.style.borderLeftColor = "#FF3366"; divResultado.innerHTML = "❌ <b>Atenção:</b> Insira o dado para iniciar a varredura!"; return; }
-
-            divResultado.style.display = "block"; divResultado.style.borderLeftColor = "#00F0FF"; divResultado.innerHTML = "⏳ <b>Acessando Servidor Privado... decodificando!</b>";
-
-            if (tipoInvestigacao === "CNPJ/CPF") {
-                if (!validarMatematicaBR(dadoRecebido)) {
-                    divResultado.style.borderLeftColor = "#FF3366"; 
-                    divResultado.innerHTML = "🚨 <b>ALERTA CRÍTICO:</b><br><br><strong>Falsidade Ideológica:</strong> Este documento não existe nos registros oficiais. É um número gerado artificialmente por fraudadores.";
-                    return; 
+                // Aplica a cor FBI/CIA baseada na resposta
+                resDiv.className = "resultado"; 
+                if (textoResposta.includes("GOLPE") || textoResposta.includes("CRÍTICA")) {
+                    resDiv.classList.add("alerta");
+                } else if (textoResposta.includes("LIMPA") || textoResposta.includes("SEGURO")) {
+                    resDiv.classList.add("seguro");
+                } else {
+                    resDiv.classList.add("neutro");
                 }
+
+            } catch (e) {
+                loadDiv.style.display = "none";
+                resDiv.style.display = "block";
+                resDiv.className = "resultado alerta";
+                resDiv.innerHTML = "🔴 ERRO TÁTICO: Conexão com o Cofre interceptada ou offline.";
             }
-
-            // CONEXÃO COM O MOTOR CLOUDFLARE
-            const url_do_cofre_cloudflare = "https://motor-osint-privado.analise-seguranca.workers.dev";
-            const pacote_para_o_cofre = { tipo: tipoInvestigacao, dado: dadoRecebido };
-
-            try {
-                const resposta_do_cofre = await fetch(url_do_cofre_cloudflare, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(pacote_para_o_cofre) });
-                const dados = await resposta_do_cofre.json();
-                
-                if (dados.erro) { divResultado.style.borderLeftColor = "#FF3366"; divResultado.innerHTML = "🚨 <b>Erro no servidor:</b> " + dados.erro; return; }
-
-                const texto_resposta = dados.analise;
-                const eh_golpe = texto_resposta.toUpperCase().includes("[GOLPE]");
-                
-                if (eh_golpe) { divResultado.style.borderLeftColor = "#FF3366"; divResultado.innerHTML = "🚨 <b>AMEAÇA DETECTADA:</b><br>" + formatarTexto(texto_resposta); 
-                } else { divResultado.style.borderLeftColor = "#00F0FF"; divResultado.innerHTML = "✅ <b>VARREDURA LIMPA:</b><br>" + formatarTexto(texto_resposta); }
-            } catch (erro) { divResultado.style.borderLeftColor = "#FF3366"; divResultado.innerHTML = "❌ <b>Conexão com a Caixa Preta falhou.</b>"; }
         }
 
-        function abrirChat() { document.getElementById('janelaChat').style.display = 'flex'; }
-        function fecharChat() { document.getElementById('janelaChat').style.display = 'none'; document.getElementById('chatAviso').innerHTML = ''; }
+        // FUNÇÃO DE MOSTRAR O PAINEL DE DENÚNCIA
+        function mostrarDenuncia() {
+            const painel = document.getElementById('area-denuncia');
+            painel.style.display = (painel.style.display === 'block') ? 'none' : 'block';
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
 
-        async function enviarMensagem() {
-            const aviso = document.getElementById('chatAviso');
-            const nome = document.getElementById('chatNome').value;
-            const email = document.getElementById('chatEmail').value;
-            const duvida = document.getElementById('chatDuvida').value;
+        // FUNÇÃO DE TRANSMISSÃO DE DOSSIÊ (TÚNEL SECRETO)
+        async function enviarDossie() {
+            const nome = document.getElementById('agente-nome').value;
+            const contato = document.getElementById('agente-contato').value;
+            const mensagem = document.getElementById('agente-mensagem').value;
+            const resDiv = document.getElementById('resultado-denuncia');
+            const loadDiv = document.getElementById('loading-denuncia');
 
-            if (!nome || !email || !duvida) { aviso.style.color = "#FF3366"; aviso.innerHTML = "❌ Todos os campos são obrigatórios."; return; }
+            if(!mensagem) { alert("Operação negada: O relatório está vazio."); return; }
 
-            aviso.style.color = "#00F0FF"; aviso.innerHTML = "⏳ Transmitindo dossiê para a Central Federal...";
+            resDiv.style.display = "none";
+            loadDiv.style.display = "block";
 
             try {
-                const dossie_cliente = { alerta: "🚨 ALERTA TÁTICO", nome: nome, email: email, mensagem: duvida };
-                
-                // CONEXÃO DIRETA COM O COFRE KV CLOUDFLARE
-                const url_do_cofre_cloudflare = "https://motor-osint-privado.analise-seguranca.workers.dev";
-                
-                await fetch(url_do_cofre_cloudflare, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dossie_cliente) });
+                const response = await fetch(URL_CLOUDFLARE, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ 
+                        alerta: true, 
+                        nome: nome || "Agente Anônimo", 
+                        email: contato || "Não informado", 
+                        mensagem: mensagem 
+                    })
+                });
 
-                aviso.style.color = "#00F0FF"; aviso.innerHTML = "✅ Dossiê arquivado com sucesso no Cofre Federal!";
-                setTimeout(() => { fecharChat(); document.getElementById('chatNome').value = ""; document.getElementById('chatEmail').value = ""; document.getElementById('chatDuvida').value = ""; }, 3000);
-            } catch (error) { aviso.style.color = "#FF3366"; aviso.innerHTML = "❌ Erro na transmissão."; }
+                const data = await response.json();
+                loadDiv.style.display = "none";
+                resDiv.style.display = "block";
+                resDiv.innerHTML = data.status;
+
+                // Limpa o formulário
+                document.getElementById('agente-nome').value = '';
+                document.getElementById('agente-contato').value = '';
+                document.getElementById('agente-mensagem').value = '';
+
+            } catch (e) {
+                loadDiv.style.display = "none";
+                resDiv.style.display = "block";
+                resDiv.innerHTML = "🔴 FALHA NA TRANSMISSÃO. Rota de e-mail bloqueada.";
+            }
         }
     </script>
 </body>
