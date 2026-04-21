@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Central RailanTech - Verificador Anti-Fraude</title>
+    <title>Central RailanTech - Inteligência Anti-Fraude</title>
     <style>
         /* =========================================
-           ARQUITETURA DE DESIGN: TERMINAL OSINT V1 (CORE) - OURO PURIFICADO
+           ARQUITETURA DE DESIGN: TERMINAL OSINT V1 (OURO PURO 100%)
            ========================================= */
         :root {
             --bg-principal: #131314;
@@ -20,65 +20,56 @@
             --verde-seguro: #81c995;
             --amarelo-alerta: #fbc02d;
             --ouro-puro: #d4af37;
+            --ouro-brilho: #f3e5ab;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
 
         body { background-color: var(--bg-principal); color: var(--texto-principal); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
-        /* BARRA SUPERIOR E CONTROLE DE ACESSO */
+        /* BARRA SUPERIOR */
         .top-bar { position: absolute; top: 0; width: 100%; padding: 15px 20px; display: flex; justify-content: flex-end; align-items: center; }
         .menu-btn { background: none; border: none; color: var(--texto-secundario); cursor: pointer; padding: 8px; border-radius: 50%; transition: 0.2s; }
         .menu-btn:hover { background-color: var(--bg-hover); }
 
-        /* MÓDULO DE MENU FLUTUANTE (CORRIGINDO O TAMANHO DAS FRASES) */
+        /* MENU FLUTUANTE */
         .menu-flutuante {
             position: absolute; top: 60px; right: 20px; background-color: var(--bg-secundario); border-radius: 12px;
-            width: 380px; padding: 10px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border: 1px solid var(--borda); display: none; z-index: 100;
+            width: 350px; padding: 10px 0; box-shadow: 0 8px 24px rgba(0,0,0,0.8); border: 1px solid var(--borda); display: none; z-index: 100;
         }
         .menu-flutuante.ativo { display: block; animation: fadeIn 0.2s; }
-        
-        .menu-item {
-            padding: 15px 20px; display: flex; align-items: center; gap: 15px;
-            color: var(--texto-principal);
-            /* AUMENTADO: Frases "mais pouco grande" (legível e imponente) */
-            font-size: 18px; 
-            font-weight: 500;
-            cursor: pointer; transition: 0.2s;
-        }
-        
-        /* Removido o destaque cinza claro de hover para o print aberto ficar limpo */
-        .menu-item:hover { background-color: rgba(255,255,255,0.03); } 
-        
+        .menu-item { padding: 16px 20px; display: flex; align-items: center; gap: 15px; color: var(--texto-principal); font-size: 16px; font-weight: 500; cursor: pointer; transition: 0.2s; }
+        .menu-item:hover { background-color: rgba(255,255,255,0.05); }
         .menu-item svg { fill: var(--texto-secundario); width: 22px; height: 22px; }
         .menu-divisor { height: 1px; background-color: var(--borda); margin: 8px 0; }
 
-        /* MÓDULO PRINCIPAL E INFORMAÇÃO PARA O POVO */
+        /* MÓDULO PRINCIPAL */
         .main-container { width: 100%; max-width: 750px; padding: 20px; display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 5vh; }
         
-        /* A SUA PLANTA EXATA (CONTEÚDO DIRETO NO FUNDO ESCURO - "BRANCO TIRAR") */
+        /* A ARTE VISUAL OFICIAL */
         .conteudo-central {
             width: 100%;
-            max-width: 450px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
         .conteudo-central img {
-            width: 130px;
+            width: 95px; 
             height: auto;
-            margin-bottom: 20px;
-            filter: drop-shadow(0px 8px 20px rgba(0, 0, 0, 0.8));
+            margin-bottom: 12px; 
+            filter: drop-shadow(0px 4px 15px rgba(212, 175, 55, 0.4));
         }
 
         .titulo-central {
-            color: var(--ouro-puro); /* Ouro Puro no nome */
-            font-size: 34px;
+            font-size: 42px;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             letter-spacing: -0.5px;
+            background: -webkit-linear-gradient(45deg, var(--ouro-puro), var(--ouro-brilho));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .descricao-subtitulo {
@@ -86,44 +77,44 @@
             font-size: 16px;
             font-weight: 500;
             line-height: 1.5;
+            letter-spacing: 0.5px;
         }
-        
-        /* Descrição adicional para o povo */
-        .descricao-povo { font-size: 15px; color: var(--texto-secundario); line-height: 1.6; max-width: 600px; margin-bottom: 40px; }
 
-        /* VARREDURA */
-        .prompt-box { width: 100%; background-color: var(--bg-secundario); border-radius: 32px; display: flex; align-items: center; padding: 5px 15px; border: 1px solid var(--borda); transition: 0.3s; }
-        .prompt-box:focus-within { border-color: var(--texto-secundario); background-color: var(--bg-hover); }
+        /* VARREDURA ESTILO OSINT */
+        .prompt-box { width: 100%; background-color: var(--bg-secundario); border-radius: 32px; display: flex; align-items: center; padding: 8px 15px; border: 1px solid var(--borda); transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .prompt-box:focus-within { border-color: var(--texto-secundario); background-color: var(--bg-hover); box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         .prompt-box input { flex: 1; background: transparent; border: none; color: var(--texto-principal); font-size: 16px; padding: 15px 10px; outline: none; }
         .prompt-box input::placeholder { color: var(--texto-secundario); }
         .btn-enviar { background: transparent; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 10px; border-radius: 50%; transition: 0.2s; }
         .btn-enviar:hover { background-color: rgba(255,255,255,0.1); }
         .btn-enviar svg { fill: var(--texto-secundario); width: 24px; height: 24px; }
 
-        /* RELATÓRIO E AVISOS */
+        /* RELATÓRIO DO MOTOR */
         .resultado-box { width: 100%; margin-top: 30px; display: none; flex-direction: column; gap: 15px; text-align: left; }
-        .mensagem-ia { background-color: var(--bg-secundario); padding: 20px; border-radius: 12px; font-size: 15px; line-height: 1.6; border: 1px solid var(--borda); }
+        .mensagem-ia { background-color: var(--bg-secundario); padding: 25px; border-radius: 12px; font-size: 15px; line-height: 1.6; border: 1px solid var(--borda); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .mensagem-ia.alerta { border-left: 4px solid var(--vermelho-alerta); }
         .mensagem-ia.seguro { border-left: 4px solid var(--verde-seguro); }
         .mensagem-ia.neutro { border-left: 4px solid var(--destaque-azul); }
 
-        .loading { display: none; color: var(--texto-secundario); font-size: 14px; margin-top: 15px; text-align: center; }
+        .loading { display: none; color: var(--texto-secundario); font-size: 14px; margin-top: 15px; text-align: center; font-weight: 500; }
 
-        /* MODAL DE INFORMAÇÃO (AGORA ELES ABREM) */
-        .modal-info { display: none; width: 100%; max-width: 600px; background-color: var(--bg-secundario); padding: 25px; border-radius: 12px; border: 1px solid var(--borda); margin-top: 20px; text-align: left; }
-        .modal-info h2 { font-size: 16px; margin-bottom: 10px; color: var(--destaque-azul); }
-        .modal-info p { font-size: 14px; color: var(--texto-secundario); line-height: 1.5; margin-bottom: 15px; }
+        /* MODAIS DE INFORMAÇÃO */
+        .modal-info { display: none; width: 100%; background-color: var(--bg-secundario); padding: 30px; border-radius: 16px; border: 1px solid var(--borda); margin-top: 25px; text-align: left; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+        .modal-info h2 { font-size: 20px; margin-bottom: 15px; color: var(--ouro-brilho); display: flex; align-items: center; gap: 10px; }
+        .modal-info p { font-size: 15px; color: var(--texto-secundario); line-height: 1.7; margin-bottom: 15px; }
+        .modal-info b { color: var(--texto-principal); font-weight: 600; }
 
-        /* PAINEL DOSSIÊ E BOTÃO FANTASMA */
-        #painel-denuncia { display: none; width: 100%; max-width: 600px; margin-top: 20px; background-color: var(--bg-secundario); padding: 25px; border-radius: 12px; border: 1px solid var(--borda); text-align: left; }
-        .input-padrao { width: 100%; background: var(--bg-principal); border: 1px solid var(--borda); color: var(--texto-principal); padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 14px; outline: none; }
+        /* PAINEL DOSSIÊ */
+        #painel-denuncia { display: none; width: 100%; margin-top: 25px; background-color: var(--bg-secundario); padding: 30px; border-radius: 16px; border: 1px solid var(--borda); text-align: left; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+        .input-padrao { width: 100%; background: var(--bg-principal); border: 1px solid var(--borda); color: var(--texto-principal); padding: 15px; border-radius: 8px; margin-bottom: 15px; font-size: 15px; outline: none; transition: 0.2s; }
+        .input-padrao:focus { border-color: var(--texto-secundario); }
         
-        .btn-fantasma { width: 100%; background: transparent; border: 1px dashed var(--borda); color: var(--texto-secundario); padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 14px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: 0.2s; }
+        .btn-fantasma { width: 100%; background: rgba(255,255,255,0.02); border: 1px dashed var(--borda); color: var(--texto-secundario); padding: 15px; border-radius: 8px; margin-bottom: 15px; font-size: 14px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: 0.2s; }
         .btn-fantasma:hover { background: var(--bg-hover); color: var(--texto-principal); border-color: var(--texto-secundario); }
-        .aviso-fantasma { display: none; background: rgba(251, 192, 45, 0.1); border-left: 4px solid var(--amarelo-alerta); padding: 12px; font-size: 13px; color: var(--amarelo-alerta); margin-bottom: 15px; border-radius: 4px; line-height: 1.5; }
+        .aviso-fantasma { display: none; background: rgba(251, 192, 45, 0.08); border-left: 4px solid var(--amarelo-alerta); padding: 15px; font-size: 14px; color: var(--amarelo-alerta); margin-bottom: 15px; border-radius: 4px; line-height: 1.5; }
 
-        .btn-padrao { background-color: var(--destaque-azul); color: #000; border: none; padding: 12px 20px; border-radius: 20px; font-weight: 500; cursor: pointer; font-size: 14px; transition: 0.2s; width: 100%; }
-        .btn-padrao:hover { opacity: 0.9; }
+        .btn-padrao { background-color: var(--destaque-azul); color: #000; border: none; padding: 15px 20px; border-radius: 30px; font-weight: 600; cursor: pointer; font-size: 15px; transition: 0.2s; width: 100%; box-shadow: 0 4px 10px rgba(168, 199, 250, 0.2); }
+        .btn-padrao:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 6px 15px rgba(168, 199, 250, 0.3); }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -132,7 +123,7 @@
 
     <div class="top-bar">
         <button class="menu-btn" onclick="toggleMenu()">
-            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
         </button>
 
         <div class="menu-flutuante" id="menuFlutuante">
@@ -157,12 +148,8 @@
         <div class="conteudo-central">
             <img src="escudo-sem-fundo.png" alt="Selo Oficial RailanTech">
             <h1 class="titulo-central">RailanTech</h1>
-            <p class="descricao-subtitulo">Central Inteligente – OISNT Nível 1 <br> Verificador Anti-Fraude Digital</p>
+            <p class="descricao-subtitulo">Central Inteligente – OSINT Nível 1 <br> Verificador Anti-Fraude Digital</p>
         </div>
-        
-        <p class="descricao-povo">
-            Não clique no escuro. Cole o link suspeito que você recebeu (SMS, WhatsApp ou E-mail) na barra abaixo e o sistema fará um Raio-X na hora para te proteger contra golpes.
-        </p>
 
         <div class="prompt-box">
             <input type="text" id="input-link" placeholder="Cole o link suspeito aqui (Ex: correios.com.br-taxa.info)..." onkeypress="if(event.key === 'Enter') iniciarVarredura()">
@@ -171,39 +158,48 @@
             </button>
         </div>
 
-        <div id="loading-varredura" class="loading">Consultando banco de dados OSINT...</div>
+        <div id="loading-varredura" class="loading">Consultando matriz de inteligência OSINT...</div>
 
         <div class="resultado-box" id="resultado-box">
             <div class="mensagem-ia" id="mensagem-resposta"></div>
         </div>
 
         <div id="painel-sobre" class="modal-info">
-            <h2>Sobre a Central RailanTech</h2>
-            <p>Este Terminal de Inteligência (OSINT Nível 1) foi desenvolvido para interceptar e analisar links maliciosos em tempo real, protegendo dados e ativos financeiros contra fraudes cibernéticas e engenharia social (Phishing).</p>
+            <h2>
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 2L3 6v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V6l-9-4zm0 10.99h-1v-4h1v4zm0-6h-1V6h1v.99z"/></svg>
+                Poder e Inteligência a Seu Favor
+            </h2>
+            <p>O <b>Terminal de Inteligência RailanTech</b> não é apenas um verificador de links, é uma muralha de segurança contra o crime digital. Desenvolvido com arquitetura de dados de alta precisão, nosso motor intercepta ameaças financeiras, golpes de Phishing e servidores criminosos no exato momento da consulta.</p>
+            <p>Enquanto os golpistas evoluem suas táticas com falsos SMS e falsas taxas de bancos, a nossa central faz um Raio-X profundo e cirúrgico na estrutura do link. O nosso objetivo é implacável: <b>proteger o seu patrimônio antes que o clique destrua a sua conta bancária.</b> Informação é poder, e aqui, esse poder está em suas mãos.</p>
         </div>
 
         <div id="painel-ajuda" class="modal-info">
-            <h2>Central de Ajuda</h2>
-            <p><b>Como usar:</b> Copie o link suspeito que você recebeu e cole na barra de pesquisa principal. O sistema cruzará os dados do domínio com nossos servidores para emitir um laudo de segurança imediato.</p>
+            <h2>
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                Manual Tático de Operação
+            </h2>
+            <p><b>Passo 1: Intercepte a Ameaça.</b> Copie o link suspeito que você recebeu no seu celular (SMS, E-mail ou WhatsApp). Não clique nele em hipótese alguma.</p>
+            <p><b>Passo 2: Inicie o Raio-X.</b> Cole o link na barra de varredura principal do nosso terminal e pressione enviar.</p>
+            <p><b>Passo 3: O Veredito.</b> Em milissegundos, o sistema cruzará os dados com servidores globais e emitirá o laudo oficial: um alerta vermelho para ameaças críticas ou o selo verde para segurança confirmada.</p>
         </div>
 
         <div id="painel-denuncia">
-            <h2 style="font-size: 16px; margin-bottom: 15px; font-weight: 500;">Dossiê de Agente (Envio Seguro)</h2>
-            <input type="text" id="agente-nome" class="input-padrao" placeholder="Seu Nome">
-            <input type="text" id="agente-contato" class="input-padrao" placeholder="Seu E-mail ou WhatsApp">
+            <h2 style="font-size: 18px; margin-bottom: 20px; font-weight: 500; color: var(--ouro-brilho);">Dossiê de Agente (Criptografado)</h2>
+            <input type="text" id="agente-nome" class="input-padrao" placeholder="Nome de Registro">
+            <input type="text" id="agente-contato" class="input-padrao" placeholder="E-mail ou WhatsApp de Contato">
             
             <button class="btn-fantasma" onclick="document.getElementById('aviso-fantasma').style.display='block'">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/></svg>
-                Anexar Evidência (Foto / Vídeo)
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/></svg>
+                Anexar Evidência Visual (Mídia)
             </button>
             <div id="aviso-fantasma" class="aviso-fantasma">
-                <b>[ ACESSO RESTRITO ]</b> O Módulo de Visão Computacional está operando apenas para Agentes Nível 2. Descreva a ameaça em texto.
+                <b>[ ACESSO RESTRITO ]</b> O Motor de Visão Neural (Análise de Imagens/Vídeos) opera com exclusividade para Agentes Nível 2. Forneça os detalhes da ameaça por escrito no campo abaixo.
             </div>
 
-            <textarea id="agente-mensagem" class="input-padrao" rows="3" placeholder="Descreva o golpe ou cole o texto do SMS aqui..."></textarea>
-            <button class="btn-padrao" onclick="enviarDossie()">Transmitir para a Central</button>
-            <div id="loading-denuncia" class="loading">Criptografando...</div>
-            <div id="resultado-denuncia" style="margin-top: 15px; font-size: 14px; color: var(--verde-seguro);"></div>
+            <textarea id="agente-mensagem" class="input-padrao" rows="4" placeholder="Cole o texto exato do SMS ou descreva a engenharia do golpe..."></textarea>
+            <button class="btn-padrao" onclick="enviarDossie()">Transmitir Laudo para a Base</button>
+            <div id="loading-denuncia" class="loading">Criptografando pacote de dados...</div>
+            <div id="resultado-denuncia" style="margin-top: 15px; font-size: 15px; color: var(--verde-seguro); font-weight: 500;"></div>
         </div>
 
     </div>
@@ -249,7 +245,7 @@
                 else msgBox.classList.add("neutro");
             } catch (e) {
                 loadDiv.style.display = "none"; resBox.style.display = "flex"; msgBox.className = "mensagem-ia alerta";
-                msgBox.innerHTML = "Não foi possível conectar ao servidor OSINT.";
+                msgBox.innerHTML = "Falha de conexão com a matriz OSINT. Tente novamente.";
             }
         }
 
@@ -263,7 +259,7 @@
                 const data = await response.json();
                 loadDiv.style.display = "none"; resDiv.innerHTML = data.status;
                 document.getElementById('agente-nome').value = ''; document.getElementById('agente-contato').value = ''; document.getElementById('agente-mensagem').value = '';
-            } catch (e) { loadDiv.style.display = "none"; resDiv.style.color = "var(--vermelho-alerta)"; resDiv.innerHTML = "Falha no envio do relatório."; }
+            } catch (e) { loadDiv.style.display = "none"; resDiv.style.color = "var(--vermelho-alerta)"; resDiv.innerHTML = "Falha no envio do dossiê."; }
         }
     </script>
 </body>
