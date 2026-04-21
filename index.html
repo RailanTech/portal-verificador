@@ -44,20 +44,23 @@
         .menu-divisor { height: 1px; background-color: var(--borda); margin: 8px 0; }
 
         /* MÓDULO PRINCIPAL */
-        .main-container { width: 100%; max-width: 750px; padding: 20px; display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 8vh; }
+        .main-container { width: 100%; max-width: 750px; padding: 20px; display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 5vh; }
         
-        /* A ARTE VISUAL (FOTO 1: IMAGEM MAIS GRANDE) */
+        /* A ARTE VISUAL OFICIAL (FOTO 3: O ESPAÇAMENTO CIRÚRGICO) */
         .conteudo-central { width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 45px; }
-        .conteudo-central img { width: 230px; height: auto; margin-bottom: 15px; max-width: 100%; } /* ESCUDO GIGANTE APROVADO */
+        
+        /* Escudo colado ao texto como no seu desenho */
+        .conteudo-central img { width: 230px; height: auto; margin-bottom: 0px; max-width: 100%; } 
 
-        /* TEXTO RAILANTECH (FOTO 1: VERDE/OK) */
         .titulo-central {
-            font-size: 52px; font-weight: 600; margin-bottom: 5px; letter-spacing: -0.5px;
+            font-size: 52px; font-weight: 600; 
+            margin-bottom: 55px; /* AQUI ESTÁ O GATILHO DAS 3 BARRAS (| | |). O ESPAÇO GIGANTE. */
+            letter-spacing: -0.5px;
             background: -webkit-linear-gradient(45deg, var(--ouro-puro), var(--ouro-brilho));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        .descricao-subtitulo { color: var(--texto-secundario); font-size: 16px; font-weight: 500; line-height: 1.5; letter-spacing: 0.5px; }
+        .descricao-subtitulo { color: var(--texto-secundario); font-size: 16px; font-weight: 500; line-height: 1.6; letter-spacing: 0.5px; }
 
         /* BARRA DE VARREDURA */
         .prompt-container { width: 100%; display: flex; flex-direction: column; align-items: center; }
@@ -72,7 +75,6 @@
         .btn-anexo:hover { background-color: rgba(255,255,255,0.1); }
         .btn-anexo svg { fill: var(--texto-secundario); width: 22px; height: 22px; }
 
-        /* FOTO 2: CORREÇÃO DO ESTOURO NO CELULAR (min-width: 0 adicionado) */
         .prompt-box input { flex: 1; min-width: 0; background: transparent; border: none; color: var(--texto-principal); font-size: 16px; padding: 15px 10px; outline: none; text-overflow: ellipsis; }
         .prompt-box input::placeholder { color: var(--texto-secundario); text-overflow: ellipsis; }
         
@@ -106,10 +108,10 @@
         .btn-padrao { background-color: var(--destaque-azul); color: #000; border: none; padding: 15px 20px; border-radius: 30px; font-weight: 600; cursor: pointer; font-size: 15px; transition: 0.2s; width: 100%; box-shadow: 0 4px 10px rgba(168, 199, 250, 0.2); }
         .btn-padrao:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 6px 15px rgba(168, 199, 250, 0.3); }
 
-        /* ADAPTAÇÃO EXTRA PARA CELULARES (Garantia de layout) */
+        /* ADAPTAÇÃO PARA CELULARES */
         @media (max-width: 480px) {
-            .conteudo-central img { width: 180px; } /* Ajuste elegante para não quebrar a tela móvel */
-            .titulo-central { font-size: 42px; }
+            .conteudo-central img { width: 180px; }
+            .titulo-central { font-size: 42px; margin-bottom: 40px; } /* Mantém a proporção do abismo no mobile */
             .prompt-box { padding: 5px 10px; }
         }
 
