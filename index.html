@@ -6,7 +6,7 @@
     <title>Central RailanTech - Verificador Anti-Fraude</title>
     <style>
         /* =========================================
-           ARQUITETURA DE DESIGN: TERMINAL OSINT V1 (CORE)
+           ARQUITETURA DE DESIGN: TERMINAL OSINT V1 (CORE) - OURO PURIFICADO
            ========================================= */
         :root {
             --bg-principal: #131314;
@@ -45,7 +45,6 @@
         .titulo-central { font-size: 32px; font-weight: 500; margin-bottom: 15px; color: var(--texto-principal); }
         .titulo-central span { background: -webkit-linear-gradient(45deg, #a8c7fa, #c4c7c5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        /* O TEXTO EXPLICATIVO QUE FALTAVA */
         .descricao-povo { font-size: 16px; color: var(--texto-secundario); line-height: 1.6; max-width: 600px; margin-bottom: 40px; }
 
         /* VARREDURA */
@@ -151,28 +150,21 @@
 
     <script>
         const URL_CLOUDFLARE = "https://motor-osint-privado.analise-seguranca.workers.dev";
-
         function toggleMenu() { document.getElementById('menuFlutuante').classList.toggle('ativo'); }
         window.onclick = function(event) { if (!event.target.closest('.menu-btn') && !event.target.closest('.menu-flutuante')) { document.getElementById('menuFlutuante').classList.remove('ativo'); } }
         function abrirDenuncia() { document.getElementById('painel-denuncia').style.display = 'block'; document.getElementById('resultado-box').style.display = 'none'; toggleMenu(); }
         function acionarBotaoFantasma() { document.getElementById('aviso-fantasma').style.display = 'block'; }
-
         async function iniciarVarredura() {
             const link = document.getElementById('input-link').value;
             const resBox = document.getElementById('resultado-box');
             const msgBox = document.getElementById('mensagem-resposta');
             const loadDiv = document.getElementById('loading-varredura');
-            const painelDenuncia = document.getElementById('painel-denuncia');
-
             if(!link) return;
-
-            painelDenuncia.style.display = 'none'; resBox.style.display = "none"; loadDiv.style.display = "block";
-
+            document.getElementById('painel-denuncia').style.display = 'none'; resBox.style.display = "none"; loadDiv.style.display = "block";
             try {
                 const response = await fetch(URL_CLOUDFLARE, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ tipo: "link", dado: link }) });
                 const data = await response.json();
                 loadDiv.style.display = "none"; resBox.style.display = "flex";
-                
                 let textoResposta = data.analise.replace(/\n/g, '<br>');
                 msgBox.innerHTML = textoResposta;
                 msgBox.className = "mensagem-ia"; 
@@ -184,22 +176,17 @@
                 msgBox.innerHTML = "Não foi possível conectar ao servidor OSINT.";
             }
         }
-
         async function enviarDossie() {
             const nome = document.getElementById('agente-nome').value; const contato = document.getElementById('agente-contato').value; const mensagem = document.getElementById('agente-mensagem').value;
             const resDiv = document.getElementById('resultado-denuncia'); const loadDiv = document.getElementById('loading-denuncia');
-
             if(!mensagem) return;
             resDiv.innerHTML = ""; loadDiv.style.display = "block";
-
             try {
                 const response = await fetch(URL_CLOUDFLARE, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ alerta: true, nome: nome || "Anônimo", email: contato || "-", mensagem: mensagem }) });
                 const data = await response.json();
                 loadDiv.style.display = "none"; resDiv.innerHTML = data.status;
                 document.getElementById('agente-nome').value = ''; document.getElementById('agente-contato').value = ''; document.getElementById('agente-mensagem').value = '';
-            } catch (e) {
-                loadDiv.style.display = "none"; resDiv.style.color = "var(--vermelho-alerta)"; resDiv.innerHTML = "Falha no envio do relatório.";
-            }
+            } catch (e) { loadDiv.style.display = "none"; resDiv.style.color = "var(--vermelho-alerta)"; resDiv.innerHTML = "Falha no envio do relatório."; }
         }
     </script>
 </body>
