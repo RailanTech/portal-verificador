@@ -7,7 +7,7 @@
     <style>
         /* =========================================
            ARQUITETURA DE DESIGN: TERMINAL OSINT V1 (OURO PURO 100%)
-           REFLEXÃO E LÓGICA / MARKETING PRECISO (PONTO FORTE)
+           REFLEXÃO E LÓGICA / MARKETING PRECISO
            ========================================= */
         :root {
             --bg-principal: #131314;
@@ -48,44 +48,16 @@
         /* MÓDULO PRINCIPAL */
         .main-container { width: 100%; max-width: 800px; padding: 20px; padding-bottom: 60px; display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 12vh; }
         
-        .conteudo-central {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 40px;
-        }
-
-        .conteudo-central img {
-            width: 290px;
-            height: auto;
-            margin-bottom: 20px;
-        }
+        .conteudo-central { width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 40px; }
+        .conteudo-central img { width: 290px; height: auto; margin-bottom: 20px; }
 
         .titulo-central {
-            color: var(--ouro-puro);
-            font-size: 52px;
-            font-weight: 600;
-            margin-bottom: 80px; 
-            letter-spacing: -0.5px;
+            color: var(--ouro-puro); font-size: 52px; font-weight: 600; margin-bottom: 80px; letter-spacing: -0.5px;
         }
 
-        .descricao-subtitulo {
-            color: var(--texto-secundario);
-            font-size: 16px;
-            font-weight: 500;
-            line-height: 1.6;
-            letter-spacing: 0.5px;
-        }
+        .descricao-subtitulo { color: var(--texto-secundario); font-size: 16px; font-weight: 500; line-height: 1.6; letter-spacing: 0.5px; }
         
-        .descricao-povo {
-            font-size: 15px;
-            color: var(--texto-secundario);
-            line-height: 1.7;
-            max-width: 650px;
-            margin-top: 30px;
-            margin-bottom: 40px;
-        }
+        .descricao-povo { font-size: 15px; color: var(--texto-secundario); line-height: 1.7; max-width: 650px; margin-top: 30px; margin-bottom: 40px; }
         .descricao-povo b { color: var(--ouro-brilho); font-weight: 600; }
 
         /* VARREDURA TÁTICA */
@@ -102,7 +74,6 @@
         .btn-anexo svg { fill: var(--texto-secundario); width: 22px; height: 22px; }
 
         .prompt-box input { flex: 1; min-width: 0; background: transparent; border: none; color: var(--texto-principal); font-size: 16px; padding: 15px; outline: none; text-overflow: ellipsis; }
-        /* Omitindo placeholder normal porque o Movimento Automático vai rodar via JS */
         
         .btn-enviar { background: transparent; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 12px; border-radius: 50%; transition: 0.2s; flex-shrink: 0; }
         .btn-enviar:hover { background-color: rgba(255,255,255,0.1); }
@@ -147,7 +118,6 @@
         }
         .btn-fechar:hover { background-color: rgba(255,255,255,0.07); color: var(--vermelho-alerta); }
 
-        /* ADAPTAÇÃO PERFEITA PARA CELULARES */
         @media (max-width: 480px) {
             .main-container { margin-top: 5vh; padding: 15px; padding-bottom: 80px; }
             .conteudo-central img { width: 170px; margin-bottom: 15px; } 
@@ -178,16 +148,12 @@
                 <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
                 Dossiê de Registro de Golpe
             </div>
-            
             <div class="menu-divisor"></div>
-            
             <div class="menu-item" onclick="abrirPainel('painel-sobre')">
                 <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg>
                 Sobre a Central RailanTech
             </div>
-            
             <div class="menu-divisor"></div>
-            
             <div class="menu-item" onclick="abrirPainel('painel-ajuda')">
                 <svg viewBox="0 0 24 24"><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg>
                 Ajuda / Guia Tático
@@ -281,7 +247,6 @@
     <script>
         const URL_CLOUDFLARE = "https://motor-osint-privado.analise-seguranca.workers.dev";
         
-        // CORREÇÃO DO MENU "FALHAR NÃO ABRIR" (A trava tática)
         const btnMenu = document.getElementById('btnMenu');
         const menuFlutuante = document.getElementById('menuFlutuante');
 
@@ -311,7 +276,9 @@
             menuFlutuante.classList.remove('ativo');
         }
 
-        // O MOTOR DO MOVIMENTO AUTOMÁTICO (O Texto que escreve sozinho)
+        // ==========================================================
+        // O MOTOR DO MOVIMENTO AUTOMÁTICO (SÓ PARA FRENTE ➡️➡️➡️)
+        // ==========================================================
         const placeholderTexts = [
             "Cole aqui Link suspeito...",
             "Cole o SMS de Golpe...",
@@ -319,40 +286,39 @@
         ];
         let pIndex = 0; 
         let charIndex = 0; 
-        let isDeleting = false;
 
         function moverTextoAutomatico() {
             const input = document.getElementById('input-link');
             if(!input) return;
             
+            // Só roda a animação se o input estiver vazio e não estiver focado
             if(!input.value && document.activeElement !== input) {
                 const currentText = placeholderTexts[pIndex];
-                if (isDeleting) {
-                    input.placeholder = currentText.substring(0, charIndex - 1);
-                    charIndex--;
+                
+                // Escreve para a frente (➡️)
+                input.placeholder = currentText.substring(0, charIndex + 1);
+                charIndex++;
+
+                if (charIndex === currentText.length) {
+                    // Terminou de escrever a frase. Espera 2 segundos para o usuário ler.
+                    setTimeout(() => {
+                        // Limpa instantaneamente e passa para a próxima frase (O SEU COMANDO: ➡️➡️➡️)
+                        charIndex = 0;
+                        pIndex = (pIndex + 1) % placeholderTexts.length;
+                        moverTextoAutomatico();
+                    }, 2000); 
                 } else {
-                    input.placeholder = currentText.substring(0, charIndex + 1);
-                    charIndex++;
+                    // Continua escrevendo a próxima letra
+                    setTimeout(moverTextoAutomatico, 60);
                 }
-
-                let typeSpeed = isDeleting ? 30 : 60;
-
-                if (!isDeleting && charIndex === currentText.length) {
-                    typeSpeed = 2500; // Tempo parado lendo a frase
-                    isDeleting = true;
-                } else if (isDeleting && charIndex === 0) {
-                    isDeleting = false;
-                    pIndex = (pIndex + 1) % placeholderTexts.length;
-                    typeSpeed = 600; 
-                }
-                setTimeout(moverTextoAutomatico, typeSpeed);
             } else {
-                input.placeholder = "Cole aqui a ameaça..."; // Resumo se o usuário clicar
+                // Se o usuário clicar, fixa uma frase padrão e aguarda
+                input.placeholder = "Cole aqui a ameaça..."; 
                 setTimeout(moverTextoAutomatico, 1500); 
             }
         }
         
-        // Liga o motor de texto logo que carrega a página
+        // Inicia o motor
         window.onload = function() {
             setTimeout(moverTextoAutomatico, 500);
         };
