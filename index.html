@@ -33,7 +33,7 @@
         .menu-btn { background: none; border: none; color: var(--texto-secundario); cursor: pointer; padding: 10px; border-radius: 50%; transition: 0.2s; }
         .menu-btn:hover { background-color: var(--bg-hover); }
 
-        /* MÓDULO DE MENU FLUTUANTE */
+        /* MENU FLUTUANTE */
         .menu-flutuante {
             position: absolute; top: 70px; right: 25px; background-color: var(--bg-secundario); border-radius: 12px;
             width: 350px; padding: 12px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.7); border: 1px solid var(--borda); display: none; z-index: 101;
@@ -51,9 +51,7 @@
         .conteudo-central { width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 40px; }
         .conteudo-central img { width: 290px; height: auto; margin-bottom: 20px; }
 
-        .titulo-central {
-            color: var(--ouro-puro); font-size: 52px; font-weight: 600; margin-bottom: 80px; letter-spacing: -0.5px;
-        }
+        .titulo-central { color: var(--ouro-puro); font-size: 52px; font-weight: 600; margin-bottom: 80px; letter-spacing: -0.5px; }
 
         .descricao-subtitulo { color: var(--texto-secundario); font-size: 16px; font-weight: 500; line-height: 1.6; letter-spacing: 0.5px; }
         
@@ -103,7 +101,7 @@
         
         .dossie-title { font-size: 20px; margin-bottom: 25px; font-weight: 500; color: var(--ouro-puro); padding-right: 40px; }
 
-        .input-padrao { width: 100%; background: var(--bg-principal); border: 1px solid var(--borda); color: var(--texto-principal); padding: 18px; border-radius: 12px; margin-bottom: 18px; font-size: 15px; outline: none; transition: 0.2s; }
+        .input-padrao { width: 100%; background: var(--bg-principal); border: 1px solid var(--borda); color: var(--texto-principal); padding: 18px; border-radius: 12px; margin-bottom: 18px; font-size: 15px; outline: none; transition: 0.2s; text-overflow: ellipsis; }
         .input-padrao:focus { border-color: var(--texto-secundario); }
         
         .btn-fantasma { width: 100%; background: rgba(255,255,255,0.02); border: 1px dashed var(--borda); color: var(--texto-secundario); padding: 15px; border-radius: 12px; margin-bottom: 18px; font-size: 15px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: 0.2s; }
@@ -118,6 +116,7 @@
         }
         .btn-fechar:hover { background-color: rgba(255,255,255,0.07); color: var(--vermelho-alerta); }
 
+        /* ADAPTAÇÃO PERFEITA PARA CELULARES */
         @media (max-width: 480px) {
             .main-container { margin-top: 5vh; padding: 15px; padding-bottom: 80px; }
             .conteudo-central img { width: 170px; margin-bottom: 15px; } 
@@ -225,8 +224,9 @@
                 <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
             </button>
             <h2 class="dossie-title">Dossiê de Registro de Golpe</h2>
-            <input type="text" id="agente-nome" class="input-padrao" placeholder="Nome completo da vítima ou registro">
-            <input type="text" id="agente-contato" class="input-padrao" placeholder="Seu E-mail ou WhatsApp de Contato">
+            
+            <input type="text" id="agente-nome" class="input-padrao">
+            <input type="text" id="agente-contato" class="input-padrao">
             
             <button class="btn-fantasma" onclick="document.getElementById('aviso-fantasma-dossie').style.display='block'">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/></svg>
@@ -277,50 +277,66 @@
         }
 
         // ==========================================================
-        // O MOTOR DO MOVIMENTO AUTOMÁTICO (SÓ PARA FRENTE ➡️➡️➡️)
+        // O MOTOR DO MOVIMENTO AUTOMÁTICO (PARA OS 3 CAMPOS - ➡️➡️➡️)
         // ==========================================================
-        const placeholderTexts = [
-            "Cole aqui Link suspeito...",
-            "Cole o SMS de Golpe...",
-            "Ou digite o Telefone fraudulento..."
+        const typewriterConfigs = [
+            {
+                id: 'input-link',
+                texts: ["Cole aqui Link suspeito...", "Cole o SMS de Golpe...", "Ou digite o Telefone fraudulento..."],
+                pIndex: 0, charIndex: 0, defaultTxt: "Cole aqui a ameaça..."
+            },
+            {
+                id: 'agente-nome',
+                texts: ["Nome completo da vítima...", "Ou número de registro oficial..."],
+                pIndex: 0, charIndex: 0, defaultTxt: "Seu Nome..."
+            },
+            {
+                id: 'agente-contato',
+                texts: ["Seu E-mail de segurança...", "Ou WhatsApp de Contato..."],
+                pIndex: 0, charIndex: 0, defaultTxt: "Seu Contato..."
+            }
         ];
-        let pIndex = 0; 
-        let charIndex = 0; 
 
-        function moverTextoAutomatico() {
-            const input = document.getElementById('input-link');
+        function startTypewriters() {
+            typewriterConfigs.forEach(config => {
+                moverTexto(config);
+            });
+        }
+
+        function moverTexto(config) {
+            const input = document.getElementById(config.id);
             if(!input) return;
             
             // Só roda a animação se o input estiver vazio e não estiver focado
             if(!input.value && document.activeElement !== input) {
-                const currentText = placeholderTexts[pIndex];
+                const currentText = config.texts[config.pIndex];
                 
                 // Escreve para a frente (➡️)
-                input.placeholder = currentText.substring(0, charIndex + 1);
-                charIndex++;
+                input.placeholder = currentText.substring(0, config.charIndex + 1);
+                config.charIndex++;
 
-                if (charIndex === currentText.length) {
+                if (config.charIndex === currentText.length) {
                     // Terminou de escrever a frase. Espera 2 segundos para o usuário ler.
                     setTimeout(() => {
-                        // Limpa instantaneamente e passa para a próxima frase (O SEU COMANDO: ➡️➡️➡️)
-                        charIndex = 0;
-                        pIndex = (pIndex + 1) % placeholderTexts.length;
-                        moverTextoAutomatico();
+                        // Limpa instantaneamente e passa para a próxima frase (➡️➡️➡️)
+                        config.charIndex = 0;
+                        config.pIndex = (config.pIndex + 1) % config.texts.length;
+                        moverTexto(config);
                     }, 2000); 
                 } else {
                     // Continua escrevendo a próxima letra
-                    setTimeout(moverTextoAutomatico, 60);
+                    setTimeout(() => moverTexto(config), 60);
                 }
             } else {
                 // Se o usuário clicar, fixa uma frase padrão e aguarda
-                input.placeholder = "Cole aqui a ameaça..."; 
-                setTimeout(moverTextoAutomatico, 1500); 
+                input.placeholder = config.defaultTxt; 
+                setTimeout(() => moverTexto(config), 1500); 
             }
         }
         
-        // Inicia o motor
+        // Inicia todos os motores de texto
         window.onload = function() {
-            setTimeout(moverTextoAutomatico, 500);
+            setTimeout(startTypewriters, 500);
         };
 
         async function iniciarVarredura() {
