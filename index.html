@@ -47,7 +47,6 @@
         .menu-btn { background: none; border: none; color: var(--texto-secundario); cursor: pointer; padding: 10px; border-radius: 50%; transition: 0.2s; }
         .menu-btn:hover { background-color: var(--bg-hover); }
         
-        /* Menu Padrão (Oculto no botão de 3 pontos para Celular) */
         .menu-flutuante { position: absolute; top: 70px; right: 25px; background-color: var(--bg-secundario); border-radius: 12px; width: 350px; padding: 12px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.7); border: 1px solid var(--borda); display: none; z-index: 101; }
         .menu-flutuante.ativo { display: block; animation: fadeIn 0.2s; }
         .menu-item { padding: 16px 20px; display: flex; align-items: center; gap: 15px; color: var(--texto-principal); font-size: 16px; font-weight: 500; cursor: pointer; transition: 0.2s; }
@@ -55,7 +54,6 @@
         .menu-item svg { fill: var(--texto-secundario); width: 22px; height: 22px; pointer-events: none; }
         .menu-divisor { height: 1px; background-color: var(--borda); margin: 10px 0; }
 
-        /* A Mágica do PC: Menu Horizontal Exposto e Direto */
         @media (min-width: 769px) {
             .menu-btn { display: none; }
             .menu-flutuante { position: static; display: flex !important; flex-direction: row; gap: 15px; background: transparent; box-shadow: none; border: none; padding: 0; width: auto; }
@@ -252,9 +250,9 @@
                     <svg viewBox="0 0 24 24"><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg>
                     Guia Tático de Proteção
                 </div>
-                <p><b>P.1: Intercepte.</b> Copie o link suspeito ou tire um Print da tela.</p>
-                <p><b>P.2: Inicie o Raio-X.</b> Cole o link na barra ou anexe a foto no clipe de papel.</p>
-                <p><b>P.3: Veredito.</b> O motor neural emitirá o laudo OSINT oficial.</p>
+                <p><b>Passo 1: Intercepte a Ameaça.</b> Recebeu uma mensagem suspeita? Não clique. Copie o link, o texto do SMS ou tire um Print (captura de tela) da fraude.</p>
+                <p><b>Passo 2: Inicie o Raio-X.</b> Cole o dado suspeito na barra de varredura ou use o ícone de <b>Clipe de Papel</b> para enviar o seu Print.</p>
+                <p><b>Passo 3: O Veredito.</b> Em milissegundos, nossa Inteligência Artificial cruzará os dados e emitirá o laudo oficial: Alerta Vermelho para perigo ou Selo Verde para segurança.</p>
             </div>
         </div>
     </div>
