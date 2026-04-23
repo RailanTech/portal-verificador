@@ -7,7 +7,6 @@
     <style>
         /* =========================================
            ARQUITETURA DE DESIGN: TERMINAL OSINT V1 (OURO PURO 100%)
-           CAMUFLAGEM RESPONSIVA E SILÊNCIO TÁTICO
            ========================================= */
         :root {
             --bg-principal: #131314; --bg-secundario: #1e1f20; --bg-hover: #333538;
@@ -21,18 +20,8 @@
 
         body { background-color: var(--bg-principal); color: var(--texto-principal); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; }
 
-        /* TELA DE BOAS VINDAS */
-        #overlay-boas-vindas {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--fundo-modal); z-index: 9999; display: flex;
-            align-items: center; justify-content: center; backdrop-filter: blur(5px);
-            animation: fadeIn 0.5s;
-        }
-        .modal-branco {
-            background-color: #ffffff; color: #131314; width: 90%; max-width: 500px;
-            border-radius: 20px; padding: 40px; position: relative; text-align: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-        }
+        #overlay-boas-vindas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--fundo-modal); z-index: 9999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); animation: fadeIn 0.5s; }
+        .modal-branco { background-color: #ffffff; color: #131314; width: 90%; max-width: 500px; border-radius: 20px; padding: 40px; position: relative; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
         .modal-branco img { width: 80px; margin-bottom: 15px; }
         .modal-branco h2 { color: #000; font-size: 26px; margin-bottom: 15px; font-weight: 700; letter-spacing: -0.5px; }
         .modal-branco p { font-size: 16px; line-height: 1.6; color: #444; margin-bottom: 15px; }
@@ -42,7 +31,6 @@
         .btn-iniciar-terminal { background: linear-gradient(45deg, var(--ouro-puro), var(--ouro-brilho)); color: #000; border: none; padding: 15px 30px; border-radius: 30px; font-weight: 700; font-size: 16px; cursor: pointer; margin-top: 15px; width: 100%; transition: 0.2s; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); }
         .btn-iniciar-terminal:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6); }
 
-        /* BARRA SUPERIOR HÍBRIDA */
         .top-bar { position: absolute; top: 0; width: 100%; padding: 20px 25px; display: flex; justify-content: flex-end; align-items: center; z-index: 100; }
         .menu-btn { background: none; border: none; color: var(--texto-secundario); cursor: pointer; padding: 10px; border-radius: 50%; transition: 0.2s; }
         .menu-btn:hover { background-color: var(--bg-hover); }
@@ -62,7 +50,6 @@
             .menu-divisor { display: none; }
         }
 
-        /* MÓDULO PRINCIPAL (O CORPO E O RADAR) */
         .main-container { width: 100%; max-width: 800px; padding: 20px; padding-bottom: 60px; display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 12vh; }
         .conteudo-central { width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 40px; }
         .conteudo-central img { width: 290px; height: auto; margin-bottom: 20px; }
@@ -71,7 +58,6 @@
         .descricao-povo { font-size: 15px; color: var(--texto-secundario); line-height: 1.7; max-width: 650px; margin-top: 30px; margin-bottom: 40px; }
         .descricao-povo b { color: var(--ouro-brilho); font-weight: 600; }
 
-        /* Varredura Tática */
         .prompt-container { width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 40px; }
         .prompt-box { width: 100%; background-color: var(--bg-secundario); border-radius: 40px; display: flex; align-items: center; padding: 10px 20px; border: 1px solid var(--borda); transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         .prompt-box:focus-within { border-color: var(--texto-secundario); background-color: var(--bg-hover); box-shadow: 0 4px 20px rgba(0,0,0,0.7); }
@@ -85,7 +71,6 @@
         .btn-enviar:hover { background-color: rgba(255,255,255,0.1); }
         .btn-enviar svg { fill: var(--texto-secundario); width: 24px; height: 24px; }
 
-        /* Relatório Neural e Prints */
         .resultado-box { width: 100%; margin-top: 40px; display: none; flex-direction: column; gap: 20px; text-align: left; }
         .mensagem-ia { background-color: var(--bg-secundario); padding: 30px; border-radius: 16px; font-size: 15px; line-height: 1.7; border: 1px solid var(--borda); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
         .mensagem-ia.alerta { border-left: 4px solid var(--vermelho-alerta); }
@@ -94,23 +79,9 @@
         .loading { display: none; color: var(--texto-secundario); font-size: 14px; margin-top: 15px; text-align: center; font-weight: 500; }
         .preview-imagem { max-width: 100%; max-height: 250px; border-radius: 8px; margin-bottom: 15px; display: none; border: 1px solid var(--borda); }
 
-        /* JANELAS FLUTUANTES (MODAIS OSINT) */
-        .modal-osint-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--fundo-modal); z-index: 999; display: none;
-            align-items: center; justify-content: center; backdrop-filter: blur(8px);
-            animation: fadeIn 0.4s;
-        }
+        .modal-osint-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--fundo-modal); z-index: 999; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); animation: fadeIn 0.4s; }
         .modal-osint-overlay.ativo { display: flex; }
-
-        .modal-osint-content { 
-            background-color: var(--bg-secundario); border-radius: 20px; 
-            width: 90%; max-width: 650px; padding: 40px; position: relative; 
-            text-align: left; border: 1px solid var(--borda); 
-            box-shadow: 0 15px 50px rgba(0,0,0,0.8);
-            animation: slideInUp 0.3s ease-out;
-        }
-        
+        .modal-osint-content { background-color: var(--bg-secundario); border-radius: 20px; width: 90%; max-width: 650px; padding: 40px; position: relative; text-align: left; border: 1px solid var(--borda); box-shadow: 0 15px 50px rgba(0,0,0,0.8); animation: slideInUp 0.3s ease-out; }
         .modal-title-container { font-size: 20px; margin-bottom: 25px; color: var(--ouro-brilho); display: flex; align-items: center; gap: 12px; padding-right: 40px; font-weight: 500; }
         .modal-title-container svg { fill: var(--ouro-puro); width: 26px; height: 26px; flex-shrink: 0; }
         .modal-osint-content p { font-size: 15px; color: var(--texto-secundario); line-height: 1.7; margin-bottom: 18px; }
@@ -121,7 +92,6 @@
         .btn-fantasma:hover { background: var(--bg-hover); color: var(--texto-principal); border-color: var(--texto-secundario); }
         .btn-padrao { background-color: var(--destaque-azul); color: #000; border: none; padding: 18px 25px; border-radius: 35px; font-weight: 600; cursor: pointer; font-size: 15px; transition: 0.2s; width: 100%; box-shadow: 0 4px 15px rgba(168, 199, 250, 0.3); }
         .btn-padrao:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(168, 199, 250, 0.4); }
-        
         .btn-fechar-modal { position: absolute; top: 25px; right: 25px; background: transparent; border: none; color: var(--texto-secundario); cursor: pointer; padding: 8px; border-radius: 50%; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
         .btn-fechar-modal:hover { background-color: rgba(255,255,255,0.07); color: var(--vermelho-alerta); }
         .btn-fechar-modal svg { width: 24px; height: 24px; fill: currentColor; }
@@ -135,12 +105,10 @@
             .prompt-box { padding: 6px 12px; }
             .prompt-box input[type="text"] { font-size: 14px; padding: 12px 8px; }
             .menu-flutuante { width: 90vw; right: 5vw; top: 65px; } 
-            .modal-branco { padding: 25px; }
-            .modal-osint-content { padding: 25px; }
+            .modal-branco, .modal-osint-content { padding: 25px; }
             .modal-branco h2 { font-size: 22px; }
             .modal-osint-content p { font-size: 14px; }
         }
-
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideInUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
@@ -199,7 +167,6 @@
                 <button class="btn-anexo" onclick="document.getElementById('input-imagem-radar').click()" title="Anexar Print da Ameaça">
                     <svg viewBox="0 0 24 24"><path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/></svg>
                 </button>
-                
                 <input type="text" id="input-link" onkeypress="if(event.key === 'Enter') iniciarVarreduraTatica()">
                 <button class="btn-enviar" onclick="iniciarVarreduraTatica()" title="Enviar para Varredura">
                     <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
@@ -228,13 +195,11 @@
                 </div>
                 <input type="text" id="agente-nome" class="input-padrao">
                 <input type="text" id="agente-contato" class="input-padrao">
-                
                 <input type="file" id="input-imagem-dossie" accept="image/*,video/*" style="display: none;" onchange="anexarDossie(event)">
                 <button id="btn-anexo-dossie" class="btn-fantasma" onclick="document.getElementById('input-imagem-dossie').click()">
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/></svg>
                     Anexar Evidência (Foto / Vídeo)
                 </button>
-
                 <textarea id="agente-mensagem" class="input-padrao" rows="5" placeholder="Cole aqui o texto do SMS falso, descreva a engenharia do golpe ou cole o link malicioso..."></textarea>
                 <button class="btn-padrao" onclick="enviarDossieTatico()">Transmitir Dossiê</button>
                 <div id="loading-denuncia" class="loading">Criptografando dossiê...</div>
@@ -280,11 +245,9 @@
             document.getElementById('resultado-box').style.display = 'none';
             fecharModalOSINT(); 
             overlay.classList.add('ativo'); 
-
             if(idPainel === 'painel-sobre') contentSobre.style.display = 'block';
             if(idPainel === 'painel-ajuda') contentAjuda.style.display = 'block';
             if(idPainel === 'painel-denuncia') contentDenuncia.style.display = 'block';
-
             menuFlutuante.classList.remove('ativo'); 
         }
 
@@ -295,8 +258,6 @@
             contentDenuncia.style.display = 'none';
             document.getElementById('resultado-denuncia').innerHTML = "";
             document.getElementById('loading-denuncia').style.display = "none";
-            
-            // Reseta o botão de Anexo do Dossiê para o estado original
             const btnDossie = document.getElementById('btn-anexo-dossie');
             if(btnDossie) {
                 btnDossie.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/></svg> Anexar Evidência (Foto / Vídeo)';
@@ -342,11 +303,13 @@
         
         window.onload = function() { setTimeout(startTypewriters, 500); };
 
+        // A CURA DA COR: Tudo transformado em MAIÚSCULO na hora de checar a cor!
         function aplicarCoresLaudoTatico(msgBox, texto) {
             msgBox.className = "mensagem-ia"; 
-            if (texto.includes("GOLPE") || texto.includes("CRÍTICA") || texto.includes("AMEAÇA") || texto.includes("PHISHING") || texto.includes("FRAUDE")) {
+            const textoMaiusculo = texto.toUpperCase(); 
+            if (textoMaiusculo.includes("GOLPE") || textoMaiusculo.includes("CRÍTIC") || textoMaiusculo.includes("AMEAÇA") || textoMaiusculo.includes("PHISHING") || textoMaiusculo.includes("FRAUDE")) {
                 msgBox.classList.add("alerta");
-            } else if (texto.includes("LIMPA") || texto.includes("SEGURO") || texto.includes("CONCLUÍDA")) {
+            } else if (textoMaiusculo.includes("LIMPA") || textoMaiusculo.includes("SEGURO") || textoMaiusculo.includes("CONCLUÍD")) {
                 msgBox.classList.add("seguro");
             } else { msgBox.classList.add("neutro"); }
         }
@@ -408,7 +371,6 @@
             reader.readAsDataURL(file);
         }
 
-        // Função para avisar que a Foto/Vídeo foi anexada no Dossiê
         function anexarDossie(event) {
             const file = event.target.files[0];
             if(file) {
