@@ -7,28 +7,20 @@
     <style>
         /* =========================================
            ARQUITETURA DE DESIGN: TERMINAL OSINT V1 (OURO PURO 100%)
-           REFLEXÃO E LÓGICA / MARKETING PRECISO
+           CAMUFLAGEM RESPONSIVA E SILÊNCIO TÁTICO
            ========================================= */
         :root {
-            --bg-principal: #131314;
-            --bg-secundario: #1e1f20;
-            --bg-hover: #333538;
-            --texto-principal: #e3e3e3;
-            --texto-secundario: #c4c7c5;
-            --borda: #444746;
-            --destaque-azul: #a8c7fa;
-            --vermelho-alerta: #f28b82;
-            --verde-seguro: #81c995;
-            --amarelo-alerta: #fbc02d;
-            --ouro-puro: #d4af37;
-            --ouro-brilho: #f3e5ab;
+            --bg-principal: #131314; --bg-secundario: #1e1f20; --bg-hover: #333538;
+            --texto-principal: #e3e3e3; --texto-secundario: #c4c7c5; --borda: #444746;
+            --destaque-azul: #a8c7fa; --vermelho-alerta: #f28b82; --verde-seguro: #81c995;
+            --amarelo-alerta: #fbc02d; --ouro-puro: #d4af37; --ouro-brilho: #f3e5ab;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
 
         body { background-color: var(--bg-principal); color: var(--texto-principal); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; }
 
-        /* TELA BRANCA DE BOAS VINDAS */
+        /* TELA DE BOAS VINDAS (MARKETING PRECISO) */
         #overlay-boas-vindas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85); z-index: 9999; display: flex;
@@ -44,124 +36,79 @@
         .modal-branco h2 { color: #000; font-size: 26px; margin-bottom: 15px; font-weight: 700; letter-spacing: -0.5px; }
         .modal-branco p { font-size: 16px; line-height: 1.6; color: #444; margin-bottom: 15px; }
         .modal-branco b { color: #000; font-weight: 700; }
-        
-        .btn-fechar-branco {
-            position: absolute; top: 15px; right: 15px; background: transparent; border: none;
-            color: #888; font-size: 22px; font-weight: bold; cursor: pointer; padding: 5px 10px; transition: 0.2s;
-        }
+        .btn-fechar-branco { position: absolute; top: 15px; right: 15px; background: transparent; border: none; color: #888; font-size: 22px; font-weight: bold; cursor: pointer; padding: 5px 10px; transition: 0.2s; }
         .btn-fechar-branco:hover { color: var(--vermelho-alerta); }
-        
-        .btn-iniciar-terminal {
-            background: linear-gradient(45deg, var(--ouro-puro), var(--ouro-brilho));
-            color: #000; border: none; padding: 15px 30px; border-radius: 30px; 
-            font-weight: 700; font-size: 16px; cursor: pointer; margin-top: 15px; 
-            width: 100%; transition: 0.2s; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
-        }
+        .btn-iniciar-terminal { background: linear-gradient(45deg, var(--ouro-puro), var(--ouro-brilho)); color: #000; border: none; padding: 15px 30px; border-radius: 30px; font-weight: 700; font-size: 16px; cursor: pointer; margin-top: 15px; width: 100%; transition: 0.2s; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); }
         .btn-iniciar-terminal:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6); }
 
-        /* BARRA SUPERIOR */
+        /* BARRA SUPERIOR E MENU FLUTUANTE */
         .top-bar { position: absolute; top: 0; width: 100%; padding: 20px 25px; display: flex; justify-content: flex-end; align-items: center; z-index: 100; }
         .menu-btn { background: none; border: none; color: var(--texto-secundario); cursor: pointer; padding: 10px; border-radius: 50%; transition: 0.2s; }
         .menu-btn:hover { background-color: var(--bg-hover); }
-
-        /* MENU FLUTUANTE */
-        .menu-flutuante {
-            position: absolute; top: 70px; right: 25px; background-color: var(--bg-secundario); border-radius: 12px;
-            width: 350px; padding: 12px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.7); border: 1px solid var(--borda); display: none; z-index: 101;
-        }
+        .menu-flutuante { position: absolute; top: 70px; right: 25px; background-color: var(--bg-secundario); border-radius: 12px; width: 350px; padding: 12px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.7); border: 1px solid var(--borda); display: none; z-index: 101; }
         .menu-flutuante.ativo { display: block; animation: fadeIn 0.2s; }
-        
         .menu-item { padding: 16px 20px; display: flex; align-items: center; gap: 15px; color: var(--texto-principal); font-size: 16px; font-weight: 500; cursor: pointer; transition: 0.2s; }
         .menu-item:hover { background-color: rgba(255,255,255,0.05); } 
         .menu-item svg { fill: var(--texto-secundario); width: 22px; height: 22px; pointer-events: none; }
         .menu-divisor { height: 1px; background-color: var(--borda); margin: 10px 0; }
 
-        /* MÓDULO PRINCIPAL */
+        /* MÓDULO PRINCIPAL (O CORPO) */
         .main-container { width: 100%; max-width: 800px; padding: 20px; padding-bottom: 60px; display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 12vh; }
-        
         .conteudo-central { width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 40px; }
         .conteudo-central img { width: 290px; height: auto; margin-bottom: 20px; }
-
         .titulo-central { color: var(--ouro-puro); font-size: 52px; font-weight: 600; margin-bottom: 80px; letter-spacing: -0.5px; }
-
         .descricao-subtitulo { color: var(--texto-secundario); font-size: 16px; font-weight: 500; line-height: 1.6; letter-spacing: 0.5px; }
-        
         .descricao-povo { font-size: 15px; color: var(--texto-secundario); line-height: 1.7; max-width: 650px; margin-top: 30px; margin-bottom: 40px; }
         .descricao-povo b { color: var(--ouro-brilho); font-weight: 600; }
 
-        /* VARREDURA TÁTICA */
+        /* VARREDURA TÁTICA (O RADAR) */
         .prompt-container { width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 40px; }
-        
-        .prompt-box { 
-            width: 100%; background-color: var(--bg-secundario); border-radius: 40px; display: flex; align-items: center; 
-            padding: 10px 20px; border: 1px solid var(--borda); transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
-        }
+        .prompt-box { width: 100%; background-color: var(--bg-secundario); border-radius: 40px; display: flex; align-items: center; padding: 10px 20px; border: 1px solid var(--borda); transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         .prompt-box:focus-within { border-color: var(--texto-secundario); background-color: var(--bg-hover); box-shadow: 0 4px 20px rgba(0,0,0,0.7); }
         
         .btn-anexo { background: transparent; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 12px; border-radius: 50%; transition: 0.2s; flex-shrink: 0; }
         .btn-anexo:hover { background-color: rgba(255,255,255,0.1); }
         .btn-anexo svg { fill: var(--texto-secundario); width: 22px; height: 22px; }
 
-        .prompt-box input { flex: 1; min-width: 0; background: transparent; border: none; color: var(--texto-principal); font-size: 16px; padding: 15px; outline: none; text-overflow: ellipsis; }
-        
+        .prompt-box input[type="text"] { flex: 1; min-width: 0; background: transparent; border: none; color: var(--texto-principal); font-size: 16px; padding: 15px; outline: none; text-overflow: ellipsis; }
         .btn-enviar { background: transparent; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 12px; border-radius: 50%; transition: 0.2s; flex-shrink: 0; }
         .btn-enviar:hover { background-color: rgba(255,255,255,0.1); }
         .btn-enviar svg { fill: var(--texto-secundario); width: 24px; height: 24px; }
 
-        .aviso-restrito { 
-            display: none; width: 100%; background: rgba(251, 192, 45, 0.08); border-left: 4px solid var(--amarelo-alerta); 
-            padding: 18px; font-size: 14px; color: var(--amarelo-alerta); margin-top: 20px; margin-bottom: 15px; border-radius: 12px; line-height: 1.6; text-align: left;
-        }
-
-        /* RELATÓRIO DO MOTOR */
+        /* RELATÓRIO E EVIDÊNCIAS NEURAIS */
         .resultado-box { width: 100%; margin-top: 40px; display: none; flex-direction: column; gap: 20px; text-align: left; }
         .mensagem-ia { background-color: var(--bg-secundario); padding: 30px; border-radius: 16px; font-size: 15px; line-height: 1.7; border: 1px solid var(--borda); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
         .mensagem-ia.alerta { border-left: 4px solid var(--vermelho-alerta); }
         .mensagem-ia.seguro { border-left: 4px solid var(--verde-seguro); }
         .mensagem-ia.neutro { border-left: 4px solid var(--destaque-azul); }
-
         .loading { display: none; color: var(--texto-secundario); font-size: 14px; margin-top: 15px; text-align: center; font-weight: 500; }
+        .preview-imagem { max-width: 100%; max-height: 250px; border-radius: 8px; margin-bottom: 15px; display: none; border: 1px solid var(--borda); }
 
-        /* MODAIS DE INFORMAÇÃO */
-        .modal-info { position: relative; display: none; width: 100%; max-width: 650px; background-color: var(--bg-secundario); padding: 35px; border-radius: 20px; border: 1px solid var(--borda); margin-top: 30px; text-align: left; box-shadow: 0 10px 40px rgba(0,0,0,0.8); animation: fadeIn 0.3s; }
-        .modal-info h2 { font-size: 20px; margin-bottom: 20px; color: var(--ouro-brilho); display: flex; align-items: center; gap: 12px; padding-right: 40px; }
+        /* MODAIS DE INFORMAÇÃO E DOSSIÊ */
+        .modal-info, #painel-denuncia { position: relative; display: none; width: 100%; max-width: 650px; background-color: var(--bg-secundario); padding: 35px; border-radius: 20px; border: 1px solid var(--borda); margin-top: 30px; text-align: left; box-shadow: 0 10px 40px rgba(0,0,0,0.8); animation: fadeIn 0.3s; }
+        .modal-info h2, .dossie-title { font-size: 20px; margin-bottom: 20px; color: var(--ouro-brilho); display: flex; align-items: center; gap: 12px; padding-right: 40px; font-weight: 500; }
         .modal-info p { font-size: 15px; color: var(--texto-secundario); line-height: 1.7; margin-bottom: 18px; }
-
-        /* PAINEL DOSSIÊ */
-        #painel-denuncia { position: relative; display: none; width: 100%; max-width: 650px; margin-top: 30px; background-color: var(--bg-secundario); padding: 35px; border-radius: 20px; border: 1px solid var(--borda); text-align: left; box-shadow: 0 10px 40px rgba(0,0,0,0.8); animation: fadeIn 0.3s; }
         
-        .dossie-title { font-size: 20px; margin-bottom: 25px; font-weight: 500; color: var(--ouro-puro); padding-right: 40px; }
-
         .input-padrao { width: 100%; background: var(--bg-principal); border: 1px solid var(--borda); color: var(--texto-principal); padding: 18px; border-radius: 12px; margin-bottom: 18px; font-size: 15px; outline: none; transition: 0.2s; text-overflow: ellipsis; }
         .input-padrao:focus { border-color: var(--texto-secundario); }
-        
         .btn-fantasma { width: 100%; background: rgba(255,255,255,0.02); border: 1px dashed var(--borda); color: var(--texto-secundario); padding: 15px; border-radius: 12px; margin-bottom: 18px; font-size: 15px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: 0.2s; }
         .btn-fantasma:hover { background: var(--bg-hover); color: var(--texto-principal); border-color: var(--texto-secundario); }
-
         .btn-padrao { background-color: var(--destaque-azul); color: #000; border: none; padding: 18px 25px; border-radius: 35px; font-weight: 600; cursor: pointer; font-size: 15px; transition: 0.2s; width: 100%; box-shadow: 0 4px 15px rgba(168, 199, 250, 0.3); }
         .btn-padrao:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(168, 199, 250, 0.4); }
-
-        .btn-fechar {
-            position: absolute; top: 25px; right: 25px; background: transparent; border: none; color: var(--texto-secundario);
-            cursor: pointer; padding: 8px; border-radius: 50%; transition: 0.2s; display: flex; align-items: center; justify-content: center;
-        }
+        .btn-fechar { position: absolute; top: 25px; right: 25px; background: transparent; border: none; color: var(--texto-secundario); cursor: pointer; padding: 8px; border-radius: 50%; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
         .btn-fechar:hover { background-color: rgba(255,255,255,0.07); color: var(--vermelho-alerta); }
 
-        /* ADAPTAÇÃO PARA CELULARES */
+        /* ADAPTAÇÃO CIRÚRGICA PARA CELULARES E TABLETS MENORES */
         @media (max-width: 768px) {
             .main-container { margin-top: 5vh; padding: 15px; padding-bottom: 80px; }
             .conteudo-central img { width: 170px; margin-bottom: 15px; } 
             .titulo-central { font-size: 40px; margin-bottom: 25px; } 
             .descricao-subtitulo { font-size: 14px; }
             .descricao-povo { font-size: 14px; margin-top: 20px; margin-bottom: 30px; }
-            
             .prompt-box { padding: 6px 12px; }
-            .prompt-box input { font-size: 14px; padding: 12px 8px; }
-            
+            .prompt-box input[type="text"] { font-size: 14px; padding: 12px 8px; }
             .menu-flutuante { width: 90vw; right: 5vw; top: 65px; } 
-            
             .modal-info, #painel-denuncia { width: 95%; right: 2.5%; padding: 25px; margin-top: 15px; }
-            
             .modal-branco { padding: 25px; }
             .modal-branco h2 { font-size: 22px; }
             .modal-branco p { font-size: 14px; }
@@ -179,7 +126,7 @@
             <h2>Bem-vindo à RailanTech</h2>
             <p>Você acaba de entrar em uma <b>Muralha de Segurança Digital</b>.</p>
             <p>Nós usamos Inteligência de ponta para interceptar <b>Golpes de Pix, Falsos SMS e Links Maliciosos</b> antes que eles roubem o seu dinheiro.</p>
-            <p>Não clique no escuro. Cole o link suspeito na nossa barra de varredura e faremos um Raio-X instantâneo para proteger você.</p>
+            <p>Não clique no escuro. Cole o link suspeito ou <b>envie o Print da tela</b> na nossa barra de varredura e faremos um Raio-X instantâneo para proteger você.</p>
             <button class="btn-iniciar-terminal" onclick="fecharBoasVindas()">Acessar o Terminal</button>
         </div>
     </div>
@@ -221,67 +168,51 @@
 
         <div class="prompt-container">
             <div class="prompt-box">
-                <button class="btn-anexo" onclick="document.getElementById('aviso-anexo-principal').style.display='block'" title="Enviar arquivos">
+                <input type="file" id="input-imagem-radar" accept="image/*" style="display: none;" onchange="processarImagem(event)">
+                <button class="btn-anexo" onclick="document.getElementById('input-imagem-radar').click()" title="Anexar Print da Tela">
                     <svg viewBox="0 0 24 24"><path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/></svg>
                 </button>
+                
                 <input type="text" id="input-link" onkeypress="if(event.key === 'Enter') iniciarVarredura()">
                 <button class="btn-enviar" onclick="iniciarVarredura()">
                     <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                 </button>
-            </div>
-            
-            <div id="aviso-anexo-principal" class="aviso-restrito">
-                <b>[ ACESSO RESTRITO ]</b> O Motor de Visão Neural opera apenas para Agentes Nível 2. Descreva a ameaça por escrito no campo de varredura ou link.
             </div>
         </div>
 
         <div id="loading-varredura" class="loading">Consultando matriz de inteligência neural...</div>
 
         <div class="resultado-box" id="resultado-box">
+            <img id="preview-imagem" class="preview-imagem" src="" alt="Evidência">
             <div class="mensagem-ia" id="mensagem-resposta"></div>
         </div>
 
         <div id="painel-sobre" class="modal-info">
-            <button class="btn-fechar" onclick="fecharPaineis()" title="Fechar">
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-            </button>
-            <h2>
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg>
-                Sobre a Central RailanTech
-            </h2>
+            <button class="btn-fechar" onclick="fecharPaineis()" title="Fechar">✖</button>
+            <h2>Sobre a Central RailanTech</h2>
             <p>O <b>Terminal de Inteligência RailanTech</b> não é apenas um verificador de links, é uma muralha de segurança contra o crime digital. Desenvolvido com arquitetura de dados de alta precisão (OSINT Nível 1), nosso motor intercepta ameaças financeiras e golpes de Engenharia Social no exato momento da consulta.</p>
             <p>O nosso objetivo é implacável: <b>proteger o seu patrimônio antes que o clique destrua a sua conta.</b> Informação é poder.</p>
         </div>
 
         <div id="painel-ajuda" class="modal-info">
-            <button class="btn-fechar" onclick="fecharPaineis()" title="Fechar">
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-            </button>
-            <h2>
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg>
-                Guia Tático de Proteção
-            </h2>
-            <p><b>Passo 1: Intercepte a Ameaça.</b> Copie o link suspeito que você recebeu no celular (SMS, WhatsApp). Não clique nele.</p>
-            <p><b>Passo 2: Inicie o Raio-X.</b> Cole o link na barra de varredura principal do terminal e pressione enviar.</p>
-            <p><b>Passo 3: O Veredito.</b> Em milissegundos, o sistema emitirá o laudo oficial: alerta vermelho para ameaças ou selo verde para segurança confirmada.</p>
+            <button class="btn-fechar" onclick="fecharPaineis()" title="Fechar">✖</button>
+            <h2>Guia Tático de Proteção</h2>
+            <p><b>Passo 1: Intercepte a Ameaça.</b> Copie o link suspeito que você recebeu no celular ou tire um Print da tela da ligação falsa.</p>
+            <p><b>Passo 2: Inicie o Raio-X.</b> Cole o link na barra de varredura ou anexe a foto no ícone de clipe de papel.</p>
+            <p><b>Passo 3: O Veredito.</b> Em milissegundos, o motor de visão neural e a IA emitirão o laudo oficial para te proteger.</p>
         </div>
 
         <div id="painel-denuncia">
-            <button class="btn-fechar" onclick="fecharPaineis()" title="Fechar">
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-            </button>
+            <button class="btn-fechar" onclick="fecharPaineis()" title="Fechar">✖</button>
             <h2 class="dossie-title">Dossiê de Registro de Golpe</h2>
-            
             <input type="text" id="agente-nome" class="input-padrao">
             <input type="text" id="agente-contato" class="input-padrao">
             
-            <button class="btn-fantasma" onclick="document.getElementById('aviso-fantasma-dossie').style.display='block'">
+            <input type="file" id="input-imagem-dossie" accept="image/*" style="display: none;" onchange="processarImagem(event)">
+            <button class="btn-fantasma" onclick="document.getElementById('input-imagem-dossie').click()">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/></svg>
-                Anexar Evidência (Foto / Vídeo)
+                Anexar Evidência (Foto / Print)
             </button>
-            <div id="aviso-fantasma-dossie" class="aviso-restrito">
-                <b>[ ACESSO RESTRITO ]</b> O Motor de Visão Neural opera apenas para Agentes Nível 2. Descreva a ameaça por escrito no campo abaixo.
-            </div>
 
             <textarea id="agente-mensagem" class="input-padrao" rows="5" placeholder="Cole aqui o texto do SMS falso, descreva a engenharia do golpe ou cole o link malicioso para registro na base nacional..."></textarea>
             <button class="btn-padrao" onclick="enviarDossie()">Transmitir Dossiê para a Base</button>
@@ -292,149 +223,157 @@
     </div>
 
     <script>
-        // O NOME FOI BLINDADO PARA ESCONDER A ORIGEM DO SERVIDOR
+        // O FIO INVISÍVEL (Nenhuma menção à hospedagem Cloudflare)
         const API_MATRIZ_OSINT = "https://motor-osint-privado.analise-seguranca.workers.dev";
         
-        function fecharBoasVindas() {
-            document.getElementById('overlay-boas-vindas').style.display = 'none';
-        }
-
-        const btnMenu = document.getElementById('btnMenu');
-        const menuFlutuante = document.getElementById('menuFlutuante');
-
-        btnMenu.addEventListener('click', function(event) {
-            event.stopPropagation(); 
-            menuFlutuante.classList.toggle('ativo');
-        });
-
-        document.addEventListener('click', function(event) {
-            if (!menuFlutuante.contains(event.target) && event.target !== btnMenu) {
-                menuFlutuante.classList.remove('ativo');
-            }
-        });
+        function fecharBoasVindas() { document.getElementById('overlay-boas-vindas').style.display = 'none'; }
+        
+        // CONTROLE DE CLIQUES NO MENU
+        const btnMenu = document.getElementById('btnMenu'); const menuFlutuante = document.getElementById('menuFlutuante');
+        btnMenu.addEventListener('click', function(event) { event.stopPropagation(); menuFlutuante.classList.toggle('ativo'); });
+        document.addEventListener('click', function(event) { if (!menuFlutuante.contains(event.target) && event.target !== btnMenu) { menuFlutuante.classList.remove('ativo'); } });
         
         function fecharPaineis() {
             document.getElementById('painel-denuncia').style.display = 'none';
             document.getElementById('painel-sobre').style.display = 'none';
             document.getElementById('painel-ajuda').style.display = 'none';
-            document.getElementById('aviso-fantasma-dossie').style.display = 'none';
         }
 
         function abrirPainel(idPainel) {
             document.getElementById('resultado-box').style.display = 'none';
-            document.getElementById('aviso-anexo-principal').style.display = 'none';
             fecharPaineis();
             document.getElementById(idPainel).style.display = 'block';
             menuFlutuante.classList.remove('ativo');
         }
 
+        // =========================================================
+        // O MOTOR DE MOVIMENTO AUTOMÁTICO (SÓ PARA CELULARES)
+        // =========================================================
         const typewriterConfigs = [
-            {
-                id: 'input-link',
-                texts: ["Cole aqui Link suspeito...", "Cole o SMS de Golpe...", "Ou digite o Telefone fraudulento..."],
-                pIndex: 0, charIndex: 0, defaultTxt: "Cole aqui a ameaça..."
-            },
-            {
-                id: 'agente-nome',
-                texts: ["Nome completo da vítima...", "Ou número de registro oficial..."],
-                pIndex: 0, charIndex: 0, defaultTxt: "Seu Nome..."
-            },
-            {
-                id: 'agente-contato',
-                texts: ["Seu E-mail de segurança...", "Ou WhatsApp de Contato..."],
-                pIndex: 0, charIndex: 0, defaultTxt: "Seu Contato..."
-            }
+            { id: 'input-link', texts: ["Cole aqui Link suspeito...", "Cole o SMS de Golpe...", "Ou envie o Print da ameaça..."], pIndex: 0, charIndex: 0, defaultTxt: "Cole aqui a ameaça..." },
+            { id: 'agente-nome', texts: ["Nome completo da vítima...", "Ou número de registro oficial..."], pIndex: 0, charIndex: 0, defaultTxt: "Seu Nome..." },
+            { id: 'agente-contato', texts: ["Seu E-mail de segurança...", "Ou WhatsApp de Contato..."], pIndex: 0, charIndex: 0, defaultTxt: "Seu Contato..." }
         ];
 
         function startTypewriters() {
+            // A LÓGICA: SÓ RODA EM TELAS MENORES QUE 768px (Celular e Tablet pequeno)
             if (window.innerWidth <= 768) {
-                document.getElementById('input-link').placeholder = "";
-                document.getElementById('agente-nome').placeholder = "";
+                document.getElementById('input-link').placeholder = ""; 
+                document.getElementById('agente-nome').placeholder = ""; 
                 document.getElementById('agente-contato').placeholder = "";
-                
-                typewriterConfigs.forEach(config => {
-                    moverTexto(config);
-                });
+                typewriterConfigs.forEach(config => { moverTexto(config); });
             } else {
-                document.getElementById('input-link').placeholder = "Cole aqui Link, SMS de Golpe ou Telefone suspeito...";
+                // TELAS GRANDES (PC/MAC): Texto congelado, imponente e seguro.
+                document.getElementById('input-link').placeholder = "Cole aqui Link, SMS de Golpe ou anexe um Print...";
                 document.getElementById('agente-nome').placeholder = "Nome completo da vítima ou registro";
                 document.getElementById('agente-contato').placeholder = "Seu E-mail ou WhatsApp de Contato";
             }
         }
 
         function moverTexto(config) {
-            const input = document.getElementById(config.id);
-            if(!input) return;
-            
+            const input = document.getElementById(config.id); if(!input) return;
             if(!input.value && document.activeElement !== input) {
                 const currentText = config.texts[config.pIndex];
-                
                 input.placeholder = currentText.substring(0, config.charIndex + 1);
                 config.charIndex++;
-
                 if (config.charIndex === currentText.length) {
-                    setTimeout(() => {
-                        config.charIndex = 0;
-                        config.pIndex = (config.pIndex + 1) % config.texts.length;
-                        moverTexto(config);
-                    }, 2000); 
-                } else {
-                    setTimeout(() => moverTexto(config), 60);
-                }
+                    setTimeout(() => { config.charIndex = 0; config.pIndex = (config.pIndex + 1) % config.texts.length; moverTexto(config); }, 2000); 
+                } else { setTimeout(() => moverTexto(config), 60); }
             } else {
-                input.placeholder = config.defaultTxt; 
-                setTimeout(() => moverTexto(config), 1500); 
+                input.placeholder = config.defaultTxt; setTimeout(() => moverTexto(config), 1500); 
             }
         }
         
-        window.onload = function() {
-            setTimeout(startTypewriters, 500);
-        };
+        window.onload = function() { setTimeout(startTypewriters, 500); };
 
+        // =========================================================
+        // O CÉREBRO DAS CORES DOS LAUDOS
+        // =========================================================
+        function aplicarCoresLaudo(msgBox, texto) {
+            msgBox.className = "mensagem-ia"; 
+            if (texto.includes("GOLPE") || texto.includes("CRÍTICA") || texto.includes("AMEAÇA") || texto.includes("PHISHING") || texto.includes("FRAUDE")) {
+                msgBox.classList.add("alerta");
+            } else if (texto.includes("LIMPA") || texto.includes("SEGURO") || texto.includes("CONCLUÍDA")) {
+                msgBox.classList.add("seguro");
+            } else { msgBox.classList.add("neutro"); }
+        }
+
+        // =========================================================
+        // A ARMA 1: VARREDURA DE TEXTO E LINK
+        // =========================================================
         async function iniciarVarredura() {
             const link = document.getElementById('input-link').value;
-            const resBox = document.getElementById('resultado-box');
-            const msgBox = document.getElementById('mensagem-resposta');
-            const loadDiv = document.getElementById('loading-varredura');
+            const resBox = document.getElementById('resultado-box'); const msgBox = document.getElementById('mensagem-resposta'); const loadDiv = document.getElementById('loading-varredura');
             if(!link) return;
             
             fecharPaineis();
-            document.getElementById('aviso-anexo-principal').style.display = 'none';
-            resBox.style.display = "none"; 
-            loadDiv.style.display = "block";
+            document.getElementById('preview-imagem').style.display = "none";
+            resBox.style.display = "none"; loadDiv.innerHTML = "Consultando matriz de inteligência neural..."; loadDiv.style.display = "block";
             
             try {
-                // A NOVA CONEXÃO BLINDADA
                 const response = await fetch(API_MATRIZ_OSINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ tipo: "link", dado: link }) });
                 const data = await response.json();
                 loadDiv.style.display = "none"; resBox.style.display = "flex";
                 let textoResposta = data.analise.replace(/\n/g, '<br>');
                 msgBox.innerHTML = textoResposta;
-                msgBox.className = "mensagem-ia"; 
-                
-                if (textoResposta.includes("GOLPE") || textoResposta.includes("CRÍTICA") || textoResposta.includes("AMEAÇA") || textoResposta.includes("PHISHING")) {
-                    msgBox.classList.add("alerta");
-                }
-                else if (textoResposta.includes("LIMPA") || textoResposta.includes("SEGURO") || textoResposta.includes("CONCLUÍDA")) {
-                    msgBox.classList.add("seguro");
-                }
-                else {
-                    msgBox.classList.add("neutro");
-                }
-
+                aplicarCoresLaudo(msgBox, textoResposta);
             } catch (e) {
                 loadDiv.style.display = "none"; resBox.style.display = "flex"; msgBox.className = "mensagem-ia alerta";
-                msgBox.innerHTML = "Não foi possível conectar ao motor OSINT. Tente novamente mais tarde.";
+                msgBox.innerHTML = "Erro ao conectar. O canal seguro pode estar congestionado.";
             }
         }
 
+        // =========================================================
+        // A ARMA 2: LEITURA DE PRINTS (VISÃO NEURAL TÁTICA)
+        // =========================================================
+        async function processarImagem(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            fecharPaineis();
+            const resBox = document.getElementById('resultado-box'); const msgBox = document.getElementById('mensagem-resposta');
+            const loadDiv = document.getElementById('loading-varredura'); const preview = document.getElementById('preview-imagem');
+
+            resBox.style.display = "none";
+            loadDiv.innerHTML = "Processando evidência neural (Raio-X da Imagem)... Aguarde.";
+            loadDiv.style.display = "block";
+
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                const base64Image = e.target.result;
+                preview.src = base64Image;
+                
+                try {
+                    const response = await fetch(API_MATRIZ_OSINT, { 
+                        method: "POST", headers: { "Content-Type": "application/json" }, 
+                        body: JSON.stringify({ tipo: "imagem", dado: base64Image }) 
+                    });
+                    const data = await response.json();
+                    
+                    loadDiv.style.display = "none"; resBox.style.display = "flex"; preview.style.display = "block"; 
+                    
+                    let textoResposta = data.analise ? data.analise.replace(/\n/g, '<br>') : "Erro na leitura neural.";
+                    msgBox.innerHTML = textoResposta;
+                    aplicarCoresLaudo(msgBox, textoResposta);
+                    
+                } catch (err) {
+                    loadDiv.style.display = "none"; resBox.style.display = "flex"; preview.style.display = "block";
+                    msgBox.className = "mensagem-ia alerta";
+                    msgBox.innerHTML = "O canal seguro falhou. A imagem pode ser pesada demais para a varredura atual.";
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // =========================================================
+        // A ARMA 3: O DOSSIÊ
+        // =========================================================
         async function enviarDossie() {
             const nome = document.getElementById('agente-nome').value; const contato = document.getElementById('agente-contato').value; const mensagem = document.getElementById('agente-mensagem').value;
             const resDiv = document.getElementById('resultado-denuncia'); const loadDiv = document.getElementById('loading-denuncia');
             if(!mensagem) return;
             resDiv.innerHTML = ""; loadDiv.style.display = "block";
             try {
-                // A NOVA CONEXÃO BLINDADA NO DOSSIÊ
                 const response = await fetch(API_MATRIZ_OSINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ alerta: true, nome: nome || "Anônimo", email: contato || "-", mensagem: mensagem }) });
                 const data = await response.json();
                 loadDiv.style.display = "none"; resDiv.innerHTML = data.status;
