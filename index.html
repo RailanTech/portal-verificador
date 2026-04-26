@@ -82,7 +82,7 @@
             .prompt-box { padding: 6px 12px; }
             .prompt-box input[type="text"] { font-size: 15px; padding: 12px 5px; }
             .modal-content { padding: 25px; margin-top: 10px; }
-            .botoes-grid { grid-template-columns: 1fr !important; } /* MILAGRE DO CELULAR: Botões empilhados! */
+            .botoes-grid { grid-template-columns: 1fr !important; } /* Botões empilhados inteligentemente */
             .btn-fechar { top: 12px; right: 12px; }
         }
         @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
@@ -179,9 +179,9 @@
 
             <div id="painel-ajuda" style="display:none;">
                 <div class="modal-title">❓ Ajuda Tática</div>
-                <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 15px; line-height: 1.6;"><b>Passo 1:</b> Recebeu uma mensagem suspeita? Copie o link, o texto ou tire um Print.</p>
-                <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 15px; line-height: 1.6;"><b>Passo 2:</b> Cole na barra de varredura ou clique no ícone do Clipe de Papel para enviar a foto.</p>
-                <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 15px; line-height: 1.6;"><b>Passo 3:</b> Em milissegundos, nossa Inteligência emitirá o laudo: Alerta Vermelho (perigo) ou Selo Verde (seguro).</p>
+                <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">🚨 <b>1. Congele e Capture:</b> O bandido sempre tenta usar o medo e a pressa contra você. Não clique em nenhum link no escuro! Respire, tire um Print (foto da tela) ou copie o texto da mensagem suspeita.</p>
+                <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">📥 <b>2. Acione o Radar:</b> Venha para a nossa Central. Cole o texto do golpe na barra principal ou clique no <b>Clipe de Papel</b> para enviar a foto da conversa.</p>
+                <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">⚖️ <b>3. O Veredito Oficial:</b> Deixe a nossa Inteligência agir. Se acender a luz do <b style="color: var(--vermelho-alerta);">Alerta Vermelho</b>, é fraude: bloqueie o contato imediatamente. Se brilhar o <b style="color: var(--verde-seguro);">Selo Verde</b>, fique em paz, o acesso é seguro.</p>
             </div>
 
             <div id="painel-sobre" style="display:none;">
@@ -223,7 +223,7 @@
 
         window.onload = function() { setTimeout(iniciarLetreiroInteligente, 500); };
 
-        // NAVEGAÇÃO DOS MODAIS
+        // CONTROLE DOS MODAIS
         function abrirModalOSINT(painelID) {
             document.getElementById('menuFlutuante').classList.remove('ativo');
             document.getElementById('form-dossie').style.display = 'none';
@@ -340,7 +340,7 @@
                 document.getElementById('form-dossie').style.display = 'none';
                 document.getElementById('num-protocolo').innerText = data.protocolo || "RT-BR-SUCESSO";
                 document.getElementById('tela-sucesso').style.display = 'block';
-            } catch(e) { alert("Falha de conexão. Arquivo pode ser muito pesado."); } 
+            } catch(e) { alert("Falha de conexão. O arquivo pode ser muito pesado."); } 
             finally { btnTx.innerText = "Transmitir Dossiê para a Central"; btnTx.disabled = false; }
         }
     </script>
