@@ -269,15 +269,21 @@
         
         window.onload = function() { setTimeout(startTypewriters, 500); };
 
-        // A CURA DA COR: Agora ele SÓ olha para a Tag exata, ignorando o resto do texto!
+        // A CURA DA COR NÍVEL OURO: O Verde tem prioridade máxima e bloqueia o Vermelho.
         function aplicarCoresLaudoTatico(msgBox, texto) {
             msgBox.className = "mensagem-ia"; 
             const txt = texto.toUpperCase(); 
-            if (txt.includes("[ ALERTA") || txt.includes("[ALERTA") || txt.includes("AMEAÇA")) {
-                msgBox.classList.add("alerta");
-            } else if (txt.includes("[ SEGURO") || txt.includes("[SEGURO")) {
+            
+            // 1º REGRA: Se tem a Tag Segura, a tinta é Verde e a análise de cor para aqui.
+            if (txt.includes("[ SEGURO") || txt.includes("[SEGURO")) {
                 msgBox.classList.add("seguro");
-            } else { 
+            } 
+            // 2º REGRA: Se for a Tag de Alerta ou Ameaça, pinta de Vermelho.
+            else if (txt.includes("[ ALERTA") || txt.includes("[ALERTA") || txt.includes("[ AMEAÇA") || txt.includes("[AMEAÇA")) {
+                msgBox.classList.add("alerta");
+            } 
+            // 3º REGRA: Se não tiver nenhuma, fica Neutro (Azul).
+            else { 
                 msgBox.classList.add("neutro"); 
             }
         }
