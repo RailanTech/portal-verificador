@@ -85,7 +85,6 @@
         .btn-opcao { background: var(--bg-principal); border: 2px solid var(--borda); color: var(--texto-secundario); padding: 15px; border-radius: 12px; cursor: pointer; font-size: 15px; font-weight: 600; transition: 0.2s; }
         .btn-opcao.selecionado { background: rgba(212, 175, 55, 0.1); border-color: var(--ouro-puro); color: var(--ouro-brilho); }
         
-        /* FONT-SIZE: 16px impede o zoom *automático* chato do iPhone, mas permite o zoom manual */
         .input-texto { 
             width: 100%; background: var(--bg-principal); border: 1px solid var(--borda); 
             color: var(--texto-principal); padding: 15px; border-radius: 12px; 
@@ -237,7 +236,8 @@
     </div>
 
     <script>
-        const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
+        // ATENÇÃO COMANDANTE: INSIRA AQUI O LINK REAL DO SEU CLOUDFLARE WORKER
+        const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev"; 
         
         const frasesMobile = ["Cole o Link suspeito...", "Cole o texto do Golpe...", "Ou envie a Evidência..."];
         let iFrase = 0; let iLetra = 0; let apagando = false; let isTypingPaused = false;
