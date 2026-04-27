@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RailanTech Protect - Central Anti-Fraude</title>
     <style>
         :root {
@@ -22,12 +22,10 @@
             background-color: var(--bg-principal); color: var(--texto-principal); 
             min-height: 100dvh; display: flex; flex-direction: column; 
             align-items: center; overflow-x: hidden; 
-            touch-action: manipulation; /* Bloqueia zoom de duplo toque */
         }
 
         input, button, textarea { 
             -webkit-appearance: none; border: none; outline: none; 
-            touch-action: manipulation; /* Garante que os botões não deem zoom */
         }
 
         /* =========================================
@@ -87,18 +85,17 @@
         .btn-opcao { background: var(--bg-principal); border: 2px solid var(--borda); color: var(--texto-secundario); padding: 15px; border-radius: 12px; cursor: pointer; font-size: 15px; font-weight: 600; transition: 0.2s; }
         .btn-opcao.selecionado { background: rgba(212, 175, 55, 0.1); border-color: var(--ouro-puro); color: var(--ouro-brilho); }
         
-        /* VACINA DOS 16px: Impede o Zoom Automático no iPhone/Android */
+        /* FONT-SIZE: 16px impede o zoom *automático* chato do iPhone, mas permite o zoom manual */
         .input-texto { 
             width: 100%; background: var(--bg-principal); border: 1px solid var(--borda); 
             color: var(--texto-principal); padding: 15px; border-radius: 12px; 
-            margin-bottom: 10px; font-size: 16px; /* AQUI ESTÁ O SEGREDO DO ZOOM! */
+            margin-bottom: 10px; font-size: 16px; 
         }
         textarea.input-texto { resize: vertical; } 
         .input-texto:focus { border-color: var(--ouro-puro); }
         
         .btn-fantasma { width: 100%; background: transparent; border: 1px dashed var(--borda); color: var(--texto-secundario); padding: 15px; border-radius: 12px; cursor: pointer; font-size: 15px; display: flex; justify-content: center; align-items: center; gap: 8px; }
         
-        /* BOTÃO DOURADO COM RESPIRO EXATO DE 15px */
         .btn-enviar-dossie { 
             background: linear-gradient(45deg, var(--ouro-puro), var(--ouro-brilho)); 
             color: #000; padding: 18px; border-radius: 35px; 
@@ -123,7 +120,6 @@
             .conteudo-central img { width: 160px; }
             
             .prompt-box { padding: 6px 12px; }
-            /* VACINA DOS 16px NO CELULAR TAMBÉM */
             .prompt-box input[type="text"] { font-size: 16px; padding: 12px 5px; }
             
             .menu-flutuante { width: 90%; left: 5%; right: 5%; top: 70px; }
