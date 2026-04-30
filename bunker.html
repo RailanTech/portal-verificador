@@ -1,81 +1,140 @@
-// =====================================================================
-// 📡 1. O ENDEREÇO DO BANCO (PODE FICAR VISÍVEL)
-// =====================================================================
-const LINK_DO_MOTOR = "https://motor-osint-privado.analise-seguranca.workers.dev"; 
-
-// =====================================================================
-// ⚙️ 2. FUNÇÃO PARA BUSCAR OS DOSSIÊS (COM BLINDAGEM OPSEC)
-// =====================================================================
-async function carregarDossies() {
-    
-    // 🛑 A JOGADA DE MESTRE: O sistema abre uma caixa perguntando a senha SÓ PARA VOCÊ.
-    // Ela nunca fica salva no GitHub!
-    const senhaDigitada = prompt("🚨 ACESSO RESTRITO (NÍVEL COMANDANTE):\nDigite a Chave Mestra do Bunker:");
-
-    // Se você cancelar ou não digitar nada, ele trava.
-    if (!senhaDigitada) {
-        alert("🚨 Acesso Cancelado.");
-        return;
-    }
-
-    // Montando a chave blindada na hora
-    const CHAVE_BUNKER = "Bearer " + senhaDigitada;
-
-    try {
-        // O Bunker bate na porta do Cloudflare com a senha que você acabou de digitar
-        const resposta = await fetch(LINK_DO_MOTOR, {
-            method: "GET",
-            headers: {
-                "Authorization": CHAVE_BUNKER
-            }
-        });
-
-        // Se o hacker digitar qualquer lixo na caixa, a Muralha rejeita.
-        if (resposta.status === 401) {
-            alert("🚨 ALERTA DE INTRUSÃO: Senha Mestra Incorreta. Acesso Negado.");
-            return;
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bunker Secreto - RailanTech</title>
+    <style>
+        :root {
+            --bg-base: #0a0a0a; --bg-painel: #1a1a1a; --bg-card: #242424;
+            --texto-principal: #e3e3e3; --texto-secundario: #a0a0a0;
+            --ouro-puro: #d4af37; --vermelho-alerta: #ff4d4d; --verde-seguro: #00e676;
+            --borda: #333;
         }
-
-        // Os dados chegando em segurança
-        const dadosBunker = await resposta.json();
-
-        // =====================================================================
-        // 📊 3. INJETANDO OS DADOS NA SUA TABELA PRETA
-        // =====================================================================
-        const corpoTabela = document.getElementById("corpo-tabela"); 
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Courier New', Courier, monospace; }
+        body { background-color: var(--bg-base); color: var(--texto-principal); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         
-        if (!corpoTabela) {
-            console.log("Aviso: Tabela não encontrada na tela.");
-            return;
-        }
-        
-        corpoTabela.innerHTML = ""; 
+        /* 🛑 TELA DE BLOQUEIO */
+        #tela-bloqueio { display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .icone-cadeado { font-size: 60px; margin-bottom: 20px; }
+        .titulo-bunker { color: var(--ouro-puro); font-size: 32px; letter-spacing: 4px; margin-bottom: 10px; text-transform: uppercase; }
+        .input-senha { background: #000; border: 2px solid var(--borda); color: var(--texto-principal); padding: 15px; font-size: 18px; text-align: center; letter-spacing: 2px; width: 300px; margin-bottom: 20px; outline: none; transition: 0.3s; }
+        .input-senha:focus { border-color: var(--ouro-puro); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
+        .btn-entrar { background: var(--ouro-puro); color: #000; font-weight: bold; font-size: 16px; padding: 15px 40px; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+        .btn-entrar:hover { background: #fff; box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
 
-        // Desenhando os relatórios
-        dadosBunker.forEach(dossie => {
-            let dados = typeof dossie === 'string' ? JSON.parse(dossie) : dossie;
+        /* 🖥️ PAINEL DE CONTROLE (BUNKER) */
+        #painel-bunker { display: none; width: 100%; max-width: 1200px; padding: 40px 20px; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 100vh; }
+        .cabecalho-painel { width: 100%; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--borda); padding-bottom: 20px; margin-bottom: 30px; }
+        .status-satelite { color: var(--verde-seguro); font-weight: bold; display: flex; align-items: center; gap: 10px; }
+        .status-satelite span { display: inline-block; width: 10px; height: 10px; background: var(--verde-seguro); border-radius: 50%; box-shadow: 0 0 10px var(--verde-seguro); animation: piscar 1.5s infinite; }
+        
+        .grid-dossies { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; width: 100%; }
+        .card-dossie { background: var(--bg-card); border: 1px solid var(--borda); padding: 20px; border-radius: 8px; border-left: 5px solid var(--ouro-puro); }
+        .card-dossie.hacker { border-left-color: var(--vermelho-alerta); background: rgba(255, 77, 77, 0.05); }
+        
+        .card-topo { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 12px; color: var(--texto-secundario); border-bottom: 1px dashed var(--borda); padding-bottom: 10px; }
+        .card-id { color: var(--ouro-puro); font-weight: bold; font-size: 14px; }
+        .card-dado { margin-bottom: 10px; font-size: 14px; line-height: 1.5; }
+        .card-dado strong { color: var(--texto-secundario); }
+        .alerta-hacker { color: var(--vermelho-alerta); font-weight: bold; font-size: 16px; margin-bottom: 10px; }
+
+        @keyframes piscar { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
+    </style>
+</head>
+<body>
+
+    <div id="tela-bloqueio">
+        <div class="icone-cadeado">☠️</div>
+        <h1 class="titulo-bunker">Bunker de Comando</h1>
+        <p style="color: var(--texto-secundario); margin-bottom: 30px;">Acesso restrito. Identifique-se.</p>
+        <input type="password" id="senha-input" class="input-senha" placeholder="CHAVE MESTRA" onkeypress="if(event.key === 'Enter') acessarBunker()">
+        <button class="btn-entrar" onclick="acessarBunker()">Desbloquear Base</button>
+        <p id="msg-erro" style="color: var(--vermelho-alerta); margin-top: 20px; font-weight: bold; display: none;">🚨 ACESSO NEGADO 🚨</p>
+    </div>
+
+    <div id="painel-bunker">
+        <div class="cabecalho-painel">
+            <div>
+                <h2 style="color: var(--ouro-puro); text-transform: uppercase; letter-spacing: 2px;">Terminal OSINT Privado</h2>
+                <p style="color: var(--texto-secundario); font-size: 12px; margin-top: 5px;">Classificação: 1% MONSTRO (OURO)</p>
+            </div>
+            <div class="status-satelite"><span></span> Satélite Cloudflare Online</div>
+        </div>
+        
+        <div id="loading-dados" style="color: var(--texto-secundario); font-size: 18px; margin-top: 50px;">📡 Conectando ao satélite militar. Baixando dossiês...</div>
+        
+        <div class="grid-dossies" id="grade-dados">
+            </div>
+    </div>
+
+    <script>
+        const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
+
+        async function acessarBunker() {
+            const senha = document.getElementById('senha-input').value;
+            const msgErro = document.getElementById('msg-erro');
             
-            let linha = `
-                <tr>
-                    <td style="color: #FFD700; padding: 10px;">${dados.protocolo}</td>
-                    <td style="padding: 10px;">${dados.perfil}</td>
-                    <td style="padding: 10px;">${dados.canal}</td>
-                    <td style="padding: 10px;">${dados.mensagem}</td>
-                    <td style="padding: 10px;">${dados.anexo}</td>
-                    <td style="padding: 10px;">${dados.data}</td>
-                    <td style="padding: 10px;"><button style="color: red; cursor: pointer;">Investigar</button></td>
-                </tr>
-            `;
-            corpoTabela.innerHTML += linha;
-        });
+            if(senha !== "SENHA-MONSTRO-100") {
+                msgErro.style.display = "block";
+                document.getElementById('senha-input').value = "";
+                return;
+            }
 
-    } catch (erro) {
-        console.error("🚨 Falha na comunicação com a base:", erro);
-        alert("Erro de conexão com o satélite Cloudflare.");
-    }
-}
+            msgErro.style.display = "none";
+            document.getElementById('tela-bloqueio').style.display = "none";
+            document.getElementById('painel-bunker').style.display = "flex";
+            
+            buscarDossiesSecretos(senha);
+        }
 
-// =====================================================================
-// 🚀 ACIONA A TRANCA ASSIM QUE A PÁGINA CARREGA
-// =====================================================================
-window.onload = carregarDossies;
+        async function buscarDossiesSecretos(chaveMestra) {
+            try {
+                const req = await fetch(API_MATRIZ, { 
+                    method: "GET", 
+                    headers: { "Authorization": "Bearer " + chaveMestra } 
+                });
+                
+                if(!req.ok) throw new Error("Falha na Chave Mestra no Servidor.");
+                
+                const dados = await req.json();
+                document.getElementById('loading-dados').style.display = "none";
+                
+                const grade = document.getElementById('grade-dados');
+                grade.innerHTML = "";
+
+                if(dados.length === 0 || (dados.length === 1 && dados[0].protocolo === "Aviso")) {
+                    grade.innerHTML = "<p style='color: var(--texto-secundario);'>O cofre está vazio. Nenhuma ameaça detectada ainda.</p>";
+                    return;
+                }
+
+                // Inverte para mostrar os mais novos primeiro
+                dados.reverse().forEach(dossie => {
+                    const isHacker = dossie.protocolo === "HACKER-CAPTURADO";
+                    const classeCard = isHacker ? "card-dossie hacker" : "card-dossie";
+                    const alertaVisual = isHacker ? "<div class='alerta-hacker'>🚨 INVASOR CAPTURADO NA RATOEIRA</div>" : "";
+
+                    const card = `
+                        <div class="${classeCard}">
+                            ${alertaVisual}
+                            <div class="card-topo">
+                                <span class="card-id">${dossie.protocolo}</span>
+                                <span>${dossie.data || 'Data Desconhecida'}</span>
+                            </div>
+                            <div class="card-dado"><strong>Perfil:</strong> ${dossie.perfil}</div>
+                            <div class="card-dado"><strong>DNA Digital:</strong> <span style="color: var(--ouro-puro);">${dossie.assinaturaDigital || 'N/A'}</span></div>
+                            <div class="card-dado"><strong>Mensagem / Relato:</strong> <br> ${dossie.mensagem}</div>
+                            ${!isHacker ? `<div class="card-dado"><strong>Contato:</strong> ${dossie.contato}</div>` : ''}
+                            ${dossie.anexo && dossie.anexo !== 'Nenhum' ? `<div class="card-dado" style="color: var(--verde-seguro);">📎 [ EVIDÊNCIA ANEXADA ]</div>` : ''}
+                        </div>
+                    `;
+                    grade.innerHTML += card;
+                });
+
+            } catch (erro) {
+                document.getElementById('loading-dados').innerHTML = "🚨 ERRO DE CONEXÃO: " + erro.message;
+            }
+        }
+    </script>
+</body>
+</html>
