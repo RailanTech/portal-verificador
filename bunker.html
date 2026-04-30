@@ -1,4 +1,94 @@
-async function buscarDossiesSecretos(chaveMestra) {
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bunker Secreto - RailanTech</title>
+    <style>
+        :root {
+            --bg-base: #0a0a0a; --bg-painel: #1a1a1a; --bg-card: #242424;
+            --texto-principal: #e3e3e3; --texto-secundario: #a0a0a0;
+            --ouro-puro: #d4af37; --vermelho-alerta: #ff4d4d; --verde-seguro: #00e676;
+            --borda: #333;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Courier New', Courier, monospace; }
+        body { background-color: var(--bg-base); color: var(--texto-principal); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        
+        /* 🛑 TELA DE BLOQUEIO */
+        #tela-bloqueio { display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .icone-cadeado { font-size: 60px; margin-bottom: 20px; }
+        .titulo-bunker { color: var(--ouro-puro); font-size: 32px; letter-spacing: 4px; margin-bottom: 10px; text-transform: uppercase; }
+        .input-senha { background: #000; border: 2px solid var(--borda); color: var(--texto-principal); padding: 15px; font-size: 18px; text-align: center; letter-spacing: 2px; width: 300px; margin-bottom: 20px; outline: none; transition: 0.3s; }
+        .input-senha:focus { border-color: var(--ouro-puro); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
+        .btn-entrar { background: var(--ouro-puro); color: #000; font-weight: bold; font-size: 16px; padding: 15px 40px; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+        .btn-entrar:hover { background: #fff; box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
+
+        /* 🖥️ PAINEL DE CONTROLE (BUNKER) */
+        #painel-bunker { display: none; width: 100%; max-width: 1200px; padding: 40px 20px; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 100vh; }
+        .cabecalho-painel { width: 100%; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--borda); padding-bottom: 20px; margin-bottom: 30px; }
+        .status-satelite { color: var(--verde-seguro); font-weight: bold; display: flex; align-items: center; gap: 10px; }
+        .status-satelite span { display: inline-block; width: 10px; height: 10px; background: var(--verde-seguro); border-radius: 50%; box-shadow: 0 0 10px var(--verde-seguro); animation: piscar 1.5s infinite; }
+        
+        .grid-dossies { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; width: 100%; }
+        .card-dossie { background: var(--bg-card); border: 1px solid var(--borda); padding: 20px; border-radius: 8px; border-left: 5px solid var(--ouro-puro); }
+        .card-dossie.hacker { border-left-color: var(--vermelho-alerta); background: rgba(255, 77, 77, 0.05); }
+        
+        .card-topo { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 12px; color: var(--texto-secundario); border-bottom: 1px dashed var(--borda); padding-bottom: 10px; }
+        .card-id { color: var(--ouro-puro); font-weight: bold; font-size: 14px; }
+        .card-dado { margin-bottom: 10px; font-size: 14px; line-height: 1.5; }
+        .card-dado strong { color: var(--texto-secundario); }
+        .alerta-hacker { color: var(--vermelho-alerta); font-weight: bold; font-size: 16px; margin-bottom: 10px; }
+
+        @keyframes piscar { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
+    </style>
+</head>
+<body>
+
+    <div id="tela-bloqueio">
+        <div class="icone-cadeado">☠️</div>
+        <h1 class="titulo-bunker">Bunker de Comando</h1>
+        <p style="color: var(--texto-secundario); margin-bottom: 30px;">Acesso restrito. Identifique-se.</p>
+        <input type="password" id="senha-input" class="input-senha" placeholder="CHAVE MESTRA" onkeypress="if(event.key === 'Enter') acessarBunker()">
+        <button class="btn-entrar" onclick="acessarBunker()">Desbloquear Base</button>
+        <p id="msg-erro" style="color: var(--vermelho-alerta); margin-top: 20px; font-weight: bold; display: none;">🚨 ACESSO NEGADO 🚨</p>
+    </div>
+
+    <div id="painel-bunker">
+        <div class="cabecalho-painel">
+            <div>
+                <h2 style="color: var(--ouro-puro); text-transform: uppercase; letter-spacing: 2px;">Terminal OSINT Privado</h2>
+                <p style="color: var(--texto-secundario); font-size: 12px; margin-top: 5px;">Classificação: 1% MONSTRO (OURO)</p>
+            </div>
+            <div class="status-satelite"><span></span> Satélite Cloudflare Online</div>
+        </div>
+        
+        <div id="loading-dados" style="color: var(--texto-secundario); font-size: 18px; margin-top: 50px;">📡 Conectando ao satélite militar. Baixando dossiês...</div>
+        
+        <div class="grid-dossies" id="grade-dados">
+            </div>
+    </div>
+
+    <script>
+        const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
+
+        async function acessarBunker() {
+            const senha = document.getElementById('senha-input').value;
+            const msgErro = document.getElementById('msg-erro');
+            
+            if(senha !== "SENHA-MONSTRO-100") {
+                msgErro.style.display = "block";
+                document.getElementById('senha-input').value = "";
+                return;
+            }
+
+            msgErro.style.display = "none";
+            document.getElementById('tela-bloqueio').style.display = "none";
+            document.getElementById('painel-bunker').style.display = "flex";
+            
+            buscarDossiesSecretos(senha);
+        }
+
+        async function buscarDossiesSecretos(chaveMestra) {
             try {
                 const req = await fetch(API_MATRIZ, { 
                     method: "GET", 
@@ -54,3 +144,6 @@ async function buscarDossiesSecretos(chaveMestra) {
                 document.getElementById('loading-dados').innerHTML = "🚨 " + erro.message;
             }
         }
+    </script>
+</body>
+</html>
