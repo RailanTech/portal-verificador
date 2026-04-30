@@ -1,373 +1,390 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RailanTech Protect - Central Anti-Fraude</title>
-    <style>
-        :root {
-            --bg-principal: #131314; --bg-secundario: #1e1f20; --bg-hover: #333538;
-            --texto-principal: #e3e3e3; --texto-secundario: #c4c7c5; --borda: #444746;
-            --destaque-azul: #a8c7fa; --vermelho-alerta: #f28b82; --verde-seguro: #81c995;
-            --ouro-puro: #d4af37; --ouro-brilho: #f3e5ab; --fundo-modal: rgba(0, 0, 0, 0.85);
-        }
-        
-        * { 
-            margin: 0; padding: 0; box-sizing: border-box; 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        body {
-            background-color: var(--bg-principal); color: var(--texto-principal);
-            min-height: 100dvh; display: flex; flex-direction: column;
-            align-items: center; overflow-x: hidden;
-        }
-        input, button, textarea {
-            -webkit-appearance: none; border: none; outline: none;
-        }
-        /* =========================================
-        1. MENU ESTRATÉGICO
-        ========================================= */
-        .top-bar { position: absolute; top: 0; width: 100%; padding: 20px 25px; display: flex; justify-content: flex-end; align-items: center; z-index: 100; }
-        .menu-btn { background: none; color: var(--texto-secundario); cursor: pointer; padding: 10px; border-radius: 50%; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
-        .menu-flutuante { position: absolute; top: 70px; right: 25px; background-color: var(--bg-secundario); border-radius: 12px; width: 350px; padding: 12px 0;
-        border: 1px solid var(--borda); display: none; z-index: 101; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-        .menu-flutuante.ativo { display: block; animation: fadeIn 0.2s; }
-        .menu-item { padding: 16px 20px; display: flex; align-items: center; gap: 15px; color: var(--texto-principal); font-size: 16px; font-weight: 500; cursor: pointer; transition: 0.2s; }
-        .menu-item:hover { background-color: rgba(255,255,255,0.05); }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RailanTech Protect - Central Anti-Fraude</title>
+<style>
+:root {
+--bg-principal: #131314; --bg-secundario: #1e1f20; --bg-hover: #333538;
+--texto-principal: #e3e3e3; --texto-secundario: #c4c7c5; --borda: #444746;
+--destaque-azul: #a8c7fa; --vermelho-alerta: #f28b82; --verde-seguro: #81c995;
+--ouro-puro: #d4af37; --ouro-brilho: #f3e5ab; --fundo-modal: rgba(0, 0, 0, 0.85);
+}
 
-        @media (min-width: 1025px) {
-            .menu-btn { display: none; }
-            .menu-flutuante { position: static; display: flex !important; flex-direction: row; gap: 15px; background: transparent; border: none; padding: 0; width: auto; box-shadow: none; }
-            .menu-item { padding: 10px 20px; border-radius: 30px; border: 1px solid var(--borda); background-color: rgba(255,255,255,0.02); font-size: 14px; }
-            .menu-item:hover { background-color: rgba(255,255,255,0.08); border-color: var(--texto-secundario); }
-        }
-        /* =========================================
-        2. NÚCLEO CENTRAL (DASHBOARD)
-        ========================================= */
-        .main-container { width: 100%; max-width: 800px; padding: 20px; display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 15dvh; }
-        .conteudo-central img { width: 220px; height: auto; margin-bottom: 20px; }
-        .titulo-central { color: var(--ouro-puro); font-size: 48px; font-weight: 600; margin-bottom: 15px; letter-spacing: -0.5px; }
+* {
+margin: 0; padding: 0; box-sizing: border-box;
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+-webkit-tap-highlight-color: transparent;
+}
 
-        .placar-autoridade { background: rgba(212, 175, 55, 0.08); border: 1px solid var(--ouro-puro); border-radius: 30px; padding: 8px 25px; color: var(--ouro-brilho); font-weight: 600;
-        font-size: 14px; margin-bottom: 30px; display: inline-flex; align-items: center; gap: 10px; }
-        .placar-autoridade span { display: inline-block; width: 8px; height: 8px; background-color: var(--verde-seguro); border-radius: 50%; box-shadow: 0 0 10px var(--verde-seguro); animation: pulse 2s infinite; }
-        .prompt-box { width: 100%; background-color: var(--bg-secundario); border-radius: 40px; display: flex; align-items: center; padding: 10px 20px; border: 1px solid var(--borda); margin-bottom: 30px; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        .prompt-box:focus-within { border-color: var(--texto-secundario); background-color: var(--bg-hover); box-shadow: 0 4px 20px rgba(0,0,0,0.7); }
-        .prompt-box input[type="text"] { flex: 1; background: transparent; color: var(--texto-principal); font-size: 16px; padding: 15px; }
-        .prompt-box input[type="text"]::placeholder { color: var(--texto-secundario); opacity: 0.7; }
-        .btn-acao { background: transparent; cursor: pointer; padding: 12px; border-radius: 50%; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
-        .btn-acao:hover { background-color: rgba(255,255,255,0.1); }
-        .btn-acao svg { fill: var(--texto-secundario); width: 24px; height: 24px; }
-        .resultado-box { width: 100%; display: none; flex-direction: column; text-align: left; margin-bottom: 40px; }
-        .mensagem-ia { background-color: var(--bg-secundario); padding: 30px; border-radius: 16px; font-size: 16px; line-height: 1.7; border: 1px solid var(--borda); }
-        .mensagem-ia.alerta { border-left: 4px solid var(--vermelho-alerta); }
-        .mensagem-ia.seguro { border-left: 4px solid var(--verde-seguro); }
-        .mensagem-ia.neutro { border-left: 4px solid var(--destaque-azul); }
-        .preview-imagem { max-width: 100%; max-height: 250px; border-radius: 8px; margin-bottom: 15px; display: none; border: 1px solid var(--borda); object-fit: contain; }
-        /* =========================================
-        3. ARQUITETURA MODAL (O COFRE BLINDADO)
-        ========================================= */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--fundo-modal); z-index: 999; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); animation: fadeIn 0.3s; }
-        .modal-content { background-color: var(--bg-secundario); border-radius: 20px; width: 90%; max-width: 600px; padding: 40px; padding-bottom: 50px; position: relative; max-height: 85dvh; overflow-y: auto; border: 1px solid var(--borda); box-shadow: 0 15px 50px rgba(0,0,0,0.8); }
-        .modal-title { font-size: 22px; margin-bottom: 25px; color: var(--ouro-brilho); display: flex; align-items: center; gap: 10px; font-weight: 600; padding-right: 30px; }
-        .btn-fechar { position: absolute; top: 20px; right: 20px; background: transparent; color: var(--texto-secundario); cursor: pointer; font-size: 22px; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
-        .btn-fechar:hover { background-color: rgba(255,255,255,0.08); color: var(--vermelho-alerta); }
-        .secao-dossie { margin-bottom: 25px; }
-        .secao-dossie p { margin-bottom: 10px; font-weight: 600; color: var(--texto-principal); font-size: 15px; }
-        .botoes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .btn-opcao { background: var(--bg-principal); border: 2px solid var(--borda); color: var(--texto-secundario); padding: 15px; border-radius: 12px; cursor: pointer; font-size: 15px; font-weight: 600; transition: 0.2s; }
-        .btn-opcao.selecionado { background: rgba(212, 175, 55, 0.1); border-color: var(--ouro-puro); color: var(--ouro-brilho); }
+body {
+background-color: var(--bg-principal); color: var(--texto-principal);
+min-height: 100dvh; display: flex; flex-direction: column;
+align-items: center; overflow-x: hidden;
+}
+input, button, textarea {
+-webkit-appearance: none; border: none; outline: none;
+}
+/* =========================================
+1. MENU ESTRATÉGICO
+========================================= */
+.top-bar { position: absolute; top: 0; width: 100%; padding: 20px 25px; display: flex; justify-content: flex-end; align-items: center; z-index: 100; }
+.menu-btn { background: none; color: var(--texto-secundario); cursor: pointer; padding: 10px; border-radius: 50%; transition: 0.2s; display: flex; align-items: center; justify-content: center;
+}
+.menu-flutuante { position: absolute; top: 70px; right: 25px; background-color: var(--bg-secundario); border-radius: 12px; width: 350px; padding: 12px 0;
+border: 1px solid var(--borda); display: none; z-index: 101; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+.menu-flutuante.ativo { display: block; animation: fadeIn 0.2s; }
+.menu-item { padding: 16px 20px; display: flex; align-items: center; gap: 15px; color: var(--texto-principal); font-size: 16px; font-weight: 500; cursor: pointer;
+transition: 0.2s; }
+.menu-item:hover { background-color: rgba(255,255,255,0.05); }
+@media (min-width: 1025px) {
+.menu-btn { display: none; }
+.menu-flutuante { position: static; display: flex !important; flex-direction: row; gap: 15px; background: transparent; border: none; padding: 0; width: auto;
+box-shadow: none; }
+.menu-item { padding: 10px 20px; border-radius: 30px; border: 1px solid var(--borda); background-color: rgba(255,255,255,0.02); font-size: 14px; }
+.menu-item:hover { background-color: rgba(255,255,255,0.08); border-color: var(--texto-secundario); }
+}
+/* =========================================
+2. NÚCLEO CENTRAL (DASHBOARD)
+========================================= */
+.main-container { width: 100%; max-width: 800px; padding: 20px; display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 15dvh; }
+.conteudo-central img { width: 220px; height: auto; margin-bottom: 20px; }
+.titulo-central { color: var(--ouro-puro); font-size: 48px; font-weight: 600; margin-bottom: 15px; letter-spacing: -0.5px; }
+.placar-autoridade { background: rgba(212, 175, 55, 0.08); border: 1px solid var(--ouro-puro); border-radius: 30px; padding: 8px 25px; color: var(--ouro-brilho); font-weight: 600;
+font-size: 14px; margin-bottom: 30px; display: inline-flex; align-items: center; gap: 10px; }
+.placar-autoridade span { display: inline-block; width: 8px; height: 8px; background-color: var(--verde-seguro); border-radius: 50%; box-shadow: 0 0 10px var(--verde-seguro);
+animation: pulse 2s infinite; }
+.prompt-box { width: 100%; background-color: var(--bg-secundario); border-radius: 40px; display: flex; align-items: center; padding: 10px 20px; border: 1px solid var(--borda);
+margin-bottom: 30px; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+.prompt-box:focus-within { border-color: var(--texto-secundario); background-color: var(--bg-hover); box-shadow: 0 4px 20px rgba(0,0,0,0.7); }
+.prompt-box input[type="text"] { flex: 1; background: transparent; color: var(--texto-principal); font-size: 16px; padding: 15px; }
+.prompt-box input[type="text"]::placeholder { color: var(--texto-secundario); opacity: 0.7; }
+.btn-acao { background: transparent; cursor: pointer; padding: 12px; border-radius: 50%; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+.btn-acao:hover { background-color: rgba(255,255,255,0.1); }
+.btn-acao svg { fill: var(--texto-secundario); width: 24px; height: 24px; }
+.resultado-box { width: 100%; display: none; flex-direction: column; text-align: left; margin-bottom: 40px; }
+.mensagem-ia { background-color: var(--bg-secundario); padding: 30px; border-radius: 16px; font-size: 16px; line-height: 1.7; border: 1px solid var(--borda); }
+.mensagem-ia.alerta { border-left: 4px solid var(--vermelho-alerta); }
+.mensagem-ia.seguro { border-left: 4px solid var(--verde-seguro); }
+.mensagem-ia.neutro { border-left: 4px solid var(--destaque-azul); }
+.preview-imagem { max-width: 100%; max-height: 250px; border-radius: 8px; margin-bottom: 15px; display: none; border: 1px solid var(--borda); object-fit: contain; }
+/* =========================================
+3. ARQUITETURA MODAL (O COFRE BLINDADO)
+========================================= */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--fundo-modal); z-index: 999; display: none; align-items: center;
+justify-content: center; backdrop-filter: blur(8px); animation: fadeIn 0.3s; }
+.modal-content { background-color: var(--bg-secundario); border-radius: 20px; width: 90%; max-width: 600px; padding: 40px; padding-bottom: 50px; position: relative; max-height: 85dvh; overflow-y: auto;
+border: 1px solid var(--borda); box-shadow: 0 15px 50px rgba(0,0,0,0.8); }
+.modal-title { font-size: 22px; margin-bottom: 25px; color: var(--ouro-brilho); display: flex; align-items: center; gap: 10px; font-weight: 600; padding-right: 30px; }
+.btn-fechar { position: absolute; top: 20px; right: 20px; background: transparent; color: var(--texto-secundario); cursor: pointer; font-size: 22px; width: 40px; height: 40px;
+border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+.btn-fechar:hover { background-color: rgba(255,255,255,0.08); color: var(--vermelho-alerta); }
+.secao-dossie { margin-bottom: 25px; }
+.secao-dossie p { margin-bottom: 10px; font-weight: 600; color: var(--texto-principal); font-size: 15px; }
+.botoes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.btn-opcao { background: var(--bg-principal); border: 2px solid var(--borda); color: var(--texto-secundario); padding: 15px; border-radius: 12px; cursor: pointer; font-size: 15px; font-weight: 600;
+transition: 0.2s; }
+.btn-opcao.selecionado { background: rgba(212, 175, 55, 0.1); border-color: var(--ouro-puro); color: var(--ouro-brilho); }
+.input-texto { width: 100%; background: var(--bg-principal); border: 1px solid var(--borda); color: var(--texto-principal); padding: 15px; border-radius: 12px; margin-bottom: 10px; font-size: 16px;
+}
+textarea.input-texto { resize: vertical; }
+.input-texto:focus { border-color: var(--ouro-puro); }
+.btn-fantasma { width: 100%; background: transparent; border: 1px dashed var(--borda); color: var(--texto-secundario); padding: 15px; border-radius: 12px; cursor: pointer; font-size: 15px;
+display: flex; justify-content: center; align-items: center; gap: 8px; }
+.btn-enviar-dossie { background: linear-gradient(45deg, var(--ouro-puro), var(--ouro-brilho)); color: #000; padding: 18px; border-radius: 35px; font-weight: 700; width: 100%; cursor: pointer; font-size: 16px;
+margin-top: 15px; margin-bottom: 10px; transition: 0.2s; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
+.btn-enviar-dossie:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5); }
+.protocolo-box { background: var(--bg-principal); border: 1px solid var(--ouro-puro); padding: 15px; border-radius: 10px; font-size: 22px; font-weight: bold; color: var(--ouro-brilho);
+margin: 20px 0; letter-spacing: 2px; text-align: center; }
 
-        .input-texto { width: 100%; background: var(--bg-principal); border: 1px solid var(--borda); color: var(--texto-principal); padding: 15px; border-radius: 12px; margin-bottom: 10px; font-size: 16px; }
-        textarea.input-texto { resize: vertical; }
-        .input-texto:focus { border-color: var(--ouro-puro); }
-
-        .btn-fantasma { width: 100%; background: transparent; border: 1px dashed var(--borda); color: var(--texto-secundario); padding: 15px; border-radius: 12px; cursor: pointer; font-size: 15px; display: flex; justify-content: center; align-items: center; gap: 8px; }
-
-        .btn-enviar-dossie { background: linear-gradient(45deg, var(--ouro-puro), var(--ouro-brilho)); color: #000; padding: 18px; border-radius: 35px; font-weight: 700; width: 100%; cursor: pointer; font-size: 16px; margin-top: 15px; margin-bottom: 10px; transition: 0.2s; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
-        .btn-enviar-dossie:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5); }
-        .protocolo-box { background: var(--bg-principal); border: 1px solid var(--ouro-puro); padding: 15px; border-radius: 10px; font-size: 22px; font-weight: bold; color: var(--ouro-brilho); margin: 20px 0; letter-spacing: 2px; text-align: center; }
-        
-        /* =========================================
-        4. FLUIDEZ ESTRATÉGICA
-        ========================================= */
-        @media (max-width: 1024px) {
-            .main-container { margin-top: 10dvh; width: 90%; }
-            .titulo-central { font-size: 42px; }
-        }
-        @media (max-width: 768px) {
-            .main-container { margin-top: 5dvh; padding: 10px; width: 100%; }
-            .titulo-central { font-size: 36px; }
-            .conteudo-central img { width: 160px; }
-            .prompt-box { padding: 6px 12px; }
-            .prompt-box input[type="text"] { font-size: 16px; padding: 12px 5px; }
-            .menu-flutuante { width: 90%; left: 5%; right: 5%; top: 70px; }
-            .modal-content { padding: 25px 20px 45px 20px; width: 95%; max-height: 90dvh; }
-            .botoes-grid { grid-template-columns: 1fr !important; }
-            .btn-fechar { top: 15px; right: 15px; }
-        }
-        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    </style>
+/* =========================================
+4. FLUIDEZ ESTRATÉGICA
+========================================= */
+@media (max-width: 1024px) {
+.main-container { margin-top: 10dvh; width: 90%; }
+.titulo-central { font-size: 42px; }
+}
+@media (max-width: 768px) {
+.main-container { margin-top: 5dvh; padding: 10px; width: 100%; }
+.titulo-central { font-size: 36px; }
+.conteudo-central img { width: 160px; }
+.prompt-box { padding: 6px 12px; }
+.prompt-box input[type="text"] { font-size: 16px; padding: 12px 5px; }
+.menu-flutuante { width: 90%; left: 5%; right: 5%; top: 70px; }
+.modal-content { padding: 25px 20px 45px 20px; width: 95%; max-height: 90dvh; }
+.botoes-grid { grid-template-columns: 1fr !important; }
+.btn-fechar { top: 15px; right: 15px; }
+}
+@keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+</style>
 </head>
 <body>
-    <div class="top-bar">
-        <button class="menu-btn" onclick="document.getElementById('menuFlutuante').classList.toggle('ativo')">
-            <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
-        </button>
-        <div class="menu-flutuante" id="menuFlutuante">
-            <div class="menu-item" onclick="abrirModalOSINT('form-dossie')"> 🛡️  Denunciar Golpe</div>
-            <div class="menu-item" onclick="abrirModalOSINT('painel-ajuda')"> ❓  Ajuda Tática</div>
-            <div class="menu-item" onclick="abrirModalOSINT('painel-sobre')"> ℹ️  Sobre a Central</div>
-        </div>
-    </div>
-    <div class="main-container">
-        <div class="conteudo-central">
-            <img src="escudo-sem-fundo.png" alt="Escudo RailanTech">
-            <h1 class="titulo-central">RailanTech</h1>
-            <div class="placar-autoridade"><span></span> Muralha Ativa: Monitorando Ameaças no Brasil</div>
-            <p style="color: var(--texto-secundario); margin-bottom: 30px; font-size: 15px; max-width: 600px; line-height: 1.6;">
-                Recebeu uma mensagem estranha? Falsa taxa, falso Pix, boleto suspeito?
-                <b>Não clique no escuro.</b> Cole o texto ou envie a evidência na barra abaixo.
-            </p>
-        </div>
-        <div class="prompt-box">
-            <input type="file" id="input-imagem-radar" accept="image/*,video/*,audio/*" style="display: none;" onchange="processarImagemNeural(event)">
-            <button class="btn-acao" onclick="document.getElementById('input-imagem-radar').click()" title="Anexar Evidência">
-                <svg viewBox="0 0 24 24"><path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/></svg>
-            </button>
-            <input type="text" id="input-link" onkeypress="if(event.key === 'Enter') iniciarVarredura()">
-            <button class="btn-acao" onclick="iniciarVarredura()" title="Verificar Segurança">
-                <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-            </button>
-        </div>
-        <div id="loading-varredura" style="display:none; color: var(--texto-secundario); margin-bottom: 20px; font-weight: 500;">Analisando dados com Perícia OSINT...</div>
-        <div class="resultado-box" id="resultado-box">
-            <img id="preview-imagem-radar" class="preview-imagem" src="" alt="Evidência Analisada">
-            <div class="mensagem-ia" id="mensagem-resposta"></div>
-        </div>
-    </div>
-    
-    <div class="modal-overlay" id="modalOSINT">
-        <div class="modal-content">
-            <button class="btn-fechar" onclick="document.getElementById('modalOSINT').style.display='none'"> ✖ </button>
+<div class="top-bar">
+<button class="menu-btn" onclick="document.getElementById('menuFlutuante').classList.toggle('ativo')">
+<svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+</button>
+<div class="menu-flutuante" id="menuFlutuante">
+<div class="menu-item" onclick="abrirModalOSINT('form-dossie')">  🛡️   Denunciar Golpe</div>
+<div class="menu-item" onclick="abrirModalOSINT('painel-ajuda')">  ❓   Ajuda T á tica</div>
+<div class="menu-item" onclick="abrirModalOSINT('painel-sobre')">  ℹ️   Sobre a Central</div>
+</div>
+</div>
+<div class="main-container">
+<div class="conteudo-central">
+<img src="escudo-sem-fundo.png" alt="Escudo RailanTech">
+<h1 class="titulo-central">RailanTech</h1>
+<div class="placar-autoridade"><span></span> Muralha Ativa: Monitorando Ameaças no Brasil</div>
+<p style="color: var(--texto-secundario); margin-bottom: 30px; font-size: 15px; max-width: 600px; line-height: 1.6;">
+Recebeu uma mensagem estranha? Falsa taxa, falso Pix, boleto suspeito?
+<b>Não clique no escuro.</b> Cole o texto ou envie a evidência na barra abaixo.
+</p>
+</div>
+<div class="prompt-box">
+<input type="file" id="input-imagem-radar" accept="image/*,video/*,audio/*" style="display: none;" onchange="processarImagemNeural(event)">
+<button class="btn-acao" onclick="document.getElementById('input-imagem-radar').click()" title="Anexar Evidência">
+<svg viewBox="0 0 24 24"><path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/></svg>
+</button>
+<input type="text" id="input-link" onkeypress="if(event.key === 'Enter') iniciarVarredura()">
+<button class="btn-acao" onclick="iniciarVarredura()" title="Verificar Segurança">
+<svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+</button>
+</div>
+<div id="loading-varredura" style="display:none; color: var(--texto-secundario); margin-bottom: 20px; font-weight: 500;">Analisando dados com Perícia OSINT...</div>
+<div class="resultado-box" id="resultado-box">
+<img id="preview-imagem-radar" class="preview-imagem" src="" alt="Evidência Analisada">
+<div class="mensagem-ia" id="mensagem-resposta"></div>
+</div>
+</div>
 
-            <div id="form-dossie" style="display:none;">
-                <div class="modal-title"> 🛡️  Dossiê de Investigação</div>
-                <p style="color: var(--texto-secundario); margin-bottom: 25px; font-size: 14px;">Suas informações ajudam a alimentar a nossa Lista Negra.</p>
-                <div class="secao-dossie">
-                    <p>1. Quem foi o alvo da tentativa de golpe?</p>
-                    <div class="botoes-grid">
-                        <button class="btn-opcao selecionado" id="btn-cidadao" onclick="selecionarPerfil('Cidadão')"> 👤  Sou Cidadão (Pessoa Física)</button>
-                        <button class="btn-opcao" id="btn-empresa" onclick="selecionarPerfil('Empresa')"> 🏢  Sou Empresa (CNPJ)</button>
-                    </div>
-                </div>
-                <div class="secao-dossie">
-                    <p>2. Por onde o bandido tentou atacar?</p>
-                    <div class="botoes-grid" style="grid-template-columns: 1fr 1fr 1fr;">
-                        <button class="btn-opcao selecionado" onclick="selecionarCanal(this, 'WhatsApp')">WhatsApp</button>
-                        <button class="btn-opcao" onclick="selecionarCanal(this, 'E-mail')">E-mail</button>
-                        <button class="btn-opcao" onclick="selecionarCanal(this, 'SMS')">SMS/Outro</button>
-                    </div>
-                </div>
-                <div class="secao-dossie">
-                    <p>3. Conte do seu jeito o que aconteceu:</p>
-                    <textarea id="texto-relato" class="input-texto" rows="4" placeholder="Escreva aqui ou grave um vídeo/áudio no botão abaixo..."></textarea>
+<div class="modal-overlay" id="modalOSINT">
+<div class="modal-content">
+<button class="btn-fechar" onclick="document.getElementById('modalOSINT').style.display='none'">  ✖  </button>
+<div id="form-dossie" style="display:none;">
+<div class="modal-title">  🛡️   Dossiê de Investigação</div>
+<p style="color: var(--texto-secundario); margin-bottom: 25px; font-size: 14px;">Suas informações ajudam a alimentar a nossa Lista Negra.</p>
+<div class="secao-dossie">
+<p>1. Quem foi o alvo da tentativa de golpe?</p>
+<div class="botoes-grid">
+<button class="btn-opcao selecionado" id="btn-cidadao" onclick="selecionarPerfil('Cidadão')">  👤   Sou Cidadão (Pessoa Física)</button>
+<button class="btn-opcao" id="btn-empresa" onclick="selecionarPerfil('Empresa')">  🏢   Sou Empresa (CNPJ)</button>
+</div>
+</div>
+<div class="secao-dossie">
+<p>2. Por onde o bandido tentou atacar?</p>
+<div class="botoes-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+<button class="btn-opcao selecionado" onclick="selecionarCanal(this, 'WhatsApp')">WhatsApp</button>
+<button class="btn-opcao" onclick="selecionarCanal(this, 'E-mail')">E-mail</button>
+<button class="btn-opcao" onclick="selecionarCanal(this, 'SMS')">SMS/Outro</button>
+</div>
+</div>
+<div class="secao-dossie">
+<p>3. Conte do seu jeito o que aconteceu:</p>
+<textarea id="texto-relato" class="input-texto" rows="4" placeholder="Escreva aqui ou grave um vídeo/áudio no botão abaixo..."></textarea>
+<input type="file" id="input-anexo-dossie" accept="image/*,video/*,audio/*" style="display:none" onchange="prepararAnexoDossie(event)">
+<button class="btn-fantasma" id="btn-ui-anexo" onclick="document.getElementById('input-anexo-dossie').click()">
+📎   Anexar Evidência (Print / Vídeo Libras / Áudio)
+</button>
+</div>
+<input type="text" id="contato-opcional" class="input-texto" placeholder="Seu WhatsApp ou E-mail (Opcional)">
+<button class="btn-enviar-dossie" onclick="transmitirDossieOficial()" id="btn-transmitir">Transmitir Dossiê para a Central</button>
+</div>
 
-                    <input type="file" id="input-anexo-dossie" accept="image/*,video/*,audio/*" style="display:none" onchange="prepararAnexoDossie(event)">
-                    <button class="btn-fantasma" id="btn-ui-anexo" onclick="document.getElementById('input-anexo-dossie').click()">
-                        📎  Anexar Evidência (Print / Vídeo Libras / Áudio)
-                    </button>
-                </div>
-                <input type="text" id="contato-opcional" class="input-texto" placeholder="Seu WhatsApp ou E-mail (Opcional)">
-                <button class="btn-enviar-dossie" onclick="transmitirDossieOficial()" id="btn-transmitir">Transmitir Dossiê para a Central</button>
-            </div>
-            
-            <div id="tela-sucesso" style="display:none; text-align: center; padding: 20px 0;">
-                <h3 style="color: var(--verde-seguro); font-size: 24px; margin-bottom: 15px;"> ✅  Denúncia Registrada!</h3>
-                <p style="color: var(--texto-secundario); font-size: 15px;">Você agiu como um verdadeiro Agente. Sua denúncia foi processada sob o protocolo oficial:</p>
-                <div class="protocolo-box" id="num-protocolo">RT-BR-...</div>
-                <button class="btn-opcao selecionado" style="width: 100%;" onclick="document.getElementById('modalOSINT').style.display='none'">Fechar e Voltar à Base</button>
-            </div>
-            
-            <div id="painel-ajuda" style="display:none;">
-                <div class="modal-title"> ❓  Ajuda Tática</div>
-                <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;"> 🚨  <b>1. Congele e Capture:</b> O bandido sempre tenta usar o medo e a pressa contra você. Não clique em nenhum link no escuro! Respire, tire um Print (foto da tela) ou copie o texto da mensagem suspeita.</p>
-                <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;"> 📥  <b>2. Acione o Radar:</b> Venha para a nossa Central. Cole o texto do golpe na barra principal ou clique no <b>Clipe de Papel</b> para enviar a foto da conversa.</p>
-                <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;"> ⚖️  <b>3. O Veredito Oficial:</b> Deixe a nossa Inteligência agir. Se acender a luz do <b style="color: var(--vermelho-alerta);">Alerta Vermelho</b>, é fraude: bloqueie o contato imediatamente. Se brilhar o <b style="color: var(--verde-seguro);">Selo Verde</b>, fique em paz, o acesso é seguro.</p>
-            </div>
-            
-            <div id="painel-sobre" style="display:none;">
-                <div class="modal-title"> ℹ️  Sobre a RailanTech</div>
-                <p style="color: var(--texto-secundario); font-size: 15px; line-height: 1.6;">O <b>Terminal de Inteligência RailanTech</b> é uma muralha de segurança contra o cibercrime. Desenvolvido com arquitetura de dados OSINT Nível 1, operando com inteligência artificial para proteção da população brasileira contra golpes virtuais.</p>
-            </div>
-        </div>
-    </div>
+<div id="tela-sucesso" style="display:none; text-align: center; padding: 20px 0;">
+<h3 style="color: var(--verde-seguro); font-size: 24px; margin-bottom: 15px;">  ✅   Den ú ncia Registrada!</h3>
+<p style="color: var(--texto-secundario); font-size: 15px;">Você agiu como um verdadeiro Agente. Sua denúncia foi processada sob o protocolo oficial:</p>
+<div class="protocolo-box" id="num-protocolo">RT-BR-...</div>
+<button class="btn-opcao selecionado" style="width: 100%;" onclick="document.getElementById('modalOSINT').style.display='none'">Fechar e Voltar à Base</button>
+</div>
 
-    <script>
-        // ATENÇÃO COMANDANTE: INSIRA AQUI O LINK REAL DO SEU CLOUDFLARE WORKER
-        const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
+<div id="painel-ajuda" style="display:none;">
+<div class="modal-title">  ❓   Ajuda T á tica</div>
+<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">  🚨   <b>1.
+Congele e Capture:</b> O bandido sempre tenta usar o medo e a pressa contra você.
+Não clique em nenhum link no escuro! Respire, tire um Print (foto da tela) ou copie o texto da mensagem suspeita.</p>
+<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">  📥   <b>2.
+Acione o Radar:</b> Venha para a nossa Central. Cole o texto do golpe na barra principal ou clique no <b>Clipe de Papel</b> para enviar a foto da conversa.</p>
+<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">  ⚖️   <b>3.
+O Veredito Oficial:</b> Deixe a nossa Inteligência agir. Se acender a luz do <b style="color: var(--vermelho-alerta);">Alerta Vermelho</b>, é fraude: bloqueie o contato imediatamente.
+Se brilhar o <b style="color: var(--verde-seguro);">Selo Verde</b>, fique em paz, o acesso é seguro.</p>
+</div>
 
-        const frasesMobile = ["Cole o Link suspeito...", "Cole o texto do Golpe...", "Ou envie a Evidência..."];
-        let iFrase = 0; let iLetra = 0; let apagando = false; let isTypingPaused = false;
-        const typingDelay = 70; const eraseDelay = 40; const newTextDelay = 2000;
-        const inputLink = document.getElementById('input-link');
-        
-        inputLink.addEventListener('focus', () => { isTypingPaused = true; inputLink.placeholder = "Cole a ameaça aqui..."; });
-        inputLink.addEventListener('blur', () => { if(inputLink.value === "") { isTypingPaused = false; } });
-        
-        function maquinaDeEscrever() {
-            if (window.innerWidth > 768) {
-                inputLink.placeholder = "Cole aqui o link, texto de Golpe ou anexe uma Evidência...";
-                return;
-            }
-            if (isTypingPaused || inputLink.value !== "") {
-                setTimeout(maquinaDeEscrever, 1000);
-                return;
-            }
-            const fraseAtual = frasesMobile[iFrase];
-            if (!apagando) {
-                inputLink.placeholder = fraseAtual.substring(0, iLetra + 1);
-                iLetra++;
-                if (iLetra === fraseAtual.length) {
-                    apagando = true;
-                    setTimeout(maquinaDeEscrever, newTextDelay);
-                } else { setTimeout(maquinaDeEscrever, typingDelay); }
-            } else {
-                inputLink.placeholder = fraseAtual.substring(0, iLetra - 1);
-                iLetra--;
-                if (iLetra === 0) {
-                    apagando = false;
-                    iFrase = (iFrase + 1) % frasesMobile.length;
-                    setTimeout(maquinaDeEscrever, typingDelay);
-                } else { setTimeout(maquinaDeEscrever, eraseDelay); }
-            }
-        }
-        window.onload = function() { setTimeout(maquinaDeEscrever, 500); };
-        
-        function abrirModalOSINT(painelID) {
-            document.getElementById('menuFlutuante').classList.remove('ativo');
-            document.getElementById('form-dossie').style.display = 'none';
-            document.getElementById('tela-sucesso').style.display = 'none';
-            document.getElementById('painel-ajuda').style.display = 'none';
-            document.getElementById('painel-sobre').style.display = 'none';
+<div id="painel-sobre" style="display:none;">
+<div class="modal-title">  ℹ️   Sobre a RailanTech</div>
+<p style="color: var(--texto-secundario); font-size: 15px; line-height: 1.6;">O <b>Terminal de Inteligência RailanTech</b> é uma muralha de segurança contra o cibercrime.
+Desenvolvido com arquitetura de dados OSINT Nível 1, operando com inteligência artificial para proteção da população brasileira contra golpes virtuais.</p>
+</div>
+</div>
+</div>
+<script>
+// ATENÇÃO COMANDANTE: INSIRA AQUI O LINK REAL DO SEU CLOUDFLARE WORKER
+const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
+const frasesMobile = ["Cole o Link suspeito...", "Cole o texto do Golpe...", "Ou envie a Evidência..."];
+let iFrase = 0; let iLetra = 0; let apagando = false; let isTypingPaused = false;
+const typingDelay = 70; const eraseDelay = 40; const newTextDelay = 2000;
+const inputLink = document.getElementById('input-link');
 
-            if(painelID === 'form-dossie') {
-                dossieDados.anexoBase64 = null;
-                document.getElementById('texto-relato').value = '';
-                document.getElementById('contato-opcional').value = '';
-                const btnUi = document.getElementById('btn-ui-anexo');
-                btnUi.innerHTML = ' 📎  Anexar Evidência (Print / Vídeo Libras / Áudio)';
-                btnUi.style.color = 'var(--texto-secundario)';
-            }
-            document.getElementById(painelID).style.display = 'block';
-            document.getElementById('modalOSINT').style.display = 'flex';
-        }
-        
-        document.addEventListener('click', function(event) {
-            const menu = document.getElementById('menuFlutuante');
-            const btnMenu = document.querySelector('.menu-btn');
-            if (!menu.contains(event.target) && !btnMenu.contains(event.target)) {
-                menu.classList.remove('ativo');
-            }
-        });
-        
-        function aplicarCoresLaudo(msgBox, texto) {
-            msgBox.className = "mensagem-ia";
-            const txt = texto.toUpperCase();
-            if (txt.includes("[ SEGURO") || txt.includes("[SEGURO")) { msgBox.classList.add("seguro"); }
-            else if (txt.includes("[ ALERTA") || txt.includes("[ALERTA") || txt.includes("[ AMEAÇA") || txt.includes("[AMEAÇA") || txt.includes("[ GOLPE") || txt.includes("[GOLPE")) { msgBox.classList.add("alerta"); }
-            else { msgBox.classList.add("neutro"); }
-        }
-        
-        async function iniciarVarredura() {
-            const inputDado = document.getElementById('input-link').value;
-            if(!inputDado) return;
-            document.getElementById('resultado-box').style.display = "none";
-            document.getElementById('preview-imagem-radar').style.display = "none";
-            document.getElementById('loading-varredura').style.display = "block";
-            try {
-                const req = await fetch(API_MATRIZ, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ tipo: "link", dado: inputDado }) });
-                const data = await req.json();
-                exibirResposta(data.analise);
-            } catch (e) { exibirResposta(" 🚨  [ ALERTA CRÍTICO ]  🚨 \n\nFalha na comunicação com a base."); }
-        }
-        
-        async function processarImagemNeural(event) {
-            const file = event.target.files[0]; if (!file) return;
-            document.getElementById('resultado-box').style.display = "none";
-            document.getElementById('loading-varredura').style.display = "block";
-            const reader = new FileReader();
-            reader.onload = async function(e) {
-                const base64 = e.target.result;
-                document.getElementById('preview-imagem-radar').src = base64;
-                document.getElementById('preview-imagem-radar').style.display = "block";
-                try {
-                    const req = await fetch(API_MATRIZ, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ tipo: "imagem", dado: base64 }) });
-                    const data = await req.json();
-                    exibirResposta(data.analise);
-                } catch (err) { exibirResposta(" 🚨  [ ALERTA CRÍTICO ]  🚨 \n\nArquivo muito grande para leitura neural."); }
-            };
-            reader.readAsDataURL(file);
-        }
-        
-        function exibirResposta(textoOriginal) {
-            document.getElementById('loading-varredura').style.display = "none";
-            const msgBox = document.getElementById('mensagem-resposta');
-            document.getElementById('resultado-box').style.display = "flex";
-            let txt = textoOriginal ? textoOriginal.replace(/\n/g, '<br>') : "Erro de sistema.";
-            msgBox.innerHTML = txt; aplicarCoresLaudo(msgBox, txt);
-        }
-        
-        let dossieDados = { perfil: 'Cidadão', canal: 'WhatsApp', anexoBase64: null };
-        
-        function selecionarPerfil(tipo) {
-            dossieDados.perfil = tipo;
-            document.getElementById('btn-cidadao').classList.remove('selecionado');
-            document.getElementById('btn-empresa').classList.remove('selecionado');
-            if(tipo === 'Cidadão') document.getElementById('btn-cidadao').classList.add('selecionado');
-            else document.getElementById('btn-empresa').classList.add('selecionado');
-        }
-        
-        function selecionarCanal(elemento, tipo) {
-            dossieDados.canal = tipo;
-            const botoes = elemento.parentElement.children;
-            for(let i=0; i<botoes.length; i++) botoes[i].classList.remove('selecionado');
-            elemento.classList.add('selecionado');
-        }
-        
-        function prepararAnexoDossie(event) {
-            const file = event.target.files[0];
-            if(file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    dossieDados.anexoBase64 = e.target.result;
-                    const btnUi = document.getElementById('btn-ui-anexo');
-                    btnUi.innerHTML = ' ✅  Evidência Capturada (' + file.name.substring(0,12) + '...)';
-                    btnUi.style.color = 'var(--verde-seguro)';
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-        
-        async function transmitirDossieOficial() {
-            const relato = document.getElementById('texto-relato').value;
-            const contato = document.getElementById('contato-opcional').value;
-            if(!relato && !dossieDados.anexoBase64) { alert("Descreva o que aconteceu ou anexe um arquivo."); return; }
-            const btnTx = document.getElementById('btn-transmitir');
-            btnTx.innerText = "Criptografando..."; btnTx.disabled = true;
-            const payload = { alerta: true, perfil: dossieDados.perfil, canal: dossieDados.canal, mensagem: relato || "Relato em anexo", contato: contato || "Anônimo", anexo: dossieDados.anexoBase64 };
-            try {
-                const req = await fetch(API_MATRIZ, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-                const data = await req.json();
-                document.getElementById('form-dossie').style.display = 'none';
-                document.getElementById('num-protocolo').innerText = data.protocolo || "RT-BR-SUCESSO";
-                document.getElementById('tela-sucesso').style.display = 'block';
-            } catch(e) { alert("Falha de conexão. O arquivo pode ser muito pesado."); }
-            finally { btnTx.innerText = "Transmitir Dossiê para a Central"; btnTx.disabled = false; }
-        }
-    </script>
+inputLink.addEventListener('focus', () => { isTypingPaused = true; inputLink.placeholder = "Cole a ameaça aqui..."; });
+inputLink.addEventListener('blur', () => { if(inputLink.value === "") { isTypingPaused = false; } });
+
+function maquinaDeEscrever() {
+if (window.innerWidth > 768) {
+inputLink.placeholder = "Cole aqui o link, texto de Golpe ou anexe uma Evidência...";
+return;
+}
+if (isTypingPaused || inputLink.value !== "") {
+setTimeout(maquinaDeEscrever, 1000);
+return;
+}
+const fraseAtual = frasesMobile[iFrase];
+if (!apagando) {
+inputLink.placeholder = fraseAtual.substring(0, iLetra + 1);
+iLetra++;
+if (iLetra === fraseAtual.length) {
+apagando = true;
+setTimeout(maquinaDeEscrever, newTextDelay);
+} else { setTimeout(maquinaDeEscrever, typingDelay); }
+} else {
+inputLink.placeholder = fraseAtual.substring(0, iLetra - 1);
+iLetra--;
+if (iLetra === 0) {
+apagando = false;
+iFrase = (iFrase + 1) % frasesMobile.length;
+setTimeout(maquinaDeEscrever, typingDelay);
+} else { setTimeout(maquinaDeEscrever, eraseDelay); }
+}
+}
+window.onload = function() { setTimeout(maquinaDeEscrever, 500); };
+
+function abrirModalOSINT(painelID) {
+document.getElementById('menuFlutuante').classList.remove('ativo');
+document.getElementById('form-dossie').style.display = 'none';
+document.getElementById('tela-sucesso').style.display = 'none';
+document.getElementById('painel-ajuda').style.display = 'none';
+document.getElementById('painel-sobre').style.display = 'none';
+if(painelID === 'form-dossie') {
+dossieDados.anexoBase64 = null;
+document.getElementById('texto-relato').value = '';
+document.getElementById('contato-opcional').value = '';
+const btnUi = document.getElementById('btn-ui-anexo');
+btnUi.innerHTML = '  📎   Anexar Evidência (Print / Vídeo Libras / Áudio)';
+btnUi.style.color = 'var(--texto-secundario)';
+}
+document.getElementById(painelID).style.display = 'block';
+document.getElementById('modalOSINT').style.display = 'flex';
+}
+
+document.addEventListener('click', function(event) {
+const menu = document.getElementById('menuFlutuante');
+const btnMenu = document.querySelector('.menu-btn');
+if (!menu.contains(event.target) && !btnMenu.contains(event.target)) {
+menu.classList.remove('ativo');
+}
+});
+
+function aplicarCoresLaudo(msgBox, texto) {
+msgBox.className = "mensagem-ia";
+const txt = texto.toUpperCase();
+if (txt.includes("[ SEGURO") || txt.includes("[SEGURO")) { msgBox.classList.add("seguro"); }
+else if (txt.includes("[ ALERTA") || txt.includes("[ALERTA") || txt.includes("[ AMEAÇA") || txt.includes("[AMEAÇA") || txt.includes("[ GOLPE") || txt.includes("[GOLPE")) { msgBox.classList.add("alerta"); }
+else { msgBox.classList.add("neutro"); }
+}
+
+async function iniciarVarredura() {
+const inputDado = document.getElementById('input-link').value;
+if(!inputDado) return;
+document.getElementById('resultado-box').style.display = "none";
+document.getElementById('preview-imagem-radar').style.display = "none";
+document.getElementById('loading-varredura').style.display = "block";
+try {
+const req = await fetch(API_MATRIZ, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ tipo: "link", dado: inputDado }) });
+const data = await req.json();
+exibirResposta(data.analise);
+} catch (e) { exibirResposta("  🚨   [ ALERTA CRÍTICO ]   🚨  \n\nFalha na comunicação com a base.");
+}
+}
+
+async function processarImagemNeural(event) {
+const file = event.target.files[0]; if (!file) return;
+document.getElementById('resultado-box').style.display = "none";
+document.getElementById('loading-varredura').style.display = "block";
+const reader = new FileReader();
+reader.onload = async function(e) {
+const base64 = e.target.result;
+document.getElementById('preview-imagem-radar').src = base64;
+document.getElementById('preview-imagem-radar').style.display = "block";
+try {
+const req = await fetch(API_MATRIZ, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ tipo: "imagem", dado: base64 }) });
+const data = await req.json();
+exibirResposta(data.analise);
+} catch (err) { exibirResposta("  🚨   [ ALERTA CRÍTICO ]   🚨  \n\nArquivo muito grande para leitura neural.");
+}
+};
+reader.readAsDataURL(file);
+}
+
+function exibirResposta(textoOriginal) {
+document.getElementById('loading-varredura').style.display = "none";
+const msgBox = document.getElementById('mensagem-resposta');
+document.getElementById('resultado-box').style.display = "flex";
+let txt = textoOriginal ? textoOriginal.replace(/\n/g, '<br>') : "Erro de sistema.";
+
+// 💎 FILTRO DE OURO: Transforma os **asteriscos** em Negrito Elegante
+txt = txt.replace(/\*\*(.*?)\*\*/g, '<strong style="color: #ffffff; letter-spacing: 0.5px;">$1</strong>');
+
+msgBox.innerHTML = txt; 
+aplicarCoresLaudo(msgBox, txt);
+}
+
+let dossieDados = { perfil: 'Cidadão', canal: 'WhatsApp', anexoBase64: null };
+
+function selecionarPerfil(tipo) {
+dossieDados.perfil = tipo;
+document.getElementById('btn-cidadao').classList.remove('selecionado');
+document.getElementById('btn-empresa').classList.remove('selecionado');
+if(tipo === 'Cidadão') document.getElementById('btn-cidadao').classList.add('selecionado');
+else document.getElementById('btn-empresa').classList.add('selecionado');
+}
+
+function selecionarCanal(elemento, tipo) {
+dossieDados.canal = tipo;
+const botoes = elemento.parentElement.children;
+for(let i=0; i<botoes.length; i++) botoes[i].classList.remove('selecionado');
+elemento.classList.add('selecionado');
+}
+
+function prepararAnexoDossie(event) {
+const file = event.target.files[0];
+if(file) {
+const reader = new FileReader();
+reader.onload = function(e) {
+dossieDados.anexoBase64 = e.target.result;
+const btnUi = document.getElementById('btn-ui-anexo');
+btnUi.innerHTML = '  ✅   Evid ê ncia Capturada (' + file.name.substring(0,12) + '...)';
+btnUi.style.color = 'var(--verde-seguro)';
+};
+reader.readAsDataURL(file);
+}
+}
+
+async function transmitirDossieOficial() {
+const relato = document.getElementById('texto-relato').value;
+const contato = document.getElementById('contato-opcional').value;
+if(!relato && !dossieDados.anexoBase64) { alert("Descreva o que aconteceu ou anexe um arquivo."); return; }
+const btnTx = document.getElementById('btn-transmitir');
+btnTx.innerText = "Criptografando..."; btnTx.disabled = true;
+const payload = { alerta: true, perfil: dossieDados.perfil, canal: dossieDados.canal, mensagem: relato || "Relato em anexo", contato: contato ||
+"Anônimo", anexo: dossieDados.anexoBase64 };
+try {
+const req = await fetch(API_MATRIZ, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+const data = await req.json();
+document.getElementById('form-dossie').style.display = 'none';
+document.getElementById('num-protocolo').innerText = data.protocolo || "RT-BR-SUCESSO";
+document.getElementById('tela-sucesso').style.display = 'block';
+} catch(e) { alert("Falha de conexão. O arquivo pode ser muito pesado."); }
+finally { btnTx.innerText = "Transmitir Dossiê para a Central"; btnTx.disabled = false; }
+}
+</script>
 </body>
 </html>
