@@ -1,166 +1,81 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RailanTech Protect - SOC Bunker</title>
-    <style>
-        :root {
-            --bg-base: #0a0a0a; --bg-painel: #141414; --bg-tabela: #1c1c1c;
-            --texto-puro: #f0f0f0; --texto-fraco: #a0a0a0; --borda: #333333;
-            --ouro: #d4af37; --verde: #81c995; --azul: #a8c7fa; --vermelho: #f28b82;
-        }
+// =====================================================================
+// 📡 1. O ENDEREÇO DO BANCO (PODE FICAR VISÍVEL)
+// =====================================================================
+const LINK_DO_MOTOR = "https://motor-osint-privado.analise-seguranca.workers.dev"; 
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background-color: var(--bg-base); color: var(--texto-puro); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+// =====================================================================
+// ⚙️ 2. FUNÇÃO PARA BUSCAR OS DOSSIÊS (COM BLINDAGEM OPSEC)
+// =====================================================================
+async function carregarDossies() {
+    
+    // 🛑 A JOGADA DE MESTRE: O sistema abre uma caixa perguntando a senha SÓ PARA VOCÊ.
+    // Ela nunca fica salva no GitHub!
+    const senhaDigitada = prompt("🚨 ACESSO RESTRITO (NÍVEL COMANDANTE):\nDigite a Chave Mestra do Bunker:");
 
-        /* TELA DE AUTENTICAÇÃO */
-        #tela-login { text-align: center; background: var(--bg-painel); padding: 50px; border-radius: 15px; border: 1px solid var(--borda); box-shadow: 0 20px 50px rgba(0,0,0,0.9); }
-        .escudo-login { width: 100px; margin-bottom: 20px; }
-        .titulo-login { color: var(--ouro); font-size: 24px; margin-bottom: 30px; letter-spacing: 2px; text-transform: uppercase; }
-        .input-senha { width: 100%; max-width: 300px; padding: 15px; background: var(--bg-base); border: 1px solid var(--borda); color: var(--ouro); font-size: 18px; text-align: center; border-radius: 8px; margin-bottom: 20px; letter-spacing: 5px; outline: none; }
-        .input-senha:focus { border-color: var(--ouro); }
-        .btn-entrar { background: var(--ouro); color: #000; font-weight: bold; padding: 15px 30px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; width: 100%; max-width: 300px; transition: 0.2s; }
-        .btn-entrar:hover { background: #f3e5ab; transform: translateY(-2px); }
+    // Se você cancelar ou não digitar nada, ele trava.
+    if (!senhaDigitada) {
+        alert("🚨 Acesso Cancelado.");
+        return;
+    }
 
-        /* PAINEL DE COMANDO (SOC) */
-        #tela-bunker { display: none; width: 100%; max-width: 1400px; padding: 30px; align-items: flex-start; justify-content: flex-start; min-height: 100vh; }
-        .header-bunker { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid var(--borda); padding-bottom: 20px; margin-bottom: 30px; }
-        .logo-bunker { color: var(--ouro); font-size: 24px; font-weight: bold; display: flex; align-items: center; gap: 15px; }
-        .status-badge { background: rgba(129, 201, 149, 0.1); color: var(--verde); padding: 8px 15px; border-radius: 20px; font-size: 14px; border: 1px solid var(--verde); display: flex; align-items: center; gap: 8px; }
-        .dot { width: 8px; height: 8px; background: var(--verde); border-radius: 50%; box-shadow: 0 0 10px var(--verde); animation: pulse 2s infinite; }
+    // Montando a chave blindada na hora
+    const CHAVE_BUNKER = "Bearer " + senhaDigitada;
 
-        /* ORGANIZAÇÃO DA TABELA (LETRAS 100% VISÍVEIS) */
-        .mesa-analise { width: 100%; overflow-x: auto; background: var(--bg-painel); border-radius: 12px; border: 1px solid var(--borda); }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th { background: var(--bg-base); color: var(--texto-fraco); padding: 18px; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid var(--borda); }
-        td { padding: 18px; border-bottom: 1px solid var(--borda); font-size: 15px; vertical-align: middle; }
-        tr:hover { background: var(--bg-tabela); }
-        
-        /* CHANCELAS DE COR ESTRATÉGICA */
-        .perfil-pf { color: var(--verde); font-weight: 600; background: rgba(129, 201, 149, 0.1); padding: 5px 10px; border-radius: 6px; display: inline-block; }
-        .perfil-pj { color: var(--azul); font-weight: 600; background: rgba(168, 199, 250, 0.1); padding: 5px 10px; border-radius: 6px; display: inline-block; }
-        .protocolo-id { color: var(--ouro); font-family: monospace; font-size: 16px; }
-        .relato-texto { max-width: 400px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--texto-fraco); }
-        
-        /* AÇÕES */
-        .btn-acao { background: transparent; border: 1px solid var(--ouro); color: var(--ouro); padding: 8px 15px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.2s; margin-right: 5px; }
-        .btn-acao:hover { background: rgba(212, 175, 55, 0.1); }
-        .btn-bloquear { border-color: var(--vermelho); color: var(--vermelho); }
-        .btn-bloquear:hover { background: rgba(242, 139, 130, 0.1); }
-
-        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
-    </style>
-</head>
-<body>
-
-    <div id="tela-login">
-        <h2 class="titulo-login">SOC Bunker</h2>
-        <input type="password" id="input-senha" class="input-senha" placeholder="SENHA MESTRA" onkeypress="if(event.key === 'Enter') acessarBunker()">
-        <br>
-        <button class="btn-entrar" onclick="acessarBunker()">AUTENTICAR</button>
-        <p id="msg-erro" style="color: var(--vermelho); margin-top: 20px; display: none; font-weight: bold;"></p>
-    </div>
-
-    <div id="tela-bunker">
-        <div class="header-bunker">
-            <div class="logo-bunker">🛡️ RailanTech Protect | Comando</div>
-            <div class="status-badge"><div class="dot"></div> CONEXÃO SEGURA</div>
-        </div>
-
-        <div class="mesa-analise">
-            <table id="tabela-radar">
-                <thead>
-                    <tr>
-                        <th>Protocolo</th>
-                        <th>Perfil Alvo</th>
-                        <th>Vetor (Canal)</th>
-                        <th>Relato da Vítima</th>
-                        <th>Evidência</th>
-                        <th>Data/Hora</th>
-                        <th>Ações Táticas</th>
-                    </tr>
-                </thead>
-                <tbody id="corpo-tabela">
-                    </tbody>
-            </table>
-        </div>
-    </div>
-
-    <script>
-        // O endereço do seu Motor Blindado
-        const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
-        
-        // A Senha Mestra (Exatamente a que está configurada no Cloudflare)
-        const SENHA_SECRETA = "SENHA-MONSTRO-100"; 
-
-        async function acessarBunker() {
-            const tentativa = document.getElementById('input-senha').value;
-            const msgErro = document.getElementById('msg-erro');
-            const btn = document.querySelector('.btn-entrar');
-
-            if (!tentativa) return;
-
-            btn.innerText = "VERIFICANDO...";
-            msgErro.style.display = "none";
-
-            try {
-                // Tenta puxar os dados usando a senha como "Chave" (Authorization Bearer)
-                const req = await fetch(API_MATRIZ, {
-                    method: "GET",
-                    headers: { "Authorization": `Bearer ${tentativa}` }
-                });
-
-                if (req.status === 401) {
-                    throw new Error("Acesso Negado.");
-                }
-
-                const dados = await req.json();
-                
-                // Se a chave for perfeita, abre as portas
-                document.getElementById('tela-login').style.display = "none";
-                document.getElementById('tela-bunker').style.display = "block";
-                document.body.style.display = "block"; // Reset flex for full width
-
-                renderizarMesa(dados);
-
-            } catch (erro) {
-                msgErro.innerText = "🚨 ACESSO RECUSADO. FECHADURA TRAVADA.";
-                msgErro.style.display = "block";
-                btn.innerText = "AUTENTICAR";
-                document.getElementById('input-senha').value = "";
+    try {
+        // O Bunker bate na porta do Cloudflare com a senha que você acabou de digitar
+        const resposta = await fetch(LINK_DO_MOTOR, {
+            method: "GET",
+            headers: {
+                "Authorization": CHAVE_BUNKER
             }
+        });
+
+        // Se o hacker digitar qualquer lixo na caixa, a Muralha rejeita.
+        if (resposta.status === 401) {
+            alert("🚨 ALERTA DE INTRUSÃO: Senha Mestra Incorreta. Acesso Negado.");
+            return;
         }
 
-        function renderizarMesa(dossies) {
-            const corpo = document.getElementById('corpo-tabela');
-            corpo.innerHTML = "";
+        // Os dados chegando em segurança
+        const dadosBunker = await resposta.json();
 
-            if (dossies.length === 0) {
-                corpo.innerHTML = `<tr><td colspan="7" style="text-align:center; color: var(--texto-fraco);">Nenhuma ameaça detectada no momento.</td></tr>`;
-                return;
-            }
-
-            dossies.reverse().forEach(d => {
-                const classePerfil = d.perfil === "Empresa" ? "perfil-pj" : "perfil-pf";
-                const badgeEvidencia = d.evidencia === "Sim" ? "📎 Anexado" : "Nenhum";
-
-                corpo.innerHTML += `
-                    <tr>
-                        <td class="protocolo-id">${d.protocolo}</td>
-                        <td><span class="${classePerfil}">${d.perfil}</span></td>
-                        <td>${d.canal}</td>
-                        <td class="relato-texto" title="${d.mensagem}">${d.mensagem}</td>
-                        <td style="color: var(--texto-fraco);">${badgeEvidencia}</td>
-                        <td style="color: var(--texto-fraco);">${d.data}</td>
-                        <td>
-                            <button class="btn-acao" onclick="alert('Funcionalidade de Leitura Profunda em desenvolvimento.')">🔍 Ler</button>
-                            <button class="btn-acao btn-bloquear" onclick="alert('Enviando ameaça para a Lista Negra...')">🔴 Bloquear</button>
-                        </td>
-                    </tr>
-                `;
-            });
+        // =====================================================================
+        // 📊 3. INJETANDO OS DADOS NA SUA TABELA PRETA
+        // =====================================================================
+        const corpoTabela = document.getElementById("corpo-tabela"); 
+        
+        if (!corpoTabela) {
+            console.log("Aviso: Tabela não encontrada na tela.");
+            return;
         }
-    </script>
-</body>
-</html>
+        
+        corpoTabela.innerHTML = ""; 
+
+        // Desenhando os relatórios
+        dadosBunker.forEach(dossie => {
+            let dados = typeof dossie === 'string' ? JSON.parse(dossie) : dossie;
+            
+            let linha = `
+                <tr>
+                    <td style="color: #FFD700; padding: 10px;">${dados.protocolo}</td>
+                    <td style="padding: 10px;">${dados.perfil}</td>
+                    <td style="padding: 10px;">${dados.canal}</td>
+                    <td style="padding: 10px;">${dados.mensagem}</td>
+                    <td style="padding: 10px;">${dados.anexo}</td>
+                    <td style="padding: 10px;">${dados.data}</td>
+                    <td style="padding: 10px;"><button style="color: red; cursor: pointer;">Investigar</button></td>
+                </tr>
+            `;
+            corpoTabela.innerHTML += linha;
+        });
+
+    } catch (erro) {
+        console.error("🚨 Falha na comunicação com a base:", erro);
+        alert("Erro de conexão com o satélite Cloudflare.");
+    }
+}
+
+// =====================================================================
+// 🚀 ACIONA A TRANCA ASSIM QUE A PÁGINA CARREGA
+// =====================================================================
+window.onload = carregarDossies;
