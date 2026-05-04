@@ -1,149 +1,176 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bunker Secreto - RailanTech</title>
-    <style>
-        :root {
-            --bg-base: #0a0a0a; --bg-painel: #1a1a1a; --bg-card: #242424;
-            --texto-principal: #e3e3e3; --texto-secundario: #a0a0a0;
-            --ouro-puro: #d4af37; --vermelho-alerta: #ff4d4d; --verde-seguro: #00e676;
-            --borda: #333;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Courier New', Courier, monospace; }
-        body { background-color: var(--bg-base); color: var(--texto-principal); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        
-        /* 🛑 TELA DE BLOQUEIO */
-        #tela-bloqueio { display: flex; flex-direction: column; align-items: center; text-align: center; }
-        .icone-cadeado { font-size: 60px; margin-bottom: 20px; }
-        .titulo-bunker { color: var(--ouro-puro); font-size: 32px; letter-spacing: 4px; margin-bottom: 10px; text-transform: uppercase; }
-        .input-senha { background: #000; border: 2px solid var(--borda); color: var(--texto-principal); padding: 15px; font-size: 18px; text-align: center; letter-spacing: 2px; width: 300px; margin-bottom: 20px; outline: none; transition: 0.3s; }
-        .input-senha:focus { border-color: var(--ouro-puro); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
-        .btn-entrar { background: var(--ouro-puro); color: #000; font-weight: bold; font-size: 16px; padding: 15px 40px; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
-        .btn-entrar:hover { background: #fff; box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bunker Secreto - RailanTech</title>
+<style>
+:root {
+--bg-base: #0a0a0a; --bg-painel: #1a1a1a; --bg-card: #242424;
+--texto-principal: #e3e3e3; --texto-secundario: #a0a0a0;
+--ouro-puro: #d4af37; --vermelho-alerta: #ff4d4d; --verde-seguro: #00e676;
+--borda: #333;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Courier New', Courier, monospace; }
+body { background-color: var(--bg-base); color: var(--texto-principal); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
-        /* 🖥️ PAINEL DE CONTROLE (BUNKER) */
-        #painel-bunker { display: none; width: 100%; max-width: 1200px; padding: 40px 20px; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 100vh; }
-        .cabecalho-painel { width: 100%; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--borda); padding-bottom: 20px; margin-bottom: 30px; }
-        .status-satelite { color: var(--verde-seguro); font-weight: bold; display: flex; align-items: center; gap: 10px; }
-        .status-satelite span { display: inline-block; width: 10px; height: 10px; background: var(--verde-seguro); border-radius: 50%; box-shadow: 0 0 10px var(--verde-seguro); animation: piscar 1.5s infinite; }
-        
-        .grid-dossies { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; width: 100%; }
-        .card-dossie { background: var(--bg-card); border: 1px solid var(--borda); padding: 20px; border-radius: 8px; border-left: 5px solid var(--ouro-puro); }
-        .card-dossie.hacker { border-left-color: var(--vermelho-alerta); background: rgba(255, 77, 77, 0.05); }
-        
-        .card-topo { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 12px; color: var(--texto-secundario); border-bottom: 1px dashed var(--borda); padding-bottom: 10px; }
-        .card-id { color: var(--ouro-puro); font-weight: bold; font-size: 14px; }
-        .card-dado { margin-bottom: 10px; font-size: 14px; line-height: 1.5; }
-        .card-dado strong { color: var(--texto-secundario); }
-        .alerta-hacker { color: var(--vermelho-alerta); font-weight: bold; font-size: 16px; margin-bottom: 10px; }
+/* 🛑 TELA DE BLOQUEIO */
+#tela-bloqueio { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.icone-cadeado { font-size: 60px; margin-bottom: 20px; }
+.titulo-bunker { color: var(--ouro-puro); font-size: 32px; letter-spacing: 4px; margin-bottom: 10px; text-transform: uppercase; }
+.input-senha { background: #000; border: 2px solid var(--borda); color: var(--texto-principal); padding: 15px; font-size: 18px; text-align: center; letter-spacing: 2px; width: 300px; margin-bottom: 20px; outline: none; transition: 0.3s; }
+.input-senha:focus { border-color: var(--ouro-puro); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
+.btn-entrar { background: var(--ouro-puro); color: #000; font-weight: bold; font-size: 16px; padding: 15px 40px; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+.btn-entrar:hover { background: #fff; box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
 
-        @keyframes piscar { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
-    </style>
+/* 🖥️ PAINEL DE CONTROLE (BUNKER) */
+#painel-bunker { display: none; width: 100%; max-width: 1200px; padding: 40px 20px; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 100vh; }
+.cabecalho-painel { width: 100%; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--borda); padding-bottom: 20px; margin-bottom: 30px; }
+.status-satelite { color: var(--verde-seguro); font-weight: bold; display: flex; align-items: center; gap: 10px; }
+.status-satelite span { display: inline-block; width: 10px; height: 10px; background: var(--verde-seguro); border-radius: 50%; box-shadow: 0 0 10px var(--verde-seguro); animation: piscar 1.5s infinite; }
+
+/* 🗄️ MESA DE EMISSÃO DE LAUDOS */
+.painel-emissao { background: rgba(212, 175, 55, 0.05); border: 1px solid var(--ouro-puro); width: 100%; padding: 20px; border-radius: 8px; margin-bottom: 30px; display: flex; flex-direction: column; gap: 15px; }
+
+.grid-dossies { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; width: 100%; }
+.card-dossie { background: var(--bg-card); border: 1px solid var(--borda); padding: 20px; border-radius: 8px; border-left: 5px solid var(--ouro-puro); }
+.card-dossie.hacker { border-left-color: var(--vermelho-alerta); background: rgba(255, 77, 77, 0.05); }
+.card-topo { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 12px; color: var(--texto-secundario); border-bottom: 1px dashed var(--borda); padding-bottom: 10px; }
+.card-id { color: var(--ouro-puro); font-weight: bold; font-size: 14px; cursor: pointer; }
+.card-dado { margin-bottom: 10px; font-size: 14px; line-height: 1.5; }
+.card-dado strong { color: var(--texto-secundario); }
+.alerta-hacker { color: var(--vermelho-alerta); font-weight: bold; font-size: 16px; margin-bottom: 10px; }
+
+@keyframes piscar { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
+</style>
 </head>
 <body>
+<div id="tela-bloqueio">
+<div class="icone-cadeado"> ☠️ </div>
+<h1 class="titulo-bunker">Bunker de Comando</h1>
+<p style="color: var(--texto-secundario); margin-bottom: 30px;">Acesso restrito. Identifique-se.</p>
+<input type="password" id="senha-input" class="input-senha" placeholder="CHAVE MESTRA" onkeypress="if(event.key === 'Enter') acessarBunker()">
+<button class="btn-entrar" onclick="acessarBunker()">Desbloquear Base</button>
+<p id="msg-erro" style="color: var(--vermelho-alerta); margin-top: 20px; font-weight: bold; display: none;"> 🚨  ACESSO NEGADO  🚨 </p>
+</div>
 
-    <div id="tela-bloqueio">
-        <div class="icone-cadeado">☠️</div>
-        <h1 class="titulo-bunker">Bunker de Comando</h1>
-        <p style="color: var(--texto-secundario); margin-bottom: 30px;">Acesso restrito. Identifique-se.</p>
-        <input type="password" id="senha-input" class="input-senha" placeholder="CHAVE MESTRA" onkeypress="if(event.key === 'Enter') acessarBunker()">
-        <button class="btn-entrar" onclick="acessarBunker()">Desbloquear Base</button>
-        <p id="msg-erro" style="color: var(--vermelho-alerta); margin-top: 20px; font-weight: bold; display: none;">🚨 ACESSO NEGADO 🚨</p>
-    </div>
+<div id="painel-bunker">
+<div class="cabecalho-painel">
+<div>
+<h2 style="color: var(--ouro-puro); text-transform: uppercase; letter-spacing: 2px;">Terminal OSINT Privado</h2>
+<p style="color: var(--texto-secundario); font-size: 12px; margin-top: 5px;">Classificação: 1% MONSTRO (OURO)</p>
+</div>
+<div class="status-satelite"><span></span> Satélite Cloudflare Online</div>
+</div>
 
-    <div id="painel-bunker">
-        <div class="cabecalho-painel">
-            <div>
-                <h2 style="color: var(--ouro-puro); text-transform: uppercase; letter-spacing: 2px;">Terminal OSINT Privado</h2>
-                <p style="color: var(--texto-secundario); font-size: 12px; margin-top: 5px;">Classificação: 1% MONSTRO (OURO)</p>
-            </div>
-            <div class="status-satelite"><span></span> Satélite Cloudflare Online</div>
-        </div>
-        
-        <div id="loading-dados" style="color: var(--texto-secundario); font-size: 18px; margin-top: 50px;">📡 Conectando ao satélite militar. Baixando dossiês...</div>
-        
-        <div class="grid-dossies" id="grade-dados">
-            </div>
-    </div>
+<div class="painel-emissao">
+<h3 style="color: var(--ouro-puro); text-transform: uppercase;">⚖️ Mesa de Emissão (Chat 2FA)</h3>
+<p style="color: var(--texto-secundario); font-size: 14px;">Digite o código do cidadão e escreva a resposta oficial que ele receberá no site.</p>
+<div style="display: flex; gap: 15px;">
+<input type="text" id="input-codigo-laudo" class="input-senha" style="margin: 0; width: 200px; text-align: left;" placeholder="Código (Ex: 4883)">
+<textarea id="input-texto-laudo" class="input-senha" style="margin: 0; width: 100%; height: 50px; text-align: left; font-size: 14px;" placeholder="Digite o laudo final para o cidadão..."></textarea>
+<button class="btn-entrar" style="padding: 10px 20px;" onclick="transmitirLaudo()">Transmitir Laudo</button>
+</div>
+<p id="status-laudo" style="color: var(--verde-seguro); font-weight: bold; display: none;">✅ Laudo salvo com sucesso!</p>
+</div>
 
-    <script>
-        const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
+<div id="loading-dados" style="color: var(--texto-secundario); font-size: 18px; margin-top: 20px;"> 📡  Conectando ao satélite militar. Baixando dossiês...</div>
 
-        async function acessarBunker() {
-            const senha = document.getElementById('senha-input').value;
-            const msgErro = document.getElementById('msg-erro');
-            
-            if(senha !== "SENHA-MONSTRO-100") {
-                msgErro.style.display = "block";
-                document.getElementById('senha-input').value = "";
-                return;
-            }
+<div class="grid-dossies" id="grade-dados"></div>
+</div>
 
-            msgErro.style.display = "none";
-            document.getElementById('tela-bloqueio').style.display = "none";
-            document.getElementById('painel-bunker').style.display = "flex";
-            
-            buscarDossiesSecretos(senha);
-        }
+<script>
+const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
+let senhaMestraGlobal = "";
 
-        async function buscarDossiesSecretos(chaveMestra) {
-            try {
-                const req = await fetch(API_MATRIZ, { 
-                    method: "GET", 
-                    headers: { "Authorization": "Bearer " + chaveMestra } 
-                });
-                
-                // 🛑 A NOVA INTELIGÊNCIA DE ERROS (OURO PURO)
-                if(req.status === 403) {
-                    throw new Error("☠️ O SEU COMPUTADOR ESTÁ NA LISTA NEGRA. A Guilhotina te bloqueou.");
-                }
-                if(req.status === 401) {
-                    throw new Error("Chave Mestra Incorreta.");
-                }
-                if(!req.ok) {
-                    throw new Error("Falha na comunicação com o Satélite Cloudflare.");
-                }
-                
-                const dados = await req.json();
-                document.getElementById('loading-dados').style.display = "none";
-                
-                const grade = document.getElementById('grade-dados');
-                grade.innerHTML = "";
+async function acessarBunker() {
+const senha = document.getElementById('senha-input').value;
+const msgErro = document.getElementById('msg-erro');
 
-                if(dados.length === 0 || (dados.length === 1 && dados[0].protocolo === "Aviso")) {
-                    grade.innerHTML = "<p style='color: var(--texto-secundario);'>O cofre está vazio. Nenhuma ameaça detectada ainda.</p>";
-                    return;
-                }
+if(senha !== "SENHA-MONSTRO-100") {
+msgErro.style.display = "block";
+document.getElementById('senha-input').value = "";
+return;
+}
+senhaMestraGlobal = senha;
+msgErro.style.display = "none";
+document.getElementById('tela-bloqueio').style.display = "none";
+document.getElementById('painel-bunker').style.display = "flex";
 
-                // Inverte para mostrar os mais novos primeiro
-                dados.reverse().forEach(dossie => {
-                    const isHacker = dossie.protocolo === "HACKER-CAPTURADO";
-                    const classeCard = isHacker ? "card-dossie hacker" : "card-dossie";
-                    const alertaVisual = isHacker ? "<div class='alerta-hacker'>🚨 INVASOR CAPTURADO NA RATOEIRA</div>" : "";
+buscarDossiesSecretos(senha);
+}
 
-                    const card = `
-                        <div class="${classeCard}">
-                            ${alertaVisual}
-                            <div class="card-topo">
-                                <span class="card-id">${dossie.protocolo}</span>
-                                <span>${dossie.data || 'Data Desconhecida'}</span>
-                            </div>
-                            <div class="card-dado"><strong>Perfil:</strong> ${dossie.perfil}</div>
-                            <div class="card-dado"><strong>DNA Digital:</strong> <span style="color: var(--ouro-puro);">${dossie.assinaturaDigital || 'N/A'}</span></div>
-                            <div class="card-dado"><strong>Mensagem / Relato:</strong> <br> ${dossie.mensagem}</div>
-                            ${!isHacker ? `<div class="card-dado"><strong>Contato:</strong> ${dossie.contato}</div>` : ''}
-                            ${dossie.anexo && dossie.anexo !== 'Nenhum' ? `<div class="card-dado" style="color: var(--verde-seguro);">📎 [ EVIDÊNCIA ANEXADA ]</div>` : ''}
-                        </div>
-                    `;
-                    grade.innerHTML += card;
-                });
+async function transmitirLaudo() {
+const codigo = document.getElementById('input-codigo-laudo').value.trim();
+const texto = document.getElementById('input-texto-laudo').value.trim();
 
-            } catch (erro) {
-                document.getElementById('loading-dados').innerHTML = "🚨 " + erro.message;
-            }
-        }
-    </script>
+if(!codigo || !texto) { alert("Preencha o código do protocolo e o laudo."); return; }
+
+try {
+const req = await fetch(API_MATRIZ, {
+method: "POST",
+headers: { "Content-Type": "application/json", "Authorization": "Bearer " + senhaMestraGlobal },
+body: JSON.stringify({ tipo: "emitir_laudo", codigo: codigo, texto: texto })
+});
+
+const res = await req.json();
+if(res.sucesso) {
+document.getElementById('status-laudo').style.display = "block";
+document.getElementById('input-codigo-laudo').value = "";
+document.getElementById('input-texto-laudo').value = "";
+setTimeout(() => document.getElementById('status-laudo').style.display = "none", 4000);
+}
+} catch(e) {
+alert("🚨 Falha ao transmitir o laudo para o satélite.");
+}
+}
+
+async function buscarDossiesSecretos(chaveMestra) {
+try {
+const req = await fetch(API_MATRIZ, { method: "GET", headers: { "Authorization": "Bearer " + chaveMestra } });
+
+if(req.status === 403) throw new Error(" ☠️  O SEU COMPUTADOR ESTÁ NA LISTA NEGRA.");
+if(req.status === 401) throw new Error("Chave Mestra Incorreta.");
+if(!req.ok) throw new Error("Falha na comunicação com o Satélite Cloudflare.");
+
+const dados = await req.json();
+document.getElementById('loading-dados').style.display = "none";
+
+const grade = document.getElementById('grade-dados');
+grade.innerHTML = "";
+if(dados.length === 0 || (dados.length === 1 && dados[0].protocolo === "Aviso")) {
+grade.innerHTML = "<p style='color: var(--texto-secundario);'>O cofre está vazio. Nenhuma ameaça detectada ainda.</p>";
+return;
+}
+
+dados.reverse().forEach(dossie => {
+const isHacker = dossie.protocolo === "HACKER-CAPTURADO";
+const classeCard = isHacker ? "card-dossie hacker" : "card-dossie";
+const alertaVisual = isHacker ? "<div class='alerta-hacker'> 🚨  INVASOR CAPTURADO NA RATOEIRA</div>" : "";
+
+// Função para jogar o código direto na mesa de emissão ao clicar
+const onclickCodigo = !isHacker ? `onclick="document.getElementById('input-codigo-laudo').value = '${dossie.protocolo}'; window.scrollTo(0,0);"` : "";
+
+const card = `
+<div class="${classeCard}">
+${alertaVisual}
+<div class="card-topo">
+<span class="card-id" title="Clique para emitir laudo" ${onclickCodigo}>${dossie.protocolo}</span>
+<span>${dossie.data || 'Data Desconhecida'}</span>
+</div>
+<div class="card-dado"><strong>Perfil:</strong> ${dossie.perfil}</div>
+<div class="card-dado"><strong>DNA Digital:</strong> <span style="color: var(--ouro-puro);">${dossie.assinaturaDigital || 'N/A'}</span></div>
+<div class="card-dado"><strong>Mensagem / Relato:</strong> <br> ${dossie.mensagem}</div>
+${!isHacker ? `<div class="card-dado"><strong>Contato:</strong> ${dossie.contato}</div>` : ''}
+${dossie.anexo && dossie.anexo !== 'Nenhum' ? `<div class="card-dado" style="color: var(--verde-seguro);"> 📎  [ EVIDÊNCIA ANEXADA ]</div>` : ''}
+</div>
+`;
+grade.innerHTML += card;
+});
+} catch (erro) {
+document.getElementById('loading-dados').innerHTML = " 🚨  " + erro.message;
+}
+}
+</script>
 </body>
 </html>
