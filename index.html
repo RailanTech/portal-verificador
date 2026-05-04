@@ -80,7 +80,7 @@ textarea.input-texto { resize: vertical; }
 @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* RODAPÉ LEGAL */
+/* RODAPÉ LEGAL LGPD */
 .rodape-lgpd { width: 100%; padding: 20px; border-top: 1px solid var(--borda); text-align: center; background-color: var(--bg-principal); margin-top: auto; }
 .rodape-lgpd p { color: var(--texto-secundario); font-size: 12px; line-height: 1.6; opacity: 0.7; max-width: 800px; margin: 0 auto; }
 </style>
@@ -91,10 +91,10 @@ textarea.input-texto { resize: vertical; }
 <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
 </button>
 <div class="menu-flutuante" id="menuFlutuante">
-<div class="menu-item" onclick="abrirModalOSINT('form-dossie')">   🛡️    Denunciar Golpe</div>
-<div class="menu-item" onclick="abrirModalOSINT('painel-ajuda')">   ❓    Ajuda Tática</div>
-<div class="menu-item" onclick="abrirModalOSINT('painel-sobre')">   ℹ️    Sobre a Central</div>
-<div class="menu-item" style="color: var(--ouro-puro); font-weight: bold;" onclick="abrirModalOSINT('painel-chat')">   💬   Acesso VIP (Chat 2FA)</div>
+<div class="menu-item" onclick="abrirModalOSINT('form-dossie')">  🛡️   Denunciar Golpe</div>
+<div class="menu-item" onclick="abrirModalOSINT('painel-ajuda')">  ❓   Ajuda Tática</div>
+<div class="menu-item" onclick="abrirModalOSINT('painel-sobre')">  ℹ️   Sobre a Central</div>
+<div class="menu-item" style="color: var(--ouro-puro); font-weight: bold;" onclick="abrirModalOSINT('painel-chat')">  💬  Acesso VIP (Chat 2FA)</div>
 </div>
 </div>
 
@@ -127,25 +127,23 @@ Recebeu uma mensagem estranha? Falsa taxa, falso Pix, boleto suspeito?<br>
 
 <div class="rodape-lgpd">
 <p>
-<b> ⚖️  TERMO DE RESPONSABILIDADE E LGPD:</b> O Terminal RailanTech é uma ferramenta de utilidade pública e apoio investigativo movida por I.A.
-Os laudos servem como alerta preventivo. A decisão de clicar em links ou realizar pagamentos é de inteira responsabilidade do usuário.
-A RailanTech não se responsabiliza por danos causados por terceiros.<br>
+<b> ⚖️ TERMO DE RESPONSABILIDADE E LGPD:</b> O Terminal RailanTech é uma ferramenta de utilidade pública e apoio investigativo movida por I.A. Os laudos servem como alerta preventivo. A decisão de clicar em links ou realizar pagamentos é de inteira responsabilidade do usuário. A RailanTech não se responsabiliza por danos causados por terceiros.<br>
 <b>Privacidade (Lei nº 13.709/2018):</b> Operamos com sigilo absoluto. Não solicitamos nem armazenamos CPFs, senhas ou dados bancários.
 </p>
 </div>
 
 <div class="modal-overlay" id="modalOSINT">
 <div class="modal-content">
-<button class="btn-fechar" onclick="document.getElementById('modalOSINT').style.display='none'">   ✖   </button>
+<button class="btn-fechar" onclick="document.getElementById('modalOSINT').style.display='none'">  ✖  </button>
 
 <div id="form-dossie" style="display:none;">
-<div class="modal-title">   🛡️    Dossiê de Investigação</div>
+<div class="modal-title">  🛡️   Dossiê de Investigação</div>
 <p style="color: var(--texto-secundario); margin-bottom: 25px; font-size: 14px;">Suas informações ajudam a alimentar a nossa Lista Negra.</p>
 <div class="secao-dossie">
 <p>1. Quem foi o alvo da tentativa de golpe?</p>
 <div class="botoes-grid">
-<button class="btn-opcao selecionado" id="btn-cidadao" onclick="selecionarPerfil('Cidadão')">   👤    Sou Cidadão (PF)</button>
-<button class="btn-opcao" id="btn-empresa" onclick="selecionarPerfil('Empresa')">   🏢    Sou Empresa (CNPJ)</button>
+<button class="btn-opcao selecionado" id="btn-cidadao" onclick="selecionarPerfil('Cidadão')">  👤   Sou Cidadão (PF)</button>
+<button class="btn-opcao" id="btn-empresa" onclick="selecionarPerfil('Empresa')">  🏢   Sou Empresa (CNPJ)</button>
 </div>
 </div>
 <div class="secao-dossie">
@@ -161,7 +159,7 @@ A RailanTech não se responsabiliza por danos causados por terceiros.<br>
 <textarea id="texto-relato" class="input-texto" rows="4" placeholder="Escreva aqui ou anexe uma evidência..."></textarea>
 <input type="file" id="input-anexo-dossie" accept="image/*,video/*,audio/*" style="display:none" onchange="prepararAnexoDossie(event)">
 <button class="btn-fantasma" id="btn-ui-anexo" onclick="document.getElementById('input-anexo-dossie').click()">
-📎    Anexar Evidência (Print / Áudio)
+📎   Anexar Evidência (Print / Áudio)
 </button>
 </div>
 <input type="text" id="contato-opcional" class="input-texto" placeholder="Seu WhatsApp ou E-mail (Opcional)">
@@ -169,21 +167,21 @@ A RailanTech não se responsabiliza por danos causados por terceiros.<br>
 </div>
 
 <div id="tela-sucesso" style="display:none; text-align: center; padding: 20px 0;">
-<h3 style="color: var(--verde-seguro); font-size: 24px; margin-bottom: 15px;">   ✅    Denúncia Registrada!</h3>
+<h3 style="color: var(--verde-seguro); font-size: 24px; margin-bottom: 15px;">  ✅   Denúncia Registrada!</h3>
 <p style="color: var(--texto-secundario); font-size: 15px;">Sua denúncia foi processada sob o protocolo oficial:</p>
 <div class="protocolo-box" id="num-protocolo">RT-BR-...</div>
 <button class="btn-opcao selecionado" style="width: 100%;" onclick="document.getElementById('modalOSINT').style.display='none'">Fechar e Voltar à Base</button>
 </div>
 
 <div id="painel-ajuda" style="display:none;">
-<div class="modal-title">   ❓    Ajuda Tática</div>
-<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">   🚨    <b>1. Congele e Capture:</b> Não clique em nenhum link no escuro! Tire um Print (foto da tela) da mensagem suspeita.</p>
-<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">   📥    <b>2. Acione o Radar:</b> Cole o texto do golpe na barra principal ou anexe a foto da conversa.</p>
-<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">   ⚖️    <b>3. O Veredito Oficial:</b> Se acender a luz do <b style="color: var(--vermelho-alerta);">Alerta Vermelho</b>, é fraude: bloqueie o contato. Se brilhar o <b style="color: var(--verde-seguro);">Selo Verde</b>, o acesso é seguro.</p>
+<div class="modal-title">  ❓   Ajuda Tática</div>
+<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">  🚨   <b>1. Congele e Capture:</b> Não clique em nenhum link no escuro! Tire um Print da mensagem suspeita.</p>
+<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">  📥   <b>2. Acione o Radar:</b> Cole o texto do golpe na barra principal ou anexe a foto da conversa.</p>
+<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">  ⚖️   <b>3. O Veredito Oficial:</b> Se acender a luz do <b style="color: var(--vermelho-alerta);">Alerta Vermelho</b>, é fraude. Se brilhar o <b style="color: var(--verde-seguro);">Selo Verde</b>, o acesso é seguro.</p>
 </div>
 
 <div id="painel-sobre" style="display:none;">
-<div class="modal-title">   ℹ️    Sobre a RailanTech</div>
+<div class="modal-title">  ℹ️   Sobre a RailanTech</div>
 <p style="color: var(--texto-secundario); font-size: 15px; line-height: 1.6;">O <b>Terminal de Inteligência RailanTech</b> é uma muralha de segurança contra o cibercrime. Desenvolvido com arquitetura de dados OSINT Nível 1 para proteção da população brasileira.</p>
 </div>
 
@@ -204,7 +202,6 @@ A RailanTech não se responsabiliza por danos causados por terceiros.<br>
 <script>
 // ATENÇÃO COMANDANTE: INSIRA AQUI O LINK REAL DO SEU CLOUDFLARE WORKER
 const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
-
 const frasesMobile = ["Cole o Link suspeito...", "Cole o texto do Golpe...", "Ou envie a Evidência..."];
 let iFrase = 0; let iLetra = 0; let apagando = false; let isTypingPaused = false;
 const typingDelay = 70; const eraseDelay = 40; const newTextDelay = 2000;
@@ -234,21 +231,20 @@ else { setTimeout(maquinaDeEscrever, eraseDelay); }
 }
 window.onload = function() { setTimeout(maquinaDeEscrever, 500); };
 
-// ♟️ ATUALIZAÇÃO DO MODAL PARA ESCONDER O CHAT E REINICIAR TUDO
 function abrirModalOSINT(painelID) {
 document.getElementById('menuFlutuante').classList.remove('ativo');
 document.getElementById('form-dossie').style.display = 'none';
 document.getElementById('tela-sucesso').style.display = 'none';
 document.getElementById('painel-ajuda').style.display = 'none';
 document.getElementById('painel-sobre').style.display = 'none';
-document.getElementById('painel-chat').style.display = 'none'; // ♟️ Regra adicionada
+document.getElementById('painel-chat').style.display = 'none'; 
 
 if(painelID === 'form-dossie') {
 dossieDados.anexoBase64 = null;
 document.getElementById('texto-relato').value = '';
 document.getElementById('contato-opcional').value = '';
 const btnUi = document.getElementById('btn-ui-anexo');
-btnUi.innerHTML = '   📎    Anexar Evidência (Print / Áudio)';
+btnUi.innerHTML = '  📎   Anexar Evidência (Print / Áudio)';
 btnUi.style.color = 'var(--texto-secundario)';
 }
 
@@ -319,7 +315,7 @@ txt = txt.replace(/\*\*(.*?)\*\*/g, '<strong style="color: #ffffff; letter-spaci
 if (txt.includes("FALHA NEURAL") || txt.includes("ERRO CRÍTICO")) {
 txt = `
 <div style="text-align: center;">
-<h3 style="color: var(--ouro-brilho); margin-bottom: 15px;"> ⚠️  [ AMEAÇA COMPLEXA DETECTADA ]</h3>
+<h3 style="color: var(--ouro-brilho); margin-bottom: 15px;">  ⚠️  [ AMEAÇA COMPLEXA DETECTADA ]</h3>
 <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 20px; line-height: 1.6;">
 O nosso radar interceptou a leitura para proteger o seu dispositivo. Esta evidência possui bloqueios profundos e exige <b>Perícia Humana Avançada</b> (Prazo: 24h a 48h).<br><br>
 Por favor, inicie um Dossiê Oficial agora para gerar o seu <b>Número de Protocolo</b> e receber o laudo final em segurança.
@@ -359,7 +355,7 @@ const reader = new FileReader();
 reader.onload = function(e) {
 dossieDados.anexoBase64 = e.target.result;
 const btnUi = document.getElementById('btn-ui-anexo');
-btnUi.innerHTML = '   ✅    Evidência Capturada (' + file.name.substring(0,12) + '...)';
+btnUi.innerHTML = '  ✅   Evidência Capturada (' + file.name.substring(0,12) + '...)';
 btnUi.style.color = 'var(--verde-seguro)';
 };
 reader.readAsDataURL(file);
@@ -383,38 +379,26 @@ document.getElementById('tela-sucesso').style.display = 'block';
 finally { btnTx.innerText = "Transmitir Dossiê para a Central"; btnTx.disabled = false; }
 }
 
-// ==========================================
-// ♟️ MOTOR DO CHAT 2FA (CONEXÃO REAL BACKEND)
-// ==========================================
 async function iniciarChat2FA() {
 const codigo = document.getElementById('input-codigo-2fa').value.trim();
 if(codigo.length < 4) { alert("Digite um código válido de pelo menos 4 dígitos."); return; }
-
 document.getElementById('btn-iniciar-chat').style.display = "none";
 document.getElementById('input-codigo-2fa').disabled = true;
-
 const areaChat = document.getElementById('area-chat-mensagens');
 areaChat.style.display = "flex";
-areaChat.innerHTML = ""; 
-
+areaChat.innerHTML = "";
 adicionarMensagemChat("cidadao", `Código de verificação [${codigo}] inserido. Solicitando acesso ao laudo...`);
-
 setTimeout(() => {
 adicionarMensagemChat("agente", "📡 Autenticando... Conectando ao Satélite Seguro da RailanTech...");
 }, 800);
-
 try {
-const req = await fetch(API_MATRIZ, { 
-method: "POST", 
-headers: { "Content-Type": "application/json" }, 
-body: JSON.stringify({ tipo: "chat2fa", codigo: codigo }) 
+const req = await fetch(API_MATRIZ, {
+method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ tipo: "chat2fa", codigo: codigo })
 });
 const data = await req.json();
-
 setTimeout(() => {
 adicionarMensagemChat("agente", data.resposta);
 }, 2500);
-
 } catch(e) {
 setTimeout(() => {
 adicionarMensagemChat("agente", "🚨 Erro Crítico: A conexão com o satélite militar falhou.");
@@ -431,10 +415,9 @@ msgDiv.style.borderRadius = "15px";
 msgDiv.style.fontSize = "14px";
 msgDiv.style.lineHeight = "1.5";
 msgDiv.style.animation = "fadeIn 0.3s";
-msgDiv.style.whiteSpace = "pre-wrap"; 
-
+msgDiv.style.whiteSpace = "pre-wrap";
 if(remetente === "agente") {
-msgDiv.style.background = "rgba(212, 175, 55, 0.1)"; 
+msgDiv.style.background = "rgba(212, 175, 55, 0.1)";
 msgDiv.style.color = "var(--texto-principal)";
 msgDiv.style.border = "1px solid var(--ouro-puro)";
 msgDiv.style.alignSelf = "flex-start";
@@ -445,10 +428,9 @@ msgDiv.style.color = "var(--texto-secundario)";
 msgDiv.style.alignSelf = "flex-end";
 msgDiv.style.borderBottomRightRadius = "0";
 }
-
 msgDiv.innerText = texto;
 areaChat.appendChild(msgDiv);
-areaChat.scrollTop = areaChat.scrollHeight; 
+areaChat.scrollTop = areaChat.scrollHeight;
 }
 </script>
 </body>
