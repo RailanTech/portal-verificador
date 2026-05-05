@@ -139,13 +139,19 @@ Recebeu uma mensagem estranha? Falsa taxa, falso Pix, boleto suspeito?<br>
 <div id="form-dossie" style="display:none;">
 <div class="modal-title">  🛡️   Dossiê de Investigação</div>
 <p style="color: var(--texto-secundario); margin-bottom: 25px; font-size: 14px;">Suas informações ajudam a alimentar a nossa Lista Negra.</p>
+
 <div class="secao-dossie">
 <p>1. Quem foi o alvo da tentativa de golpe?</p>
-<div class="botoes-grid">
+<div class="botoes-grid" style="margin-bottom: 15px;">
 <button class="btn-opcao selecionado" id="btn-cidadao" onclick="selecionarPerfil('Cidadão')">  👤   Sou Cidadão (PF)</button>
 <button class="btn-opcao" id="btn-empresa" onclick="selecionarPerfil('Empresa')">  🏢   Sou Empresa (CNPJ)</button>
 </div>
+<div class="botoes-grid">
+<button class="btn-opcao" id="btn-idoso" onclick="selecionarPerfil('Cidadão (Idoso)')">  🧓   Sou Pessoa Idosa</button>
+<button class="btn-opcao" id="btn-pcd" onclick="selecionarPerfil('Cidadão (PCD)')">  ♿   Tenho Deficiência</button>
 </div>
+</div>
+
 <div class="secao-dossie">
 <p>2. Por onde o bandido tentou atacar?</p>
 <div class="botoes-grid" style="grid-template-columns: 1fr 1fr 1fr;">
@@ -154,12 +160,13 @@ Recebeu uma mensagem estranha? Falsa taxa, falso Pix, boleto suspeito?<br>
 <button class="btn-opcao" onclick="selecionarCanal(this, 'SMS')">SMS/Outro</button>
 </div>
 </div>
+
 <div class="secao-dossie">
 <p>3. Conte do seu jeito o que aconteceu:</p>
 <textarea id="texto-relato" class="input-texto" rows="4" placeholder="Escreva aqui ou anexe uma evidência..."></textarea>
 <input type="file" id="input-anexo-dossie" accept="image/*,video/*,audio/*" style="display:none" onchange="prepararAnexoDossie(event)">
 <button class="btn-fantasma" id="btn-ui-anexo" onclick="document.getElementById('input-anexo-dossie').click()">
-📎   Anexar Evidência (Print / Áudio)
+📎   Anexar Evidência (Print / Áudio máx 2 min)
 </button>
 </div>
 <input type="text" id="contato-opcional" class="input-texto" placeholder="Seu WhatsApp ou E-mail (Opcional)">
@@ -178,11 +185,17 @@ Recebeu uma mensagem estranha? Falsa taxa, falso Pix, boleto suspeito?<br>
 <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">  🚨   <b>1. Congele e Capture:</b> Não clique em nenhum link no escuro! Tire um Print da mensagem suspeita.</p>
 <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">  📥   <b>2. Acione o Radar:</b> Cole o texto do golpe na barra principal ou anexe a foto da conversa.</p>
 <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">  ⚖️   <b>3. O Veredito Oficial:</b> Se acender a luz do <b style="color: var(--vermelho-alerta);">Alerta Vermelho</b>, é fraude. Se brilhar o <b style="color: var(--verde-seguro);">Selo Verde</b>, o acesso é seguro.</p>
+<button class="btn-opcao selecionado" style="width: 100%; margin-top: 15px; font-size: 16px; padding: 18px;" onclick="abrirModalOSINT('form-dossie')">
+  🛡️  Quero Denunciar um Golpe Agora
+</button>
 </div>
 
 <div id="painel-sobre" style="display:none;">
 <div class="modal-title">  ℹ️   Sobre a RailanTech</div>
-<p style="color: var(--texto-secundario); font-size: 15px; line-height: 1.6;">O <b>Terminal de Inteligência RailanTech</b> é uma muralha de segurança contra o cibercrime. Desenvolvido com arquitetura de dados OSINT Nível 1 para proteção da população brasileira.</p>
+<p style="color: var(--texto-secundario); font-size: 15px; line-height: 1.6; margin-bottom: 20px;">O <b>Terminal de Inteligência RailanTech</b> é uma muralha de segurança contra o cibercrime. Desenvolvido com arquitetura de dados OSINT Nível 1 para proteção da população brasileira.</p>
+<button class="btn-opcao selecionado" style="width: 100%; margin-top: 10px; font-size: 16px; padding: 18px;" onclick="abrirModalOSINT('form-dossie')">
+  🛡️  Iniciar uma Denúncia Segura
+</button>
 </div>
 
 <div id="painel-chat" style="display:none;">
@@ -244,8 +257,9 @@ dossieDados.anexoBase64 = null;
 document.getElementById('texto-relato').value = '';
 document.getElementById('contato-opcional').value = '';
 const btnUi = document.getElementById('btn-ui-anexo');
-btnUi.innerHTML = '  📎   Anexar Evidência (Print / Áudio)';
+btnUi.innerHTML = '  📎   Anexar Evidência (Print / Áudio máx 2 min)';
 btnUi.style.color = 'var(--texto-secundario)';
+selecionarPerfil('Cidadão'); // Reseta a seleção para o padrão
 }
 
 if(painelID === 'painel-chat') {
@@ -333,12 +347,18 @@ aplicarCoresLaudo(msgBox, txt);
 }
 
 let dossieDados = { perfil: 'Cidadão', canal: 'WhatsApp', anexoBase64: null };
+
 function selecionarPerfil(tipo) {
 dossieDados.perfil = tipo;
 document.getElementById('btn-cidadao').classList.remove('selecionado');
 document.getElementById('btn-empresa').classList.remove('selecionado');
+document.getElementById('btn-idoso').classList.remove('selecionado');
+document.getElementById('btn-pcd').classList.remove('selecionado');
+
 if(tipo === 'Cidadão') document.getElementById('btn-cidadao').classList.add('selecionado');
-else document.getElementById('btn-empresa').classList.add('selecionado');
+if(tipo === 'Empresa') document.getElementById('btn-empresa').classList.add('selecionado');
+if(tipo === 'Cidadão (Idoso)') document.getElementById('btn-idoso').classList.add('selecionado');
+if(tipo === 'Cidadão (PCD)') document.getElementById('btn-pcd').classList.add('selecionado');
 }
 
 function selecionarCanal(elemento, tipo) {
@@ -351,6 +371,14 @@ elemento.classList.add('selecionado');
 function prepararAnexoDossie(event) {
 const file = event.target.files[0];
 if(file) {
+// 🛡️ TRAVA DE PROTEÇÃO: Limite de 10MB (Aprox. 2 minutos de mídia)
+const limiteTamanho = 10 * 1024 * 1024; 
+if (file.size > limiteTamanho) {
+    alert("🚨 O arquivo é muito pesado. Para a sua segurança, envie uma mídia de no MÁXIMO 2 MINUTOS.");
+    event.target.value = ''; 
+    return;
+}
+
 const reader = new FileReader();
 reader.onload = function(e) {
 dossieDados.anexoBase64 = e.target.result;
