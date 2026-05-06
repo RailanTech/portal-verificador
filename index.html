@@ -15,7 +15,7 @@
 body { background-color: var(--bg-principal); color: var(--texto-principal); min-height: 100dvh; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
 input, button, textarea { -webkit-appearance: none; border: none; outline: none; }
 
-/* 1. MENU SUPERIOR */
+/* 1. MENU ORIGINAL */
 .top-bar { position: absolute; top: 0; width: 100%; padding: 20px 25px; display: flex; justify-content: flex-end; align-items: center; z-index: 100; }
 .menu-btn { background: none; color: var(--texto-secundario); cursor: pointer; padding: 10px; border-radius: 50%; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
 .menu-flutuante { position: absolute; top: 70px; right: 25px; background-color: var(--bg-secundario); border-radius: 12px; width: 350px; padding: 12px 0; border: 1px solid var(--borda); display: none; z-index: 101; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
@@ -80,7 +80,7 @@ textarea.input-texto { resize: vertical; }
 @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* RODAPÉ LEGAL LGPD */
+/* RODAPÉ LEGAL */
 .rodape-lgpd { width: 100%; padding: 20px; border-top: 1px solid var(--borda); text-align: center; background-color: var(--bg-principal); margin-top: auto; }
 .rodape-lgpd p { color: var(--texto-secundario); font-size: 12px; line-height: 1.6; opacity: 0.7; max-width: 800px; margin: 0 auto; }
 </style>
@@ -94,7 +94,7 @@ textarea.input-texto { resize: vertical; }
 <div class="menu-flutuante" id="menuFlutuante">
 <div class="menu-item" onclick="abrirModalOSINT('form-dossie')">  🛡️   Denunciar Golpe</div>
 <div class="menu-item" onclick="abrirModalOSINT('painel-ajuda')">  ❓   Ajuda Tática</div>
-<div class="menu-item" onclick="abrirModalOSINT('painel-sobre')">  ℹ️   Bem-vindo</div>
+<div class="menu-item" onclick="abrirModalOSINT('painel-sobre')">  ℹ️   Sobre a Central</div>
 <div class="menu-item" style="color: var(--ouro-puro); font-weight: bold;" onclick="abrirModalOSINT('painel-chat')">  💬  Acesso VIP (Chat 2FA)</div>
 </div>
 </div>
@@ -139,21 +139,21 @@ Recebeu uma mensagem estranha? Falsa taxa, falso Pix, boleto suspeito?<br>
 
 <div id="painel-sobre" style="display:none;">
 <div class="modal-title"> 🛡️ Bem-vindo à RailanTech</div>
-<p style="color: var(--texto-secundario); font-size: 16px; margin-bottom: 15px; line-height: 1.6;">
+<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 15px; line-height: 1.6;">
 Você acaba de acessar a <b>Muralha de Defesa Antifraude mais avançada do Brasil</b>. Nossa missão é blindar o seu dispositivo e proteger o seu patrimônio contra engenharia social, falsas taxas e golpes digitais.
 </p>
-<p style="color: var(--texto-secundario); font-size: 16px; margin-bottom: 25px; line-height: 1.6;">
+<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 25px; line-height: 1.6;">
 Operamos com <b>Inteligência Artificial Militar</b> e Perícia Humana. Se você não tem intimidade com tecnologia, não se preocupe: o sistema fará todo o trabalho por você. <b>Escolha o seu caminho seguro abaixo:</b>
 </p>
-<button class="btn-opcao selecionado" style="width: 100%; margin-bottom: 12px; font-size: 16px; padding: 15px;" onclick="abrirModalOSINT('form-dossie')">
-  🛡️ Fazer uma Denúncia Agora
+
+<div style="margin-top: 25px; border-top: 1px solid var(--borda); padding-top: 20px;">
+<button class="btn-opcao selecionado" style="width: 100%; margin-bottom: 10px; font-size: 15px;" onclick="abrirModalOSINT('form-dossie')">
+  🛡️ Denunciar Golpe
 </button>
-<button class="btn-opcao" style="width: 100%; margin-bottom: 12px; font-size: 16px; padding: 15px; border-color: var(--borda);" onclick="abrirModalOSINT('painel-ajuda')">
-  ❓ Ler o Manual de Sobrevivência
+<button class="btn-opcao" style="width: 100%; font-size: 15px; border-color: var(--borda);" onclick="abrirModalOSINT('painel-ajuda')">
+  ❓ Ajuda Tática
 </button>
-<button class="btn-opcao" style="width: 100%; font-size: 16px; padding: 15px; border-color: var(--ouro-puro); color: var(--ouro-brilho);" onclick="abrirModalOSINT('painel-chat')">
-  💬 Tenho um Código VIP (2FA)
-</button>
+</div>
 </div>
 
 <div id="form-dossie" style="display:none;">
@@ -213,19 +213,23 @@ Operamos com <b>Inteligência Artificial Militar</b> e Perícia Humana. Se você
 </div>
 
 <div id="painel-ajuda" style="display:none;">
-<div class="modal-title"> ❓ Manual de Sobrevivência</div>
-<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 20px; line-height: 1.6;">
-  🚨 <b>1. Congele e Capture:</b> O desespero é a maior arma do golpista. Ao receber uma ameaça, falsa taxa ou link estranho, não clique em nada no escuro. Respire fundo e tire um Print (foto da tela) ou copie o texto da mensagem suspeita.
-</p>
-<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 20px; line-height: 1.6;">
-  📥 <b>2. Acione o Radar Neural:</b> Traga a evidência para dentro da nossa base. Cole o texto na barra principal do site ou anexe a sua foto. A nossa Inteligência Artificial fará uma varredura cruzando dados de milhares de golpes em apenas alguns segundos.
-</p>
-<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 25px; line-height: 1.6;">
-  ⚖️ <b>3. O Veredito de Segurança:</b> Confie no sistema. Se acender a luz do <b style="color: var(--vermelho-alerta);">Alerta Vermelho</b>, bloqueie o contato imediatamente. Se a ameaça for muito complexa para a I.A., o sistema exigirá a abertura de um Dossiê para que o nosso Diretor de Operações emita um Laudo Humano definitivo.
-</p>
-<button class="btn-opcao selecionado" style="width: 100%; font-size: 16px; padding: 18px; margin-top: 15px;" onclick="abrirModalOSINT('form-dossie')">
-  🛡️ Entendi. Quero Denunciar Agora.
+<div class="modal-title">  ❓   Ajuda Tática</div>
+<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">    🚨     <b>1.
+Congele e Capture:</b> Não clique em nenhum link no escuro! Tire um Print (foto da tela) da mensagem suspeita.</p>
+<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">    📥     <b>2.
+Acione o Radar:</b> Cole o texto do golpe na barra principal ou anexe a foto da conversa.</p>
+<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">    ⚖️     <b>3.
+O Veredito Oficial:</b> Se acender a luz do <b style="color: var(--vermelho-alerta);">Alerta Vermelho</b>, é fraude: bloqueie o contato.
+Se brilhar o <b style="color: var(--verde-seguro);">Selo Verde</b>, o acesso é seguro.</p>
+
+<div style="margin-top: 25px; border-top: 1px solid var(--borda); padding-top: 20px;">
+<button class="btn-opcao selecionado" style="width: 100%; margin-bottom: 10px; font-size: 15px;" onclick="abrirModalOSINT('form-dossie')">
+  🛡️ Denunciar Golpe
 </button>
+<button class="btn-opcao" style="width: 100%; font-size: 15px; border-color: var(--borda);" onclick="abrirModalOSINT('painel-sobre')">
+  ℹ️ Sobre a Central
+</button>
+</div>
 </div>
 
 <div id="painel-chat" style="display:none;">
@@ -273,7 +277,7 @@ else { setTimeout(maquinaDeEscrever, eraseDelay); }
 }
 }
 
-// 🚨 GATILHO: ABRIR BEM-VINDO AUTOMATICAMENTE NO INÍCIO 🚨
+// 🚨 GATILHO AUTOMÁTICO: ABRIR SOBRE A CENTRAL 🚨
 window.onload = function() { 
   setTimeout(maquinaDeEscrever, 500); 
   abrirModalOSINT('painel-sobre');
