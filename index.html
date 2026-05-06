@@ -15,35 +15,21 @@
 body { background-color: var(--bg-principal); color: var(--texto-principal); min-height: 100dvh; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
 input, button, textarea { -webkit-appearance: none; border: none; outline: none; }
 
-/* MENU DESKTOP */
+/* 1. MENU SUPERIOR */
 .top-bar { position: absolute; top: 0; width: 100%; padding: 20px 25px; display: flex; justify-content: flex-end; align-items: center; z-index: 100; }
-.menu-desktop { display: flex; gap: 15px; }
-.menu-item { padding: 10px 20px; border-radius: 30px; border: 1px solid var(--borda); background-color: rgba(255,255,255,0.02); font-size: 14px; cursor: pointer; transition: 0.2s; color: var(--texto-principal); }
+.menu-btn { background: none; color: var(--texto-secundario); cursor: pointer; padding: 10px; border-radius: 50%; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+.menu-flutuante { position: absolute; top: 70px; right: 25px; background-color: var(--bg-secundario); border-radius: 12px; width: 350px; padding: 12px 0; border: 1px solid var(--borda); display: none; z-index: 101; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+.menu-flutuante.ativo { display: block; animation: fadeIn 0.2s; }
+.menu-item { padding: 16px 20px; display: flex; align-items: center; gap: 15px; color: var(--texto-principal); font-size: 16px; font-weight: 500; cursor: pointer; transition: 0.2s; }
+.menu-item:hover { background-color: rgba(255,255,255,0.05); }
+@media (min-width: 1025px) {
+.menu-btn { display: none; }
+.menu-flutuante { position: static; display: flex !important; flex-direction: row; gap: 15px; background: transparent; border: none; padding: 0; width: auto; box-shadow: none; }
+.menu-item { padding: 10px 20px; border-radius: 30px; border: 1px solid var(--borda); background-color: rgba(255,255,255,0.02); font-size: 14px; }
 .menu-item:hover { background-color: rgba(255,255,255,0.08); border-color: var(--texto-secundario); }
-.menu-item.vip { color: var(--ouro-puro); font-weight: bold; border-color: var(--ouro-puro); }
-
-/* BARRA INFERIOR MOBILE */
-.bottom-bar { display: none; }
-@media (max-width: 1024px) {
-.top-bar { justify-content: center; } 
-.menu-desktop { display: none; }
-.main-container { margin-top: 5dvh !important; padding-bottom: 90px !important; }
-.bottom-bar {
-display: flex; position: fixed; bottom: 0; left: 0; width: 100%;
-background-color: var(--bg-secundario); border-top: 1px solid var(--borda);
-padding: 12px 5px; justify-content: space-around; z-index: 1000;
-box-shadow: 0 -5px 15px rgba(0,0,0,0.6);
-}
-.bottom-btn {
-display: flex; flex-direction: column; align-items: center; gap: 6px;
-background: transparent; border: none; color: var(--texto-secundario);
-font-size: 11px; cursor: pointer;
-}
-.bottom-btn.vip { color: var(--ouro-puro); font-weight: bold; }
-.bottom-btn span { font-size: 22px; }
 }
 
-/* NÚCLEO CENTRAL */
+/* 2. NÚCLEO CENTRAL */
 .main-container { width: 100%; max-width: 800px; padding: 20px; display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 10dvh; flex: 1;}
 .conteudo-central img { width: 220px; height: auto; margin-bottom: 20px; }
 .titulo-central { color: var(--ouro-puro); font-size: 48px; font-weight: 600; margin-bottom: 15px; letter-spacing: -0.5px; }
@@ -63,8 +49,8 @@ font-size: 11px; cursor: pointer;
 .mensagem-ia.neutro { border-left: 4px solid var(--destaque-azul); }
 .preview-imagem { max-width: 100%; max-height: 250px; border-radius: 8px; margin-bottom: 15px; display: none; border: 1px solid var(--borda); object-fit: contain; }
 
-/* MODAIS E FORMULÁRIO */
-.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--fundo-modal); z-index: 1001; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); animation: fadeIn 0.3s; }
+/* 3. MODAIS E FORMULÁRIO */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--fundo-modal); z-index: 999; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); animation: fadeIn 0.3s; }
 .modal-content { background-color: var(--bg-secundario); border-radius: 20px; width: 90%; max-width: 600px; padding: 40px; padding-bottom: 50px; position: relative; max-height: 85dvh; overflow-y: auto; border: 1px solid var(--borda); box-shadow: 0 15px 50px rgba(0,0,0,0.8); }
 .modal-title { font-size: 22px; margin-bottom: 25px; color: var(--ouro-brilho); display: flex; align-items: center; gap: 10px; font-weight: 600; padding-right: 30px; }
 .btn-fechar { position: absolute; top: 20px; right: 20px; background: transparent; color: var(--texto-secundario); cursor: pointer; font-size: 22px; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
@@ -82,15 +68,19 @@ textarea.input-texto { resize: vertical; }
 .btn-enviar-dossie:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5); }
 .protocolo-box { background: var(--bg-principal); border: 1px solid var(--ouro-puro); padding: 15px; border-radius: 10px; font-size: 22px; font-weight: bold; color: var(--ouro-brilho); margin: 20px 0; letter-spacing: 2px; text-align: center; }
 
+@media (max-width: 1024px) { .titulo-central { font-size: 42px; } }
 @media (max-width: 768px) {
+.main-container { margin-top: 5dvh; padding: 10px; width: 100%; }
 .titulo-central { font-size: 36px; } .conteudo-central img { width: 160px; }
 .prompt-box { padding: 6px 12px; } .prompt-box input[type="text"] { font-size: 16px; padding: 12px 5px; }
+.menu-flutuante { width: 90%; left: 5%; right: 5%; top: 70px; }
 .modal-content { padding: 25px 20px 45px 20px; width: 95%; max-height: 90dvh; }
 .botoes-grid { grid-template-columns: 1fr !important; } .btn-fechar { top: 15px; right: 15px; }
 }
 @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
+/* RODAPÉ LEGAL LGPD */
 .rodape-lgpd { width: 100%; padding: 20px; border-top: 1px solid var(--borda); text-align: center; background-color: var(--bg-principal); margin-top: auto; }
 .rodape-lgpd p { color: var(--texto-secundario); font-size: 12px; line-height: 1.6; opacity: 0.7; max-width: 800px; margin: 0 auto; }
 </style>
@@ -98,19 +88,15 @@ textarea.input-texto { resize: vertical; }
 <body>
 
 <div class="top-bar">
-<div class="menu-desktop">
-<div class="menu-item" onclick="abrirModalOSINT('form-dossie')">🛡️ Denunciar Golpe</div>
-<div class="menu-item" onclick="abrirModalOSINT('painel-ajuda')">❓ Ajuda Tática</div>
-<div class="menu-item" onclick="abrirModalOSINT('painel-sobre')">ℹ️ Bem-vindo</div>
-<div class="menu-item vip" onclick="abrirModalOSINT('painel-chat')">💬 Acesso VIP</div>
+<button class="menu-btn" onclick="document.getElementById('menuFlutuante').classList.toggle('ativo')">
+<svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+</button>
+<div class="menu-flutuante" id="menuFlutuante">
+<div class="menu-item" onclick="abrirModalOSINT('form-dossie')">  🛡️   Denunciar Golpe</div>
+<div class="menu-item" onclick="abrirModalOSINT('painel-ajuda')">  ❓   Ajuda Tática</div>
+<div class="menu-item" onclick="abrirModalOSINT('painel-sobre')">  ℹ️   Bem-vindo</div>
+<div class="menu-item" style="color: var(--ouro-puro); font-weight: bold;" onclick="abrirModalOSINT('painel-chat')">  💬  Acesso VIP (Chat 2FA)</div>
 </div>
-</div>
-
-<div class="bottom-bar">
-<button class="bottom-btn" onclick="abrirModalOSINT('form-dossie')"><span>🛡️</span>Denunciar</button>
-<button class="bottom-btn" onclick="abrirModalOSINT('painel-ajuda')"><span>❓</span>Ajuda</button>
-<button class="bottom-btn" onclick="abrirModalOSINT('painel-sobre')"><span>ℹ️</span>Início</button>
-<button class="bottom-btn vip" onclick="abrirModalOSINT('painel-chat')"><span>💬</span>Acesso VIP</button>
 </div>
 
 <div class="main-container">
@@ -142,55 +128,55 @@ Recebeu uma mensagem estranha? Falsa taxa, falso Pix, boleto suspeito?<br>
 
 <div class="rodape-lgpd">
 <p>
-<b> ⚖️ TERMO DE RESPONSABILIDADE E LGPD:</b> O Terminal RailanTech é uma ferramenta de apoio investigativo movida por I.A. A decisão de clicar em links é responsabilidade do usuário.<br>
-<b>Privacidade:</b> Operamos com sigilo absoluto. Não armazenamos CPFs, senhas ou dados bancários.
+<b> ⚖️ TERMO DE RESPONSABILIDADE E LGPD:</b> O Terminal RailanTech é uma ferramenta de utilidade pública e apoio investigativo movida por I.A. Os laudos servem como alerta preventivo. A decisão de clicar em links ou realizar pagamentos é de inteira responsabilidade do usuário. A RailanTech não se responsabiliza por danos causados por terceiros.<br>
+<b>Privacidade (Lei nº 13.709/2018):</b> Operamos com sigilo absoluto. Não solicitamos nem armazenamos CPFs, senhas ou dados bancários.
 </p>
 </div>
 
 <div class="modal-overlay" id="modalOSINT">
 <div class="modal-content">
-<button class="btn-fechar" onclick="document.getElementById('modalOSINT').style.display='none'"> ✖ </button>
+<button class="btn-fechar" onclick="document.getElementById('modalOSINT').style.display='none'">  ✖  </button>
 
 <div id="painel-sobre" style="display:none;">
 <div class="modal-title"> 🛡️ Bem-vindo à RailanTech</div>
 <p style="color: var(--texto-secundario); font-size: 16px; margin-bottom: 15px; line-height: 1.6;">
-Você acaba de entrar no terminal de defesa antifraude mais avançado do Brasil. Nossa missão é blindar o seu celular e proteger o seu dinheiro contra criminosos digitais usando Inteligência Artificial e Perícia Tática.
+Você acaba de acessar a <b>Muralha de Defesa Antifraude mais avançada do Brasil</b>. Nossa missão é blindar o seu dispositivo e proteger o seu patrimônio contra engenharia social, falsas taxas e golpes digitais.
 </p>
 <p style="color: var(--texto-secundario); font-size: 16px; margin-bottom: 25px; line-height: 1.6;">
-Se você não tem intimidade com informática ou não sabe por onde começar, fique tranquilo. O sistema foi desenhado para guiar você. <b>Escolha o seu caminho seguro abaixo:</b>
+Operamos com <b>Inteligência Artificial Militar</b> e Perícia Humana. Se você não tem intimidade com tecnologia, não se preocupe: o sistema fará todo o trabalho por você. <b>Escolha o seu caminho seguro abaixo:</b>
 </p>
 <button class="btn-opcao selecionado" style="width: 100%; margin-bottom: 12px; font-size: 16px; padding: 15px;" onclick="abrirModalOSINT('form-dossie')">
   🛡️ Fazer uma Denúncia Agora
 </button>
 <button class="btn-opcao" style="width: 100%; margin-bottom: 12px; font-size: 16px; padding: 15px; border-color: var(--borda);" onclick="abrirModalOSINT('painel-ajuda')">
-  ❓ Ler a Ajuda Tática
+  ❓ Ler o Manual de Sobrevivência
 </button>
 <button class="btn-opcao" style="width: 100%; font-size: 16px; padding: 15px; border-color: var(--ouro-puro); color: var(--ouro-brilho);" onclick="abrirModalOSINT('painel-chat')">
-  💬 Tenho um Código VIP
+  💬 Tenho um Código VIP (2FA)
 </button>
 </div>
 
 <div id="form-dossie" style="display:none;">
-<div class="modal-title"> 🛡️ Dossiê de Investigação</div>
+<div class="modal-title">  🛡️   Dossiê de Investigação</div>
 <p style="color: var(--texto-secundario); margin-bottom: 25px; font-size: 14px;">Suas informações ajudam a alimentar a nossa Lista Negra.</p>
 
 <div class="secao-dossie">
 <p>1. Quem foi o alvo da tentativa de golpe?</p>
 <details id="menu-sanfona-perfil" style="width: 100%; cursor: pointer;">
   <summary id="texto-perfil-escolhido" class="btn-opcao selecionado" style="display: flex; justify-content: space-between; align-items: center; list-style: none;">
-    <span> 👤 Sou Cidadão (PF)</span> <span>▼</span>
+    <span>  👤   Sou Cidadão (PF)</span> <span>▼</span>
   </summary>
   <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px; padding: 15px; background: rgba(0,0,0,0.3); border: 1px solid var(--borda); border-radius: 12px;">
-    <button class="btn-opcao" style="text-align: left; border: none; background: transparent; color: var(--texto-principal); padding: 10px;" onclick="mudarPerfilSanfona('Cidadão', '👤 Sou Cidadão (PF)')">
+    <button class="btn-opcao" style="text-align: left; border: none; background: transparent; color: var(--texto-principal); padding: 10px;" onclick="mudarPerfilSanfona('Cidadão', '  👤   Sou Cidadão (PF)')">
       👤 Sou Cidadão (PF)
     </button>
-    <button class="btn-opcao" style="text-align: left; border: none; background: transparent; color: var(--texto-principal); padding: 10px;" onclick="mudarPerfilSanfona('Cidadão (Idoso)', '🧓 Sou Pessoa Idosa (+60)')">
+    <button class="btn-opcao" style="text-align: left; border: none; background: transparent; color: var(--texto-principal); padding: 10px;" onclick="mudarPerfilSanfona('Cidadão (Idoso)', '  🧓   Sou Pessoa Idosa (+60)')">
       🧓 Sou Pessoa Idosa (+60)
     </button>
-    <button class="btn-opcao" style="text-align: left; border: none; background: transparent; color: var(--texto-principal); padding: 10px;" onclick="mudarPerfilSanfona('Cidadão (PCD)', '♿ Tenho Deficiência')">
+    <button class="btn-opcao" style="text-align: left; border: none; background: transparent; color: var(--texto-principal); padding: 10px;" onclick="mudarPerfilSanfona('Cidadão (PCD)', '  ♿   Tenho Deficiência')">
       ♿ Tenho Deficiência
     </button>
-    <button class="btn-opcao" style="text-align: left; border: none; background: transparent; color: var(--texto-principal); padding: 10px;" onclick="mudarPerfilSanfona('Empresa', '🏢 Sou Empresa (CNPJ)')">
+    <button class="btn-opcao" style="text-align: left; border: none; background: transparent; color: var(--texto-principal); padding: 10px;" onclick="mudarPerfilSanfona('Empresa', '  🏢   Sou Empresa (CNPJ)')">
       🏢 Sou Empresa (CNPJ)
     </button>
   </div>
@@ -200,7 +186,7 @@ Se você não tem intimidade com informática ou não sabe por onde começar, fi
 
 <div class="secao-dossie">
 <p>2. Por onde o bandido tentou atacar?</p>
-<div class="botoes-grid">
+<div class="botoes-grid" style="grid-template-columns: 1fr 1fr 1fr;">
 <button class="btn-opcao selecionado" onclick="selecionarCanal(this, 'WhatsApp')">WhatsApp</button>
 <button class="btn-opcao" onclick="selecionarCanal(this, 'E-mail')">E-mail</button>
 <button class="btn-opcao" onclick="selecionarCanal(this, 'SMS')">SMS/Outro</button>
@@ -208,20 +194,20 @@ Se você não tem intimidade com informática ou não sabe por onde começar, fi
 </div>
 
 <div class="secao-dossie">
-<p>3. Conte o que aconteceu (ou anexe um arquivo):</p>
-<textarea id="texto-relato" class="input-texto" rows="4" placeholder="Escreva aqui o seu relato..."></textarea>
+<p>3. Conte do seu jeito o que aconteceu:</p>
+<textarea id="texto-relato" class="input-texto" rows="4" placeholder="Escreva aqui ou anexe uma evidência..."></textarea>
 <input type="file" id="input-anexo-dossie" accept="image/*,video/*,audio/*" style="display:none" onchange="prepararAnexoDossie(event)">
 <button class="btn-fantasma" id="btn-ui-anexo" onclick="document.getElementById('input-anexo-dossie').click()">
   📎 Anexar Evidência
 </button>
 </div>
-<input type="text" id="contato-opcional" class="input-texto" placeholder="Seu WhatsApp para aviso (Opcional)">
-<button class="btn-enviar-dossie" onclick="transmitirDossieOficial()" id="btn-transmitir">Transmitir Dossiê</button>
+<input type="text" id="contato-opcional" class="input-texto" placeholder="Seu WhatsApp ou E-mail (Opcional)">
+<button class="btn-enviar-dossie" onclick="transmitirDossieOficial()" id="btn-transmitir">Transmitir Dossiê para a Central</button>
 </div>
 
 <div id="tela-sucesso" style="display:none; text-align: center; padding: 20px 0;">
-<h3 style="color: var(--verde-seguro); font-size: 24px; margin-bottom: 15px;"> ✅ Denúncia Registrada!</h3>
-<p style="color: var(--texto-secundario); font-size: 15px;">Aguarde o nosso aviso ou guarde o seu protocolo oficial:</p>
+<h3 style="color: var(--verde-seguro); font-size: 24px; margin-bottom: 15px;">  ✅   Denúncia Registrada!</h3>
+<p style="color: var(--texto-secundario); font-size: 15px;">Sua denúncia foi processada sob o protocolo oficial:</p>
 <div class="protocolo-box" id="num-protocolo">RT-BR-...</div>
 <button class="btn-opcao selecionado" style="width: 100%;" onclick="document.getElementById('modalOSINT').style.display='none'">Fechar e Voltar à Base</button>
 </div>
@@ -237,17 +223,17 @@ Se você não tem intimidade com informática ou não sabe por onde começar, fi
 <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 25px; line-height: 1.6;">
   ⚖️ <b>3. O Veredito de Segurança:</b> Confie no sistema. Se acender a luz do <b style="color: var(--vermelho-alerta);">Alerta Vermelho</b>, bloqueie o contato imediatamente. Se a ameaça for muito complexa para a I.A., o sistema exigirá a abertura de um Dossiê para que o nosso Diretor de Operações emita um Laudo Humano definitivo.
 </p>
-<button class="btn-opcao selecionado" style="width: 100%; font-size: 16px; padding: 18px;" onclick="abrirModalOSINT('form-dossie')">
+<button class="btn-opcao selecionado" style="width: 100%; font-size: 16px; padding: 18px; margin-top: 15px;" onclick="abrirModalOSINT('form-dossie')">
   🛡️ Entendi. Quero Denunciar Agora.
 </button>
 </div>
 
 <div id="painel-chat" style="display:none;">
-<div class="modal-title">💬 Chat Pericial (2FA)</div>
-<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 20px;">Insira o código de acesso (protocolo) para ler a mensagem do nosso Diretor de Segurança.</p>
+<div class="modal-title"> 💬  Chat Pericial (2FA)</div>
+<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 20px;">Insira o código de acesso fornecido pelo Agente para acessar o seu laudo definitivo e seguro.</p>
 <div style="display: flex; gap: 10px; flex-direction: column; align-items: center;">
-<input type="text" id="input-codigo-2fa" class="input-texto" placeholder="Ex: RT-PF-..." style="text-align: center; font-size: 18px; width: 100%; margin-bottom: 5px;">
-<button class="btn-enviar-dossie" onclick="iniciarChat2FA()" id="btn-iniciar-chat" style="width: 100%; padding: 12px; margin-top: 5px;">Validar Código</button>
+<input type="text" id="input-codigo-2fa" class="input-texto" placeholder="Ex: 4883" style="text-align: center; font-size: 24px; letter-spacing: 5px; width: 100%; max-width: 200px; margin-bottom: 5px;">
+<button class="btn-enviar-dossie" onclick="iniciarChat2FA()" id="btn-iniciar-chat" style="width: 100%; max-width: 200px; padding: 12px; margin-top: 5px;">Validar Código</button>
 </div>
 <div id="area-chat-mensagens" style="display: none; margin-top: 25px; background: var(--bg-principal); border: 1px solid var(--borda); border-radius: 12px; padding: 15px; height: 300px; overflow-y: auto; flex-direction: column; gap: 10px;">
 </div>
@@ -286,9 +272,15 @@ if (iLetra === 0) { apagando = false; iFrase = (iFrase + 1) % frasesMobile.lengt
 else { setTimeout(maquinaDeEscrever, eraseDelay); }
 }
 }
-window.onload = function() { setTimeout(maquinaDeEscrever, 500); };
+
+// 🚨 GATILHO: ABRIR BEM-VINDO AUTOMATICAMENTE NO INÍCIO 🚨
+window.onload = function() { 
+  setTimeout(maquinaDeEscrever, 500); 
+  abrirModalOSINT('painel-sobre');
+};
 
 function abrirModalOSINT(painelID) {
+document.getElementById('menuFlutuante').classList.remove('ativo');
 document.getElementById('form-dossie').style.display = 'none';
 document.getElementById('tela-sucesso').style.display = 'none';
 document.getElementById('painel-ajuda').style.display = 'none';
@@ -300,9 +292,9 @@ dossieDados.anexoBase64 = null;
 document.getElementById('texto-relato').value = '';
 document.getElementById('contato-opcional').value = '';
 const btnUi = document.getElementById('btn-ui-anexo');
-btnUi.innerHTML = '📎 Anexar Evidência';
+btnUi.innerHTML = '  📎   Anexar Evidência';
 btnUi.style.color = 'var(--texto-secundario)';
-mudarPerfilSanfona('Cidadão', '👤 Sou Cidadão (PF)'); // Reseta a sanfona
+mudarPerfilSanfona('Cidadão', '  👤   Sou Cidadão (PF)');
 }
 
 if(painelID === 'painel-chat') {
@@ -315,6 +307,12 @@ document.getElementById('area-chat-mensagens').style.display = 'none';
 document.getElementById(painelID).style.display = 'block';
 document.getElementById('modalOSINT').style.display = 'flex';
 }
+
+document.addEventListener('click', function(event) {
+const menu = document.getElementById('menuFlutuante');
+const btnMenu = document.querySelector('.menu-btn');
+if (!menu.contains(event.target) && !btnMenu.contains(event.target)) { menu.classList.remove('ativo'); }
+});
 
 function aplicarCoresLaudo(msgBox, texto) {
 msgBox.className = "mensagem-ia";
@@ -366,13 +364,13 @@ txt = txt.replace(/\*\*(.*?)\*\*/g, '<strong style="color: #ffffff; letter-spaci
 if (txt.includes("FALHA NEURAL") || txt.includes("ERRO CRÍTICO")) {
 txt = `
 <div style="text-align: center;">
-<h3 style="color: var(--ouro-brilho); margin-bottom: 15px;"> ⚠️ [ AMEAÇA COMPLEXA DETECTADA ]</h3>
+<h3 style="color: var(--ouro-brilho); margin-bottom: 15px;">  ⚠️   [ AMEAÇA COMPLEXA DETECTADA ]</h3>
 <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 20px; line-height: 1.6;">
-O nosso radar interceptou a leitura para proteger o seu dispositivo. Esta evidência exige <b>Perícia Humana Avançada</b>.<br><br>
+O nosso radar interceptou a leitura para proteger o seu dispositivo. Esta evidência possui bloqueios profundos e exige <b>Perícia Humana Avançada</b> (Prazo: 24h a 48h).<br><br>
 Por favor, inicie um Dossiê Oficial agora para gerar o seu <b>Número de Protocolo</b> e receber o laudo final em segurança.
 </p>
 <button class="btn-opcao selecionado" style="width: 100%; border-color: var(--vermelho-alerta);" onclick="abrirModalOSINT('form-dossie')">
-📎 Iniciar Dossiê e Gerar Protocolo
+📎   Iniciar Dossiê e Gerar Protocolo
 </button>
 </div>`;
 msgBox.className = "mensagem-ia alerta";
@@ -401,7 +399,6 @@ elemento.classList.add('selecionado');
 function prepararAnexoDossie(event) {
 const file = event.target.files[0];
 if(file) {
-// 🛡️ TRAVA DE 10MB (2 MINUTOS DE VÍDEO/ÁUDIO)
 const limiteTamanho = 10 * 1024 * 1024; 
 if (file.size > limiteTamanho) {
     alert("🚨 ARQUIVO MUITO PESADO. Para a sua segurança, o anexo de vídeo ou áudio deve ter no MÁXIMO 2 MINUTOS (10 MB).");
@@ -412,7 +409,7 @@ const reader = new FileReader();
 reader.onload = function(e) {
 dossieDados.anexoBase64 = e.target.result;
 const btnUi = document.getElementById('btn-ui-anexo');
-btnUi.innerHTML = ' ✅ Evidência Capturada (' + file.name.substring(0,12) + '...)';
+btnUi.innerHTML = '    ✅     Evidência Capturada (' + file.name.substring(0,12) + '...)';
 btnUi.style.color = 'var(--verde-seguro)';
 };
 reader.readAsDataURL(file);
@@ -432,39 +429,58 @@ const data = await req.json();
 document.getElementById('form-dossie').style.display = 'none';
 document.getElementById('num-protocolo').innerText = data.protocolo || "RT-BR-SUCESSO";
 document.getElementById('tela-sucesso').style.display = 'block';
-} catch(e) { alert("Falha de conexão. Tente uma evidência menor."); }
-finally { btnTx.innerText = "Transmitir Dossiê"; btnTx.disabled = false; }
+} catch(e) { alert("Falha de conexão. O arquivo pode ser muito pesado."); }
+finally { btnTx.innerText = "Transmitir Dossiê para a Central"; btnTx.disabled = false; }
 }
 
 async function iniciarChat2FA() {
 const codigo = document.getElementById('input-codigo-2fa').value.trim();
-if(codigo.length < 4) { alert("Digite o código correto."); return; }
+if(codigo.length < 4) { alert("Digite um código válido de pelo menos 4 dígitos."); return; }
 document.getElementById('btn-iniciar-chat').style.display = "none";
 document.getElementById('input-codigo-2fa').disabled = true;
 const areaChat = document.getElementById('area-chat-mensagens');
 areaChat.style.display = "flex";
 areaChat.innerHTML = "";
 adicionarMensagemChat("cidadao", `Código de verificação [${codigo}] inserido. Solicitando acesso ao laudo...`);
-setTimeout(() => { adicionarMensagemChat("agente", "📡 Autenticando... Conectando ao Satélite Seguro da RailanTech..."); }, 800);
+setTimeout(() => {
+adicionarMensagemChat("agente", " 📡  Autenticando... Conectando ao Satélite Seguro da RailanTech...");
+}, 800);
 try {
 const req = await fetch(API_MATRIZ, {
 method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ tipo: "chat2fa", codigo: codigo })
 });
 const data = await req.json();
-setTimeout(() => { adicionarMensagemChat("agente", data.resposta); }, 2500);
+setTimeout(() => {
+adicionarMensagemChat("agente", data.resposta);
+}, 2500);
 } catch(e) {
-setTimeout(() => { adicionarMensagemChat("agente", "🚨 Erro Crítico: A conexão com o satélite falhou."); }, 2500);
+setTimeout(() => {
+adicionarMensagemChat("agente", " 🚨  Erro Crítico: A conexão com o satélite militar falhou.");
+}, 2500);
 }
 }
 
 function adicionarMensagemChat(remetente, texto) {
 const areaChat = document.getElementById('area-chat-mensagens');
 const msgDiv = document.createElement('div');
-msgDiv.style.maxWidth = "85%"; msgDiv.style.padding = "12px 16px"; msgDiv.style.borderRadius = "15px"; msgDiv.style.fontSize = "14px"; msgDiv.style.lineHeight = "1.5"; msgDiv.style.animation = "fadeIn 0.3s"; msgDiv.style.whiteSpace = "pre-wrap";
+msgDiv.style.maxWidth = "85%";
+msgDiv.style.padding = "12px 16px";
+msgDiv.style.borderRadius = "15px";
+msgDiv.style.fontSize = "14px";
+msgDiv.style.lineHeight = "1.5";
+msgDiv.style.animation = "fadeIn 0.3s";
+msgDiv.style.whiteSpace = "pre-wrap";
 if(remetente === "agente") {
-msgDiv.style.background = "rgba(212, 175, 55, 0.1)"; msgDiv.style.color = "var(--texto-principal)"; msgDiv.style.border = "1px solid var(--ouro-puro)"; msgDiv.style.alignSelf = "flex-start"; msgDiv.style.borderBottomLeftRadius = "0";
+msgDiv.style.background = "rgba(212, 175, 55, 0.1)";
+msgDiv.style.color = "var(--texto-principal)";
+msgDiv.style.border = "1px solid var(--ouro-puro)";
+msgDiv.style.alignSelf = "flex-start";
+msgDiv.style.borderBottomLeftRadius = "0";
 } else {
-msgDiv.style.background = "var(--bg-hover)"; msgDiv.style.color = "var(--texto-secundario)"; msgDiv.style.alignSelf = "flex-end"; msgDiv.style.borderBottomRightRadius = "0";
+msgDiv.style.background = "var(--bg-hover)";
+msgDiv.style.color = "var(--texto-secundario)";
+msgDiv.style.alignSelf = "flex-end";
+msgDiv.style.borderBottomRightRadius = "0";
 }
 msgDiv.innerText = texto;
 areaChat.appendChild(msgDiv);
