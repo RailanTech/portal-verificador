@@ -451,8 +451,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('nome-mes-atual').innerText = mesAtual;
         document.getElementById('nome-mes-passado').innerText = meses[mesPassadoIndex] + " " + anoPassado;
         
-        const visitasHoje = (dataAtual.getDate() * 142) + Math.floor(Math.random() * 50);
-        document.getElementById('contador-visitas').innerText = visitasHoje.toLocaleString('pt-BR');
+        // RADAR ZERADO (Aguardando Analytics Real)
+        document.getElementById('contador-visitas').innerText = "0"; 
     }
 });
 </script>
